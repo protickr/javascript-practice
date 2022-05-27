@@ -1,0 +1,23 @@
+{
+  "name": "javascript-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "devserver": "live-server --browser=chrome",
+    "start": "npm-run-all devserver"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/protickr/javascript-practice.git"
+  },
+  "author": "Protick Roy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/protickr/javascript-practice/issues"
+  },
+  "homepage": "https://github.com/protickr/javascript-practice#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
