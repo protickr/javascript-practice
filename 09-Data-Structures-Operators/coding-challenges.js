@@ -156,5 +156,40 @@ for (const [time, gameEv] of gameEvents.entries() ){
 
 */
 
-/* Coding challenge 3 */
+/* Coding challenge 3 
+
+let numberOfSym = 0;
+
+const formatToCamelCase = function (inputString) {
+  let inputStringArr = inputString.trim().toLowerCase().split('_');
+  for (let i = 0; i < inputStringArr.length; i++) {
+    if (i === 0) continue;
+    inputStringArr[i] = inputStringArr[i][0].toUpperCase() + inputStringArr[i].slice(1);
+  }
+
+  return inputStringArr.join('').padEnd(30 - numberOfSym, ' ').concat('✅'.repeat(++numberOfSym));
+};
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+let userInput = '';
+let linesArr = [];
+
+document.querySelector('button').addEventListener('click', function () {
+  userInput = document.querySelector('textarea').value;
+  userInput = userInput.split('\n');
+
+  for (const line of userInput) {
+    const formattedLine = formatToCamelCase(line);
+    linesArr.push(formattedLine);
+  }
+  numberOfSym = 0;
+  console.log(linesArr);
+});
+
+
+*/
+
+
+
 
