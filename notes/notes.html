@@ -416,12 +416,14 @@
             * Set methods
                 1. orderSet.size                // returns size/length/number of elements of the set
                 2. orderSet.has('pasta')        // returns true or false if element exists in the set or not 
-                3. orderSet.add('Garlic Bread') // adds new element to the set, but do not add duplicate entry: 
+                3. orderSet.add('Garlic Bread') // adds new element to the set, but do not add duplicate entry: and returns updated Set object
                                                 // only takes 1 argumnet per call
-                4. orderSet.delete('Pasta')     // deletes element 'Pasta' from set 'orderSet'
-                5. orderSet.keys()              // return a new iterator, alias for orderSet.values();
-                6. orderSet.values()            // return values, an array of values
-                7. orderSet.entries()           // returns array of array same as array.entries()
+                4. orderSet.delete('Pasta')     // deletes element 'Pasta' from set 'orderSet' 
+                                                // if it exists and returns true or false if the provided element to be deleted does not exist in Set. 
+
+                5. orderSet.keys()              // return a new Set iterator, alias for orderSet.values();
+                6. orderSet.values()            // return values, a new Set iterator
+                7. orderSet.entries()           // returns a new Set iterator in this, { 'element' => 'element', 'elem' => 'elem' } format. 
                 8. orderSet.clear()             // deletes all elements from set. 
 
             * you can not retrieve a specific value from set using an index, it is an iterable so loop over it or 
@@ -453,6 +455,17 @@
                     let arr = [ ['key1', 'value1'], ['key2', 'value2'] ];
                     const newMap  = new Map(arr);
 
+                * create a map from an object 
+                    const newMap = new Map(Object.entries(obj));
+                    // beacause Object.entries(obj) === [ ['key1', 'value1'], ['key2', 'value2'] ]
+
+                * convert Map to an Array 
+                    const keys = [ ...restMap.keys() ];         // array of Map keys 
+                    const values = [ ...restMap.values() ];     // array of Map values
+
+                    // you have to use the spread operator because 
+                    // Map.keys() , Map.values() and Map.entries() returns an iterator not an array or elements
+
                 * typeof restMap == object 
 
 
@@ -467,24 +480,31 @@
                 console.log(wrongMap)  // Map { bla: 'blaa', bla2: 'blaaa2' }
             //
 
-            * Map can have mix data type elements 
-            * Map are also iterables and order of element is irrelevant 
-            * Map take an iterable as constructor argument. 
+            * Map can have mix data type values and keys 
+            * Map are also iterables and order of element is preserved
+            * Map take an iterable as constructor argument or no argument at all. 
+            * keys are case sensitive and key type matters, '1' !== 1 
 
             * Map methods
-                1. restMap.size                // returns size/length/number of elements of the Map
-                2. restMap.has('pasta')        // returns true or false if element exists in the Map or not 
-                3. restMap.add('Garlic Bread') // adds new element to the Map, but do not add duplicate entry: 
-                                                // only takes 1 argumnet per call
-                4. restMap.delete('Pasta')     // deletes element 'Pasta' from Map 'restMap'
-                5. restMap.keys()              // return a new iterator, alias for restMap.values();
-                6. restMap.values()            // return values, an array of values
-                7. restMap.entries()           // returns array of array same as array.entries()
-                8. restMap.clear()             // deletes all elements from Map. 
+                1. restMap.size                 // returns size/length/number of elements in the Map
+                2. restMap.has('2')             // returns true or false if element exists in the Map whose key is '2'
+                3. restMap.set('1', 'pizza')    // adds new element to the Map, but do not add duplicate entry: 
+                                                // only takes 1 key value pair per call
+                                                // returns updated Map Object and 
+                                                // we can chanin multiple set().set() methods to insert multiple entries at once. 
+                4. restMap.get(1)               // get element from Map 'restMap' whose key is 1;  or undefined if not found
+                4. restMap.delete('Pasta')      // deletes element from Map 'restMap' whose key is 'Pasta'
+                5. restMap.keys()               // return a new Map iterator with only keys in it. 
+                6. restMap.values()             // return a new Map iterator with only values in it. 
+                7. restMap.entries()            // returns a new Map iterator with { key => value } pairs
+                8. restMap.clear()              // deletes all key value pairs from restMap.
 
-            * you can not retrieve a specific value from Map using an index, it is an iterable so loop over it or 
-                use has() to check if it contains a specific values, which is its main application other than maintai-
-                ning uniqueness of elements.  
+            * We can set object and arrays as key to a map but you will need the same object / array 
+                referece to get the value at that key
+
+            * Map from generic object 
+
+
         </p>
 
 
