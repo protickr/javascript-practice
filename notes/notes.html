@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Notes</title>
+</head>
+<body>
+    <main>
+        <h1>Open the source code</h1>
+        <h2>Fundamentals: variables, data types, tools</h2>
+        <p>
+            * JavaScript is a high-level, multi-paradigm, prototype-based, object-oriented, 
+                interpreted or Just In Time compiled, dynamic, single-threaded, garbage-collected, 
+                programming language with first-class functions and non-blocking event loop concurrency model.
+            * Authored by Brendan Eich in December 4th 1995. 
+
+            * variable names must start with _, letters or $ sign, should be camel case as per convention and 
+                const variables should be all caps, no gaps in between and no number at start of variable name.
+            * variable name should be descriptive.
+            * variable declaration with let, const or var (omit this, this creates a property on window object 
+                with same name as variable)
+            * Reserved keywords such as new, function, name, etc. 
+            * let and const for variable declaration were introduced in ES2015 or ES6, 
+                - variable declared with let is mutable and block scoped.
+                - variable declared with const is immutable (applicable only to primitive values)
+                - we can not declare empty const variable. 
+            
+            * if you do not declare a variable prior to use it, JS will create a property on global (window) object. 
+
+            * inline script: within script tag 
+            * external script: linked with the webpage using src attribute of script tag. 
+
+            * ES6 or ES2015 was released in 2015. 
+            * ctrl + shift + j for developer console and ^ for previous command. 
+
+            * JS has two main data types
+                1. Primitive types - 7 in total 
+                    numbers, strings, boolean, undefined, null, symbool, bigInt. 
+                2. Object type 
+                    other than 7 primitive data types everthing else in JS are objects. 
+
+
+            * Numbers: are always floating point number and it is of type Number. 
+            * undefined: value taken by a variable that is not yet assigned to a value (not defined / empty value)
+            * Null: also means empty value but different from undefined. 
+            * Symbools: (ES2015) value that is unique and can not be changed. 
+            * bigInt: (ES2020) Larger integers that number type can not hold. 
+            * Booleans: true, false 
+            * string: "this is a string", also called string leteral , they are immutable.
+            
+            * JS is dynamically typed meaning, assigned value determines the type of a variable not the variable itself. 
+            * typeof variable -> return the type of the variable. 
+
+            * JS confusion source 
+                typeof null         -> object 
+                typeof undefined    -> undefined 
+
+            * console.log(value1, value2, valueN); console.dir(obj) => to check closures and scopes ;
+            
+            * All variables from running script are available in the browser console. 
+            * Operator precedence and associativity: check MDN
+
+            * type coercion while concatenating number with string, number gets converted to string. 
+            * to avoid unexpected type coercision while using + to concatenate use template literal `${ variable }` instead. 
+            * template literals always expects value or expression that will generte value not statements.  
+            * template literals also retains line breaks as formatted in source code.
+        </p>
+
+
+
+        <h2>Operators</h2>
+        <p>
+            * Math Operators 
+                ** * / %  => right to left. + - => left to right.
+            
+            * comparison operators
+                > < == >= <= 
+
+            * logical operators 
+                && (and), || (or), ! (not)
+
+            * Equality operators
+                ==      (loose equality operator, type coerce the operands, string to number)
+                ====    (strict equality operator, does not type coerce the operands)
+
+            * Strict inequality operators
+                !==     
+            
+            * assingment and compound assignment operator, 
+                =   (assignment operator, right to left)
+                *= , /=, +=, -= (compound assignment)                
+            
+        </p>
+
+
+
+        <h2>Truthy Falsy and Nullish values</h2>
+        <p>
+            Falsy values 
+                1. 0            (zero)
+                2. ""           (empty string)
+                3. undefined    (undefined)
+                4. NaN          (Not a Number returned after string to Number conversion)
+                5. null         (null)
+            
+            Truthy values 
+                everything else is truthy value. 
+
+            Nullish values
+                1. null
+                2. undefined 
+
+                * zero, empty strings are not nullish values  
+        </p>
+
+
+
+        <h2>Short circuitting and logical assignment operators</h2>
+        <p>
+            operators to short circuitting evaluation of an expression      
+            Logical operators || and && can take any data typed value as operand and return resultant value by short 
+            circuitting the rest of the evaluation of an expression. 
+            
+            * || (logical or operator): 
+                if first operand is a truthy value then returns the first operand and short circuits the rest of the 
+                evaluation or if all the operands are falsy then returns the last operand 
+                fails if the operand is 0 (zero), to solve this problem we have another operator - ??
+
+            * ?? (nullish coalescing operator): 
+                same as logical or || , but works with the idea of nullish values instead of falsy values. 
+                counts 0 or "" strings as truthy values as well, becaues they are not nullish
+
+            * && (logical and operator):
+                returns the first falsy operand it encounters while evaluating an expression or if all operands are truthy 
+                then returns the last operand. 
+
+            * Use cases of short circuitting 
+                1. || (or) for setting default values to variable. 
+
+                    let abc = Number(prompt('enter a number')) || 1; 
+
+                2. && (and) for conditional statement execution 
+                    abc ?? console.log(abc);
+
+            * Logical assignment operators (ES2021)
+                1. rest2.numGuests ||= 10;
+                2. rest2.numGuests &&= 10;
+                3. rest2.numGuests ??= 10;
+
+        </p>
+
+
+        <h2>Control structure</h2>
+        <p>
+            * 
+                if ( condition){
+                    statements; 
+                } else {
+                    statements;
+                }
+            
+            * switch(var) {
+                case val1:
+                case val2: 
+                    statement;
+                    break;
+                default: 
+                    statement;
+                }
+
+            * ternary / conditional operator 
+                condition ? execute if true : execute if false;
+
+                ternary operator can also be used with template literals or where a experssion or value is expected.
+
+        </p>    
+
+        <h2>Loops</h2>
+        <p>
+            * for
+
+                for ( let i = 0; i < arr.length(); i++ ) {
+                    statements;
+                    continue; 
+                    break;
+                }
+
+            * while 
+            
+                let counter = 1; 
+                while (counter < 10) {
+                    statements;
+                    continue;
+                    break;
+                    counter++; 
+                }
+                
+            * for of 
+
+                const num = [ 10, 20, 30];
+                for( item of num ){
+                    statements; 
+                    continue;
+                    break;
+                }
+
+            
+        </p>
+
+
+
+        <h2>Type Coversion and Coercion</h2>
+        <p>
+            * Type conversion: manual / explicit type coversion.
+            * Type coercion: automatic / implicit type conversion by JS.
+
+            * String to number
+                Number('15') => 15 (number)
+                Number('Protick') => NaN (Not a number)
+            
+            * Number to string 
+                String(25) => '25' (string)
+            
+            * Coercion: 
+                +       -> coerce number to string if any of the operand is string and others are numbers. 
+                / * -   -> coerce string to number
+
+            * Boolean conversion 
+                Boolean(0) -> false
+                Boolean({}) -> true // confusing
+
+        </p>
+
+        
+        <h2>Important general information</h2>
+        <p>
+            * Enabling strict mode
+                'use strict';
+
+                enabling strict mode will prohibit you from using variable without declaration with let const or var.
+                also reserves a set of keywords that are decided to be implemented in future version of JS
+
+            * transpile and polyfill JS source code with babel to support older browser upto browsers from 2009 or ES5; 
+            * Statement: unit of a instruction set.
+            * Expression: Operation that produces value. 
+        </p>
+
+        <h2>Development Debugging and Problem solving tips</h2>
+        <p>
+            Problem solving techniques: 
+
+                * Ask right questions until you understand what is really being asked for, 
+                    figure out the result you really want to achive
+                    understand the input and output first then figure out the path from input to output.
+                * Divide and conquer, divide the entire problem into sub problems
+                * Research and solve sub-problems until you hit a wall, if you do, google. 
+                * Write pseudo code / comments / sentence (what you want to happen in steps) before coding. 
+                * Draw flowchart before coding.
+
+
+            Debugging: 
+
+                * VScode has a built in JS debugger use it to set breakpoints and step through statements. 
+                * chrome dev tools > source > breakpoint -> debug (sometimes does not stop at breakpoint)
+                * add the following statement in the source code to halt execution
+                    debugger; 
+                    or, 
+                    debug(functionName);
+
+                * console.warn();
+                * console.error();
+                * console.table(obj);
+                * console.dir(functionValue):
+
+                debugging framework
+                    1. Identify bug -> automated tests 
+                    2. Find bug -> finding the underlying reason => logical, structural etc
+                    3. Fix bug 
+                    4. Prevent bug 
+
+                
+
+        </p>
+
+        
+        <h2>Function</h2>
+        <p>
+            * function declaration 
+                
+                funcName(1, 2); 
+                // you can invoke function that uses declaration syntax prior to declaring the function
+                // because of hoisting 
+
+                function funcName(parameter1, parameter2){
+                    console.log(parameter1);
+                    return parameter1 * parameter2;
+                }
+
+            * function expression 
+
+                you can not invoke function expression before declaring them, arrow function is also a kind of 
+                function expression or anonymous function, 
+                
+                * Anonymous function 
+                    const funcName = function (param1){
+                        return param1 + 1;
+                    };
+
+                * Arrow function 
+                    * const funcName = param1 => param1 + 1; 
+                    // single parameter does not require parenthesis () 
+                    // and single statement doesnt require braces {} around them
+
+                    * const funcOther = (param1, param2) => {
+                        console.log(param1);
+                        return param1 * param2;
+                    };
+
+            * JS function parameter does not need let or const during declaration because whether we use them or not 
+                the parameter's scope always confined within the function body. 
+            
+            * move line up by alt + ^ 
+
+            * Regular functions v/s arrow functions
+                *** EC for arrow function do not get "arguments" objet and "this" keyword.
+
+            * Spread operator: 
+                newFun(...arr); // is similer to, 
+                newFun( 10, 20, 30 );
+
+            * Rest Pattern 
+                const newFun = function ( ...args ){
+                    // args == [ 10, 20, 30 ]
+                }
+                
+        </p>
+
+        <h2>Array</h2>
+        <p>
+            * const numbers = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]; // literal syntax
+            * const numbers = new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            
+            * numbers.length -> 10
+            * we can access and mutate array values by index as, 
+                numbers[0] -> 1
+                numbers[4] = 100;
+
+            * Array can contain elements of different data types and also other arrays, objects. 
+
+            * Array methods
+                1. numbers.push(11, 12, 13, 14); // adds element (11 in this case) at the end of the array ( numbers in this case)
+                                                // returns new length of the array 
+                2. numbers.unshift(-4, -3, -2, -1, 0); // adds element in the beginning and returns new length
+                3. array.pop();         // returns last element that is popped from the array 
+                4. array.shift();       // removes and return first element from the array 
+                5. numbers.indexOf(10)  // returns index of the element or -1 if not found
+                6. numbers.includes(7)  // return true if element exists or false if not
+                7. arr.entries()        // returns a iterator, where each iteration has an array like [index, value];
+                                        // if it returned an array it would be like this, 
+                                        // [ [index1, value1], [index2, value2] ... [indexN, valueN] ] 
+            * Destructuring
+                unpacking array elements to seperate variables. 
+
+                const arr = [10, 20, 30];
+
+                1. const [var1, , var3 ] = arr; 
+                    // var1 == 10, var3 == 30; 
+                    // we omitted the 2nd value of the array by placing a hole in the destructuring operation. 
+
+                2. destructuring and default values 
+                    const [var1, var2, var3, var4 = 100] = arr;
+                    // val4 == 100
+                    
+                3. nested destructuring 
+                    const [var1, var2, [ var3, var4]] = [ 1, 2, [10, 20]];
+                    // var1 == 1, var2 == 2, var3 == 10, var4 == 20
+
+            
+            * Rest pattern 
+                const [item, ...others] = [ 1, 2, 3 ];
+                // item == 1, others == [ 2, 3 ]
+
+                * Rest element must be the last element of an expression. 
+                * There can be only one rest element in one destructuring statement
+
+            * Spread Operator 
+                1. const numbersArr = [ ...arr ]; // spreads the 'arr' array to 10, 20, 30
+                2. const newArr = [ 100, 200, ...arr ]; //
+
+                * if we need array elements seperated by comma we use spread operator.
+                * spread operator works on all iterables such as, arrays, strings, maps, sets
+            
+
+        </p>
+
+
+
+
+
+        <h2>Sets</h2>
+        <p>
+            collection of unique elements with no duplicate elements in them 
+
+                const orderSet = new Set( ['pasta', 'pizza', 'risotto', 'pizza', 'pasta'] );
+                // orderset = { 'pasta', 'pizza', 'risotto' }
+                // typeof orderSet == object 
+
+                const nameChar = new Set('Protick');
+
+            * set can have mix data type elements 
+            * sets are also iterables and order of element is irrelevant 
+            * sets take an iterable as constructor argument. 
+
+            * Set methods
+                1. orderSet.size                // returns size/length/number of elements of the set
+                2. orderSet.has('pasta')        // returns true or false if element exists in the set or not 
+                3. orderSet.add('Garlic Bread') // adds new element to the set, but do not add duplicate entry: 
+                                                // only takes 1 argumnet per call
+                4. orderSet.delete('Pasta')     // deletes element 'Pasta' from set 'orderSet'
+                5. orderSet.keys()              // return a new iterator, alias for orderSet.values();
+                6. orderSet.values()            // return values, an array of values
+                7. orderSet.entries()           // returns array of array same as array.entries()
+                8. orderSet.clear()             // deletes all elements from set. 
+
+            * you can not retrieve a specific value from set using an index, it is an iterable so loop over it or 
+                use has() to check if it contains a specific values, which is its main application other than maintai-
+                ning uniqueness of elements.  
+        </p>
+
+
+
+
+        <h2>Map</h2>
+        <p>
+            * actually array of arrays which contains [ key, value ] pairs but it is a Map object 
+                Map object is different from generic objects as 
+                1. Map can have key/property which need not to be strings only.
+                2. Map has built in methods like has(), delete() etc. which will not work on generic objects 
+            
+            * How to create Map
+                1. const restMap = new Map();
+                2. let nm = new Map(iterable);
+                    e.g.,
+                    const restMap = new Map([
+                        [1, 'one'],
+                        [2, 'two'],
+                        [3, 'three'],
+                    ]); 
+
+                * you can make a Map object out of a 2D array which contains [key, value] paris. 
+                    let arr = [ ['key1', 'value1'], ['key2', 'value2'] ];
+                    const newMap  = new Map(arr);
+
+                * typeof restMap == object 
+
+
+
+            // JS wont stop you from doing this, but this is a map object used like a generic object 
+            // Array, Map, Set all are kind of an object after all. 
+
+                const wrongMap = new Map()
+                wrongMap['bla'] = 'blaa'
+                wrongMap['bla2'] = 'blaaa2'
+                
+                console.log(wrongMap)  // Map { bla: 'blaa', bla2: 'blaaa2' }
+            //
+
+            * Map can have mix data type elements 
+            * Map are also iterables and order of element is irrelevant 
+            * Map take an iterable as constructor argument. 
+
+            * Map methods
+                1. restMap.size                // returns size/length/number of elements of the Map
+                2. restMap.has('pasta')        // returns true or false if element exists in the Map or not 
+                3. restMap.add('Garlic Bread') // adds new element to the Map, but do not add duplicate entry: 
+                                                // only takes 1 argumnet per call
+                4. restMap.delete('Pasta')     // deletes element 'Pasta' from Map 'restMap'
+                5. restMap.keys()              // return a new iterator, alias for restMap.values();
+                6. restMap.values()            // return values, an array of values
+                7. restMap.entries()           // returns array of array same as array.entries()
+                8. restMap.clear()             // deletes all elements from Map. 
+
+            * you can not retrieve a specific value from Map using an index, it is an iterable so loop over it or 
+                use has() to check if it contains a specific values, which is its main application other than maintai-
+                ning uniqueness of elements.  
+        </p>
+
+
+
+
+        <h2>Object</h2>
+        <p>
+            * object declaration
+                const obj = {
+                    firstName: 'Protick', 
+                    lastName: 'Roy', 
+                    age: 2022 - 1994, 
+                    friends: [ 'one', 'two', 'three' ],
+                };
+                // this is called object literal syntax 
+
+                 let obj = new Object(); // obj of generic Object class
+
+            * accessing object properties by . (dot) and [] (bracket) notation
+                obj.firstName => 'Protick'
+                obj['lastName'] => 'Roy' 
+                // notice the quoation mark around the property name, single and double quote both are permitted
+
+            * object property accessor . (dot), associativity left to right
+
+            * Adding new property to object by . and []
+                obj.country = 'Bangladesh';
+                obj["profession"] = 'Software Developer';
+
+            * Object method
+                function declaration inside an object does not work so we need to store the function (expression) in a 
+                property.
+
+                const obj: {
+
+                    getAge: function returnAge(){ 
+                        // function name returnAge is unnecessary here, we can omit it like the following function
+                        return this.age;
+                    }, 
+
+                    getFirstName: function (){
+                        return this.firstName;
+                    },
+
+                    printStr: (str) => console.log(str), 
+
+                    // but the following wont work 
+                    function howDoYouCallMe(){
+                        console.log('because I am inside an object but do not belong to any property'):
+                    }
+                };
+            
+            * Object literal braces do not mark a block scope. 
+            * If a property is not available in an object it is simply undefined. 
+            
+            *** if an object method defines a ragular function or function expression within itself and invokes the 
+                newly created inner function, it is considered regular function call so 'this' is set to undefined 
+                for the inner function. 
+                    1. You can use arrow function as arrow function's 'this' is set to 'parent's this'
+                    2. or you can set a local variable to 'this' and use that local variable within the inner function.
+                    
+            * Object.assign({}, srcObj); =>creates a shallow copy of srcObj and  returns a new object; 
+                merges srcObj with empty object;
+                To make a deep copy of an object we use third party libraries like lodash 
+                        
+            * Method borrowing
+                objNew.newProperty = oldObj.method;  // now objNew has oldObj.method in it. 
+
+            * Primitives vs Objects 
+                * primitive type 
+                    Number, String, Boolean, Undefined, Null, Symbol, BigInt 
+                    stored in EC and EC is placed on callstack 
+
+                * Object 
+                    object literal, Arrays, Functions 
+                    stored in HEAP
+
+                * variable stores memory address. 
+                    1. changing value of a primitive type variable changes the memory address to a new location
+                        where new value is stored. 
+                        
+                    2. Primitive type variable stores memory address where actual value is stored. 
+                    
+                    3. Reference type variable stores memory address which in turn stores memory addres of the object 
+                        in the HEAP. Because object is too big to store in call stack. 
+                        so copying a object to another variable shares the same memory address from the HEAP. 
+                        which leads to unwanted property value modification.
+
+            * Destructuring Objects 
+                As object properties do not retain the order in which they are placed in the object literal we need to 
+                specify the object's specific property name to destructure it. 
+
+                let firstName = "John"; 
+                let lastName = "Doe";
+
+                const obj = {
+                    firstName: 'Protick', 
+                    lastName: 'Roy', 
+                    age: 2022 - 1994, 
+                    friends: [ 'one', 'two', 'three' ],
+                    likes: {
+                        'weather': 'rainy', 
+                        'day': 'shiny'
+                    }
+                };
+
+                const { firstName:fn = 'John', lastName:ln = 'Doe', likes:{ weather:w, day:d } } = obj;
+
+                // 'firstName' => object property 
+                // 'fn' => new variable that holds the value of obj.firstName; 
+                // fn = 'John' => default value 'John' 
+                // w and d destructuring nested obj 'likes'
+                
+                * mutating pre defined variables while destructuring, 
+                    ({firstName, lastName} = obj);
+
+                * Use cases of object destructuring are many but one specific use case can be, 
+                    object as argumend and destructure the object parameter to unpack arguments. 
+
+            * Spread operator
+                since ES2021 spread operator is also usable with objects, though they are not iterables
+                we can use spread operator to make a shallow copy of an object. 
+
+            * Enhanced Object Literals 
+                1. Including variable in an object with the same property name as the variable can be done as, 
+
+                    const newVar = 10;
+                    const obj = {
+                        newVar, // same as newVar: newVar, 
+                    };
+
+                2. Adding method to an object without function keyword and property name, 
+                    
+                    const obj = {
+                        printStat ( param1 ){
+                            console.log(param1);
+                        }
+                    };
+
+                3. Computed property name, 
+
+                    const obj = {
+
+                        // third brackets are a must to compute a property name. 
+                        [ `day-${ 4 + 5}` ]: { 
+
+                            //nested object
+                        }, 
+                    };
+            
+            * Optional chaining (ES2020) 
+                '?' operator 
+
+                1. if property exists
+                    restaurant.openingHours.mon?.open
+                    if 'mon' property exists on 'restaurant.openingHours' then perform restaurant.openingHours.mon.open
+                    if it does not then return undefined. 
+
+                2. we can use optional chaining operator with nullish coalescing operator to check if, 
+                    a) Method exists, 
+                        const res = obj.method?.() ?? 'method does not exist or returned nullish value';
+                        
+                    b) array exists or empty 
+
+
+            * Looping Objects 
+                1. Object property names are also called keys
+                    Object.keys(obj); 
+
+                    // returns array of properties of obj 
+                
+                2. Object property values
+                    Object.values(obj); 
+
+                    // return array of values of obj 
+
+                3. Object keys and values 
+                    Object.entries(obj); 
+
+                    // returns [ [key1, value1], [key2, value2] ... [keyN, valueN] ] ; 
+                    // an actual array unlike array.entries() which returns an iterator object;
+
+                
+                
+                
+                
+                    
+        </p>
+
+        <h2>Dom and events </h2>
+        <p>
+            * DOM - Document Object Model : Structured representation of HTML documents. 
+                A tree structure that represents a family tree, where "document" is the first parent / root / entry point 
+
+                    document --> html --> head --> title --> text
+                                  |         
+                                  |
+                                 body --> section --> nav --> ul --> li --> text 
+                                  |
+                                  |
+                                main --> p --> text 
+                                  
+                whatever is in the html also has to be in the DOM. 
+                DOM also includes CSS styles. 
+
+            * Adding callback on events 
+                * document.querySelector('query').addEventListener('event', callbackFunction () {});
+                * document.element.addEventListener('event', callbackFunctionValue);
+                * document.getElementById('element id without the # ').addEventListener('event', callback);
+
+            * Changing styles of elements 
+                * document.querySelector('body').style.backgroundColor = 'green';
+
+            * Add, remove, check, toggle class of an element via
+                
+                * document.querySelector('.element-class').classList.add('paragraph__text--white'); 
+                    // adds specified class, if the class has already been added to that element, do nothing. 
+
+                * document.querySelector('.element-class').classList.remove('paragraph__text--white'); 
+                    // removes specified class if present on the selected element or do nothing if not. 
+
+                * document.querySelector('.class').classList.contains('.another-class'); 
+                    // returns true or false if "another-class" is present in the selected element. 
+                
+                * document.querySelector('#id').classList.toggle('active'); 
+                    // toggles the specified class "active"; adds or removes it from the selected element. 
+
+                
+            * querySelector vs querySelectorAll 
+                * querySelector only selects the first matching occurance in the dom and returns the element.
+                * querySelectorAll selects all matching occurance in the dom and return an array of elements. 
+
+            * Selecting an element via getElementById is a little faster than querySelector. 
+
+            * The DOM and DOM methods are part of the WEB APIs they are not part of JavaScript. 
+            
+            *** Not just rely on the DOM to hold our data, make data relevant to application 
+                always to be available in the code. 
+
+            * Events 
+                * keyboard events: they are global events because they do not happen on one specific event 
+                    so we listen to the whole docment 
+                    
+                    document.addEventListener('keydown', function (ev) {
+                        if ( ev.key === 'Escape') {
+                            statements;
+                        }
+                    });
+
+                * which key is pressed is stored on the event itself.
+                * when an event occurs JS call the callback function / event listener and passes the 
+                    event as an argument to it. Inside the callback function the 'this' keyword always refers to 
+                    the element itself by default but you can change that with 
+                    callbackFunction.bind(obj);
+                
+                
+
+        </p>
+
+        <h2>Libraries and methods</h2>
+        <p>
+            * Math 
+                Math.random() => 0.0000 to 0.9999
+            
+            * generate a random number between 1 to 6, 
+                Math.trunc(Math.random() * 6) + 1; // Math.trunc() truncates the decimal part 
+            
+            * Math.trunc(1.8) => 1 
+
+        </p>
+
+        <h2>How JS works behind the scene</h2>
+        <p>
+            * Just in time compiled language so, each statement is parsed and compiled to machine code and executed immediately by JS Engine 
+            * Execution steps
+                1. Parse and create AST (Abstract Syntax Tree)
+                2. Compile to binary 
+                3. Execution in call call stack 
+                4. Optimize and return to step 2
+
+            * JS Engine 
+                1. HEAP 
+                2. Call Stack 
+
+            * JS Runtime
+                JS Engine + WEB APIs + Callback Queue
+
+            * Steps 
+                1. Exactly One global execution cotext is created (creation phase)
+                2. All top level code or code that are outside of any function are executed in the global 
+                    Execution Context
+                3. One execution context per function call is created (creating phase) and placed in the call stack and 
+                    executed then pop out the execution context when the function returns ( or execution is 
+                    finished for the Execution Context )
+                4. After all the function are done executing the engine will keep waiting for callback functions 
+                    to arrive. 
+
+            * Execution Context 
+                Environment in which a piece of JavaScript is executed. Store all the necessary information for some
+                code to be executed. 
+
+                An EC is consists of, 
+                    1. Variable Environment (VE) => let, const, var, function, arguments, objects 
+                    2. Scope Chain 
+                    3. this => value of this keyword for the context 
+
+                    all these elements that make up the EC are generated during creation phase
+                    
+                    *** EC for arrow function do not get "arguments" objet and "this" keyword.
+
+            * Scoping 
+                JavaScript uses lexical scoping meaning scoping is controlled by placement of functions and blocks in the code. 
+                Scoping is how program's variables are organized and accessed. 
+
+                * scope: 
+                    space or environment in which certain variable is declared 
+                    There are 3 types of scope, 
+                        1. global scope - outside of any function or block; accessible everywhere. 
+                        2. function scope - inside function, also called local scope and variables declared inside it 
+                                are called local variables. 
+                        3. Block scope (ES2015) - Only applies to let and const variables. Functions are also block 
+                            scoped. Function declared inside a block is only accessible inside that block. 
+
+                        * Variables declared with 'var' are function scoped or the global scoped 
+
+                * scope chain: 
+                    Every scope has access to all the variables of it's (outer) parent's scope.     
+                    This rule also applies to function parameters. 
+                
+                * Variable look up: 
+                    If one scope need to access a variable and it is not present in the current scope then it will look
+                    up in the scope chain and see if it can find the variable in one of its parent's scope. 
+
+                * Parent scope does not access child scope. 
+                * Scope chain also applies to block scope. 
+                * Variables with same name in current scope overrides variables from parent's scope. 
+
+            * Hoisting 
+                Before execution, code is scanned for variable declartions and for each variable a new property is 
+                created in the Variable Environment Object of the Execution Context.
+
+                * let, const variables and function expression or arrow functions that are stored in a variable that is 
+                    declared with let and const are placed in Temporal Dead Zone (TDZ).
+                    That is why we can not use them prior to declration. On the other hand, we can invoke function that 
+                    uses a function declration syntax and also variables that are declared with 'var' keyword. 
+
+                * TDZ 
+                    Temporal Dead Zone starts at the begining of the scope and end at the line it is defined. 
+
+                    * why TDZ ? 
+                        1. Makes it easier to avoid and catch errors. 
+                        2. Makes const variables actually work. 
+                        we can not declare an empty const variable. 
+
+                * Why hoising ?
+                    1. to make functions accessible that uses function declaration syntax. ***
+                    2. var hoisting is just a byproduct. 
+                    
+                * 'var' variables are hoisted with 'undefined' value. 
+                * 'var' variables are created as a property on the global 'window' object. 
+
+                * function expression / arrow functions declared with var will be hoisted and value set 
+                    to those variables are 'undefined'
+                    => undefined(); // imagine what will happen. 
+
+                * Pitfall of hoisting 
+                    if you use 'var' variables as condition parameter prior to definition. 
+
+            * 'window' is the global object of JavaScript in the browser, each per window. 
+
+            * The 'this' keyword
+                special variable that is created for every execution context (EC).
+
+                1. In event listener / event callback => this === 'the element itself on which the listener is bind to'
+                2. obj.method() => this === obj (on which the method is called) 
+                3. Function with declrative syntax in global scope => this === 'undefined'
+                4. Arrow function => this === 'this of the function's parent'
+
+                * without strict mode 'this == window'
+            
+                
+        </p>
+
+    </main>
+</body>
+</html>
