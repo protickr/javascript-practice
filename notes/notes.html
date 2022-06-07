@@ -68,8 +68,7 @@
             * template literals also retains line breaks as formatted in source code.
         </p>
 
-
-
+        
         <h2>Operators</h2>
         <p>
             * Math Operators 
@@ -95,6 +94,28 @@
         </p>
 
 
+        <h2>Type Coversion and Coercion</h2>
+        <p>
+            * Type conversion: manual / explicit type coversion.
+            * Type coercion: automatic / implicit type conversion by JS.
+
+            * String to number
+                Number('15') => 15 (number)
+                Number('Protick') => NaN (Not a number)
+            
+            * Number to string 
+                String(25) => '25' (string)
+            
+            * Coercion: 
+                +       -> coerce number to string if any of the operand is string and others are numbers. 
+                / * -   -> coerce string to number
+
+            * Boolean conversion 
+                Boolean(0) -> false
+                Boolean({}) -> true // confusing
+
+        </p>
+
 
         <h2>Truthy Falsy and Nullish values</h2>
         <p>
@@ -114,7 +135,6 @@
 
                 * zero, empty strings are not nullish values  
         </p>
-
 
 
         <h2>Short circuitting and logical assignment operators</h2>
@@ -177,6 +197,7 @@
 
         </p>    
 
+
         <h2>Loops</h2>
         <p>
             * for
@@ -208,83 +229,8 @@
 
             
         </p>
-
-
-
-        <h2>Type Coversion and Coercion</h2>
-        <p>
-            * Type conversion: manual / explicit type coversion.
-            * Type coercion: automatic / implicit type conversion by JS.
-
-            * String to number
-                Number('15') => 15 (number)
-                Number('Protick') => NaN (Not a number)
-            
-            * Number to string 
-                String(25) => '25' (string)
-            
-            * Coercion: 
-                +       -> coerce number to string if any of the operand is string and others are numbers. 
-                / * -   -> coerce string to number
-
-            * Boolean conversion 
-                Boolean(0) -> false
-                Boolean({}) -> true // confusing
-
-        </p>
-
         
-        <h2>Important general information</h2>
-        <p>
-            * Enabling strict mode
-                'use strict';
 
-                enabling strict mode will prohibit you from using variable without declaration with let const or var.
-                also reserves a set of keywords that are decided to be implemented in future version of JS
-
-            * transpile and polyfill JS source code with babel to support older browser upto browsers from 2009 or ES5; 
-            * Statement: unit of a instruction set.
-            * Expression: Operation that produces value. 
-        </p>
-
-        <h2>Development Debugging and Problem solving tips</h2>
-        <p>
-            Problem solving techniques: 
-
-                * Ask right questions until you understand what is really being asked for, 
-                    figure out the result you really want to achive
-                    understand the input and output first then figure out the path from input to output.
-                * Divide and conquer, divide the entire problem into sub problems
-                * Research and solve sub-problems until you hit a wall, if you do, google. 
-                * Write pseudo code / comments / sentence (what you want to happen in steps) before coding. 
-                * Draw flowchart before coding.
-
-
-            Debugging: 
-
-                * VScode has a built in JS debugger use it to set breakpoints and step through statements. 
-                * chrome dev tools > source > breakpoint -> debug (sometimes does not stop at breakpoint)
-                * add the following statement in the source code to halt execution
-                    debugger; 
-                    or, 
-                    debug(functionName);
-
-                * console.warn();
-                * console.error();
-                * console.table(obj);
-                * console.dir(functionValue):
-
-                debugging framework
-                    1. Identify bug -> automated tests 
-                    2. Find bug -> finding the underlying reason => logical, structural etc
-                    3. Fix bug 
-                    4. Prevent bug 
-
-                
-
-        </p>
-
-        
         <h2>Function</h2>
         <p>
             * function declaration 
@@ -334,8 +280,157 @@
                 const newFun = function ( ...args ){
                     // args == [ 10, 20, 30 ]
                 }
+                // can take indefinite number of arguments with rest parameter 
+
+
+            * Default parameter 
+                parameter that are not mandatory to invoke the function / method 
+
+                    function foo(name, age=25, numOfPass=1, price=numOfPass * 199){
+                        //function body
+                    }
+
+                    // here in function foo parameter age is optional, if not provided during function call it will 
+                    // be automatically set to 25 
+                    // an expression that uses other parameters, can be set as a value to another parameter too
+                    // provided that the parameter used in the expression is defined earlier in the parameter list. 
+            
+            * Passing arguments (Value V/S Reference)
+                JavaScript is never pass by referece, we might pass referece of an object to a function but 
+                not pass by reference.
+
+                1. changing a primitive variable's value by a parameter does not change the value to the argument. 
+                2. changing a passed object's property by accessing the parameter also changes the value of that 
+                    property in the passed argument. 
                 
+
+            * First class function 
+                1. JavaScript treats functions as first-class citizens that means functions are simpy values and 
+                    it is a language feature. 
+
+                2. Functions are just another type of object. 
+
+            * Higher order function 
+                Functions that receives or ( / and) returns a function are called higher order function. 
+                This is possible because JavaScript treats functions as first-class citizens (values).
+
+            * Function property 
+                functions can even have properties such as 'name' property of a function returns it's name 
+                
+            * Example of Higher order functions 
+                
+                    document.element.addEventListener('event', function callMeBack ( ev ){
+
+                    });
+                
+                here 'addEventListener' is a Higher Order function as it takes 'callMeBack' callback function as a 
+                parameter. 
+                In this specific case, 'callMeBack' callback function is called 'event listener' or 'event handler'
+                function. 
+
+            * what are the benefits of callback function ?
+                1. Callback function allow us to create abstraction
+                2. Makes it easy to split up our code into more reusable and interconnected parts. 
+                
+                * What is 'Abstraction' ? 
+                    Abstraction - Hide the detail of some code or implementation details because we dont really care 
+                                    about all that details, this allow us to think about problems at a higher or 
+                                    more abstract level.
+
+                                    
+            * Function can return other function in JavaScript and it works because of 'Closure' and this kind of 
+                practice is used in functional programming. 
+
+
+                const obj = {
+                    name: 'Protick Roy', 
+                    printGreetName: function (greetings){
+                        console.log(`${greetings} ${this.name}`);
+                    }
+                }
+
+                const obj2 = {
+                    name: 'John Doe', 
+                    printGreetName: function (greetings){
+                        console.log(`${greetings} ${this.name}`);
+                    }
+                }
+
+            * call()
+                1. The call() method calls a function with a given 'this' value and arguments provided individually.
+                2. The call() allows for a function/method belonging to one object to be assigned and called for 
+                    a different object.
+
+                        const printGreetName = obj.printGreetName; 
+                        printGreetName.call(obj2, 'Hello');
+
+                    * immediately invokes the function that has been set to a new this value with call() method. 
+
+
+            * apply()
+                1. calls a function with a given this value, and arguments provided as an array 
+                    (or an array-like object).
+                2. allows for a function/method belonging to one object to be assigned and called for 
+                    a different object.
+
+                        const printGreetName = obj.printGreetName; 
+                        printGreetName.apply(obj2, ['Hi']);
+
+                    * immediately invokes the function that has been set to a new this value with apply() method. 
+
+
+            * bind() 
+                1. The bind() method creates a new function that, when called, has its this keyword set to the 
+                    provided value, with a given sequence of arguments preceding any provided when the new function 
+                    is called.
+                2. bind() - binds parameters beforehand and returns a new function with predefined parameters 
+
+                    const printGreetName = obj.printGreetName; 
+                    const newFunc = printGreetName.bind(obj2, 'Hello');
+                    newFunc();
+
+                * pre-defining function parameters is also called 'partial application'
+
+                * partial application without 'this':
+                    func.bind(null, arg1); 
+                    func();
+
+            * For call(), apply() and bind() the first parameter has to be an object's reference
+
+            * IIFE - pattern 
+                Immediately Invoked Function Expression - is a pattern invented by some devoloper which is used to 
+                create a function that will be called only once and the main purpose of this was to encapsulate data 
+                within a scope which can not be accessed by any other code out of this scope. 
+
+                    (function (){ console.log('will run once')})();
+                    ( () => console.log('will run once') )();
+
+                * It is a pattern not a language feature, the same effect can be obtained by 
+                    modern scoped variable i.e., 
+                        {
+                            let val1 = 10; 
+                            const val2 = 20;
+                        };
+
+            * Closure 
+                Any function always has access to the variable environment of the execution context 
+                in which the function was created even after the parent execution context is popped off the 
+                call stack.
+
+                    1. VE attached to the funciton, exactly as it was at the time and place the function was created
+                    2. Inner function closes over it's parent's scope even if the execution context is destroyed, the 
+                        VE attached to that EC survived including the parent's parameters and accessible within the 
+                        child / inner function. 
+
+                    this closing action or the relationship to the parent's variable environment is called 'Closure'
+
+                    * variable lookup first starts with the closure of a function if there is a global variable with 
+                        the same name it will be replaced by closure's variables. 
+
+                    * console.dir(function); 
+                        => [[internal property we can not access]]
         </p>
+
 
         <h2>Array</h2>
         <p>
@@ -396,9 +491,6 @@
         </p>
 
 
-
-
-
         <h2>Sets</h2>
         <p>
             collection of unique elements with no duplicate elements in them 
@@ -432,8 +524,6 @@
         </p>
 
 
-
-
         <h2>Map</h2>
         <p>
             * actually array of arrays which contains [ key, value ] pairs but it is a Map object 
@@ -451,7 +541,7 @@
                         [3, 'three'],
                     ]); 
 
-                * you can make a Map object out of a 2D array which contains [key, value] paris. 
+                * you can make a Map object out of a 2D array which contains [key, value] pairs. 
                     let arr = [ ['key1', 'value1'], ['key2', 'value2'] ];
                     const newMap  = new Map(arr);
 
@@ -506,8 +596,6 @@
 
 
         </p>
-
-
 
 
         <h2>Object</h2>
@@ -694,6 +782,109 @@
                     
         </p>
 
+
+        <h2>String</h2>
+        <p>
+            * String is an array of characters 
+                const str = "This is a string";
+
+            * strings are primitive values so it is impossible to mutate them 
+
+            * String Methods 
+
+                1. str.indexOf('i'); 
+                    // returns 2, position of 'i' in the string 'str'
+                    // return first occurance position or -1 if no match found
+
+                2. str.lastIndexOf('i'); 
+                    // returns 13, position of 'i' in the string 'str'
+                    // return last occurance position or -1 if no match found
+
+                3. str.slice(5);
+                    // slice the string starting at position 5 (inclusive) and return the resultant string 
+                    // from position 5 to the end; returns a new string => "is a string"
+
+                    * extract the first word 
+                        let firstWord = str.slice( 0, str.indexOf(' ') );
+                            // returns a new string => "This"
+
+                    * extract the first word 
+                        let lastWord = str.slice(str.lastIndexOf(' ') + 1 );
+                            // returns a new string => "string"
+
+                    * start slice position count from the end
+                        let newStr = str.slice(-6);
+                            // negative count starts from -1, 
+                            // returns a new string => "string"
+
+                4. str.toLowerCase(); // "this is a string"
+                5. str.toUpperCase(); // "THIS IS A STRING"
+
+                    * capitalize a string 
+                        const str = "pRotick";
+                        const strLower = str.toLowerCase();
+                        const strCapitalized = str[0].toUpperCase() + strLower.slice(1); 
+                            // strCapitalized === "Protick"
+                    
+                    * comparing emails 
+                        i)   Convert it to lower case 
+                        ii)  Remove white spaces 
+                        iii) compare 
+
+
+                6. str.trim(); 
+                    // removes white spaces and \n from start and end of a string 
+                    
+                    i) str.trimStart() // from start 
+                    ii) str.trimEnd()  // from end 
+
+
+                7. str.replace('what to replace', 'with what');
+                    // replaces the first occurance and returns a new string
+
+                    // to replace all you can use regex 
+                        str.replace(/This/g, 'dis');
+                            // here 'g' denotes global flag
+
+                8. str.replaceAll('This', 'Dis');
+                    // replaces all the 'This' word with 'Dis' in the string 'str'
+                    // returns a new string 
+                
+                
+                    const plane = 'Air320neo';
+                9. plane.includes('Air320'); // returns true (or false)
+                10. plane.startsWith('Air'); // returns true (or false)
+                11. plane.endsWith('320');  // returns true (or false)
+                
+                    const x = 'a+very+nice+string'; 
+                12. const words = x.split('+');         //split
+                        // returns an array of strings 
+                        // words === [ 'a', 'very', 'nice', 'string' ];
+                    
+                13. let joinedString = words.join(' '); //join
+                    // returns new string by joining array elements by parameter passed to .join() method 
+                    // joinedString === 'a very nice string' 
+
+                14. Padding a string 
+                    let str = 'This is a line of text';
+
+                    let paddedStr = str.padStart(30, '+');
+                    let paddedStr = str.padEnd(30, '-');
+
+                    let emptyPadStrStart = str.padStart(30, ' ');
+                    or, 
+                    let emptyPadStrStart = str.padStart(30);
+
+                        // returns new string after adding padding, 
+                        // total length of the new string including padding will be 30 characters 
+                
+                15. Repeat a string n times. 
+                    str.repeat(n);
+                    // returns a new string repeating 'n' times;
+
+        </p>
+
+
         <h2>Dom and events </h2>
         <p>
             * DOM - Document Object Model : Structured representation of HTML documents. 
@@ -764,6 +955,7 @@
 
         </p>
 
+
         <h2>Libraries and methods</h2>
         <p>
             * Math 
@@ -775,6 +967,7 @@
             * Math.trunc(1.8) => 1 
 
         </p>
+
 
         <h2>How JS works behind the scene</h2>
         <p>
@@ -887,6 +1080,107 @@
             
                 
         </p>
+
+
+        <h2>Important general information</h2>
+        <p>
+            * Enabling strict mode
+                'use strict';
+
+                enabling strict mode will prohibit you from using variable without declaration with let const or var.
+                also reserves a set of keywords that are decided to be implemented in future version of JS
+
+            * transpile and polyfill JS source code with babel to support older browser upto browsers from 2009 or ES5; 
+            * Statement: unit of a instruction set.
+            * Expression: Operation that produces value. 
+
+            * which data structure to use
+                collection of data --> data structure --> (simple list) --> (manipulate ordered data) --> Array 
+                                               |                 |
+                                               |                 |
+                                               |         ( high performance, unique data ) --> Set
+                                               |
+                                        (key value pairs)
+                                               |
+                                               |
+                                               |--> (easy to write)     --> Object 
+                                               |--> (easy to iterate)   --> Map 
+
+                * Data from WEB APIs are almost always JSON formatted that is similar to JS Object. 
+                * Array of Objects are more comon. 
+                * we should use array or sets to store a list of items and when we do not need to describe them. 
+                * Use array when we need to manipulate list items and there are tons of useful array methods. 
+                * Use Set when we need list of only unique elements
+                * Use Set when high performance in really important
+                * Use Set to remove duplicate items from Array
+            
+            * Object V/S Map 
+                1. Object 
+                    * when we need to include functions. 
+                    * when working with JSON. 
+                    * when key/properties must be a string. 
+                    * Easy to access values with . and []
+                
+                2. Map 
+                    * When you need to simply map key to values and you dont need any method in it at any point. 
+                    * when you need keys to be of any type such as string number boolean object function array set etc. 
+                    * Map iteration
+                        for (const [key, value] of mapObj){
+
+                        }
+
+            * Why method call on primitive type such as 'string' works ?
+                Because of "Boxing"
+
+            * Boxing
+                Boxing is wrapping a primitive type value inside an object when JS engine sees a method call on a
+                primitive type value it wraps it in an appropriate object and performs the method call and then finally
+                returns the resultant primitive value. 
+
+            * In EU , is used as decimal seperator. 
+            * In US . is used as decimal seperator.
+            
+
+        </p>
+
+
+        <h2>Development Debugging and Problem solving tips</h2>
+        <p>
+            Problem solving techniques: 
+
+                * Ask right questions until you understand what is really being asked for, 
+                    figure out the result you really want to achive
+                    understand the input and output first then figure out the path from input to output.
+                * Divide and conquer, divide the entire problem into sub problems
+                * Research and solve sub-problems until you hit a wall, if you do, google. 
+                * Write pseudo code / comments / sentence (what you want to happen in steps) before coding. 
+                * Draw flowchart before coding.
+
+
+            Debugging: 
+
+                * VScode has a built in JS debugger use it to set breakpoints and step through statements. 
+                * chrome dev tools > source > breakpoint -> debug (sometimes does not stop at breakpoint)
+                * add the following statement in the source code to halt execution
+                    debugger; 
+                    or, 
+                    debug(functionName);
+
+                * console.warn();
+                * console.error();
+                * console.table(obj);
+                * console.dir(functionValue):
+
+                debugging framework
+                    1. Identify bug -> automated tests 
+                    2. Find bug -> finding the underlying reason => logical, structural etc
+                    3. Fix bug 
+                    4. Prevent bug 
+
+                
+
+        </p>
+
 
     </main>
 </body>
