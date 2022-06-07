@@ -28,69 +28,83 @@
                 programming language with first-class functions and non-blocking event loop concurrency model.
             * Authored by Brendan Eich in December 4th 1995. 
 
-            * variable names must start with _, letters or $ sign, should be camel case as per convention and 
-                const variables should be all caps, no gaps in between and no number at start of variable name.
+            * variable names must start with _ , letters or $ sign, should be camelCased as per convention and 
+                const variables should be all caps, no gaps in between and no number at start of a variable name.
+
             * variable name should be descriptive.
-            * variable declaration with let, const or var (omit this, this creates a property on window object 
+
+            * variable declaration with let, const or var - (omit this one, this creates a property on window object 
                 with same name as variable)
+
             * Reserved keywords such as new, function, name, etc. 
+
             * let and const for variable declaration were introduced in ES2015 or ES6, 
                 - variable declared with let is mutable and block scoped.
                 - variable declared with const is immutable (applicable only to primitive values)
                 - we can not declare empty const variable. 
             
-            * if you do not declare a variable prior to use it, JS will create a property on global (window) object. 
+            * if you do not declare a variable before using it, JS will create a property on global (window) object. 
+                in strict mode you can not use a variable before declaring it. 
 
             * inline script: within script tag 
             * external script: linked with the webpage using src attribute of script tag. 
 
             * ES6 or ES2015 was released in 2015. 
-            * ctrl + shift + j for developer console and ^ for previous command. 
+            * ctrl + shift + j for developer console 
+            * ^ for previous command. 
 
             * JS has two main data types
                 1. Primitive types - 7 in total 
                     numbers, strings, boolean, undefined, null, symbool, bigInt. 
+                    
                 2. Object type 
-                    other than 7 primitive data types everthing else in JS are objects. 
+                    other than 7 primitive data types everything else in JS are objects. 
 
 
-            * Numbers: are always floating point number and it is of type Number. 
+            * Number: are always floating point number and it is of type 'Number'. 
             * undefined: value taken by a variable that is not yet assigned to a value (not defined / empty value)
             * Null: also means empty value but different from undefined. 
-            * Symbools: (ES2015) value that is unique and can not be changed. 
-            * bigInt: (ES2020) Larger integers that number type can not hold. 
-            * Booleans: true, false 
-            * string: "this is a string", also called string leteral , they are immutable.
+            * Symbol: (ES2015) value that is unique and can not be changed. 
+            * BigInt: (ES2020) Larger integers that number type can not hold. 
+            * Boolean: true, false 
+            * String: "this is a string", also called string leteral , they are immutable.
             
-            * JS is dynamically typed meaning, assigned value determines the type of a variable not the variable itself. 
-            * typeof variable -> return the type of the variable. 
+            *** Except for null and undefined, all primitive values have object equivalents that 
+                wrap around the primitive values:
 
-            * JS confusion source 
+            * JS is dynamically typed, meaning assigned value determines the type of a variable not the variable itself. 
+            * typeof variable -> returns the type of the variable. 
+
+            * JS confusion source               [Confusion 1]
                 typeof null         -> object 
                 typeof undefined    -> undefined 
 
-            * console.log(value1, value2, valueN); console.dir(obj) => to check closures and scopes ;
+            * console.log(value1, value2, valueN); 
+            * console.dir(obj); => to check closures and scopes
             
             * All variables from running script are available in the browser console. 
             * Operator precedence and associativity: check MDN
 
-            * type coercion while concatenating number with string, number gets converted to string. 
-            * to avoid unexpected type coercision while using + to concatenate use template literal `${ variable }` instead. 
+            * type coercion while concatenating: number with string, number gets converted to string. 
+            * to avoid unexpected type coercision while using + to concatenate 
+                use template literal `${ variable }` instead. 
             * template literals always expects value or expression that will generte value not statements.  
             * template literals also retains line breaks as formatted in source code.
+        
         </p>
 
 
         <h2>Operators</h2>
         <p>
             * Math Operators 
-                ** * / %  => right to left. + - => left to right.
+                ** , * , / , %  => right to left 
+                + , -           => left to right
             
             * comparison operators
-                > < == >= <= 
+                > , < ,  == , >= , <= 
 
             * logical operators 
-                && (and), || (or), ! (not)
+                && (and) , || (or) , ! (not)
 
             * Equality operators
                 ==      (loose equality operator, type coerce the operands, string to number)
@@ -100,9 +114,9 @@
                 !==     
             
             * assingment and compound assignment operator, 
-                =   (assignment operator, right to left)
-                *= , /=, +=, -= (compound assignment)                
-            
+                =               (assignment operator, right to left)
+                *= , /=, +=, -= (compound assignment)     
+                       
         </p>
 
 
@@ -114,28 +128,30 @@
             * String to number
                 Number('15') => 15 (number)
                 Number('Protick') => NaN (Not a number)
+
+                *** typeof NaN === 'number'     [Confusion 2]
             
             * Number to string 
                 String(25) => '25' (string)
             
             * Coercion: 
-                +       -> coerce number to string if any of the operand is string and others are numbers. 
-                / * -   -> coerce string to number
+                +           -> coerce number to string if any of the operand is string and others are numbers. 
+                / , * , -   -> coerce string to number
 
             * Boolean conversion 
-                Boolean(0) -> false
-                Boolean({}) -> true // confusing
-
+                Boolean(0)  -> false
+                Boolean({}) -> true // [Confusion 3]
+            
         </p>
 
 
-        <h2>Truthy Falsy and Nullish values</h2>
+        <h2>Truthy, Falsy and Nullish values</h2>
         <p>
             Falsy values 
                 1. 0            (zero)
                 2. ""           (empty string)
                 3. undefined    (undefined)
-                4. NaN          (Not a Number returned after string to Number conversion)
+                4. NaN          (Not a Number, returned after string to Number conversion)
                 5. null         (null)
             
             Truthy values 
@@ -146,27 +162,30 @@
                 2. undefined 
 
                 * zero, empty strings are not nullish values  
+            
         </p>
 
 
         <h2>Short circuitting and logical assignment operators</h2>
         <p>
-            operators to short circuitting evaluation of an expression      
-            Logical operators || and && can take any data typed value as operand and return resultant value by short 
-            circuitting the rest of the evaluation of an expression. 
+            operators used to short circuit the evaluation of an expression:
+
+                Logical operators || and && can take any data typed value as operand and return 
+                resultant value of any data type by short circuitting the rest of the evaluation of an expression. 
             
-            * || (logical or operator): 
+            * || ('logical or' operator): 
                 if first operand is a truthy value then returns the first operand and short circuits the rest of the 
                 evaluation or if all the operands are falsy then returns the last operand 
-                fails if the operand is 0 (zero), to solve this problem we have another operator - ??
 
-            * ?? (nullish coalescing operator): 
-                same as logical or || , but works with the idea of nullish values instead of falsy values. 
+                * fails if the operand is 0 (zero), to solve this problem we have another operator - ??
+
+            * ?? ('nullish coalescing' operator): 
+                same as 'logical or' || , but works with the idea of nullish values instead of falsy values. 
                 counts 0 or "" strings as truthy values as well, becaues they are not nullish
 
             * && (logical and operator):
-                returns the first falsy operand it encounters while evaluating an expression or if all operands are truthy 
-                then returns the last operand. 
+                returns the first falsy operand it encounters while evaluating an expression or if 
+                all operands are truthy then returns the last operand. 
 
             * Use cases of short circuitting 
                 1. || (or) for setting default values to variable. 
@@ -180,24 +199,25 @@
                 1. rest2.numGuests ||= 10;
                 2. rest2.numGuests &&= 10;
                 3. rest2.numGuests ??= 10;
-
+            
         </p>
 
 
         <h2>Control structure</h2>
         <p>
-            * 
-                if ( condition){
+            * if ( condition ){
                     statements; 
                 } else {
                     statements;
                 }
             
-            * switch(var) {
+            * switch( var ) {
+
                 case val1:
                 case val2: 
                     statement;
                     break;
+
                 default: 
                     statement;
                 }
@@ -206,7 +226,8 @@
                 condition ? execute if true : execute if false;
 
                 ternary operator can also be used with template literals or where a experssion or value is expected.
-
+                In template literals you can not use if else condition because they are statements
+            
         </p>    
 
 
@@ -220,6 +241,7 @@
                     break;
                 }
 
+
             * while 
             
                 let counter = 1; 
@@ -230,6 +252,7 @@
                     counter++; 
                 }
                 
+
             * for of 
 
                 const num = [ 10, 20, 30];
@@ -238,7 +261,6 @@
                     continue;
                     break;
                 }
-
             
         </p>
         
@@ -246,10 +268,10 @@
         <h2>Function</h2>
         <p>
             * function declaration 
-                
+
                 funcName(1, 2); 
                 // you can invoke function that uses declaration syntax prior to declaring the function
-                // because of hoisting 
+                // because of 'hoisting' 
 
                 function funcName(parameter1, parameter2){
                     console.log(parameter1);
@@ -257,11 +279,10 @@
                 }
 
             * function expression 
-
                 you can not invoke function expression before declaring them, arrow function is also a kind of 
                 function expression or anonymous function, 
                 
-                * Anonymous function 
+                * Anonymous function ( Function Expression )
                     const funcName = function (param1){
                         return param1 + 1;
                     };
@@ -282,9 +303,11 @@
             * move line up by alt + ^ 
 
             * Regular functions v/s arrow functions
-                *** EC for arrow function do not get "arguments" objet and "this" keyword.
+                *** Execution Context for arrow function do not get "arguments" objet and "this" keyword.
 
             * Spread operator: 
+                const arr = [10, 20, 30];
+
                 newFun(...arr); // is similer to, 
                 newFun( 10, 20, 30 );
 
@@ -292,7 +315,7 @@
                 const newFun = function ( ...args ){
                     // args == [ 10, 20, 30 ]
                 }
-                // can take indefinite number of arguments with rest parameter 
+                    // can take indefinite number of arguments with rest parameter 
 
 
             * Default parameter 
@@ -302,16 +325,18 @@
                         //function body
                     }
 
-                    // here in function foo parameter age is optional, if not provided during function call it will 
-                    // be automatically set to 25 
-                    // an expression that uses other parameters, can be set as a value to another parameter too
-                    // provided that the parameter used in the expression is defined earlier in the parameter list. 
+                    // here in function 'foo' parameter 'age' is optional, 
+                    // if not provided during function call it will be automatically set to 25 
+
+                    // an expression that includes other parameters can be set as a value to another parameter too
+                    // provided that the parameter used in the expression is defined earlier in the parameter list.
+                    // parameter definition order is counted from left to right
             
             * Passing arguments (Value V/S Reference)
                 JavaScript is never pass by referece, we might pass referece of an object to a function but 
                 not pass by reference.
 
-                1. changing a primitive variable's value by a parameter does not change the value to the argument. 
+                1. changing a primitive variable's value by a parameter does not change the value of the argument. 
                 2. changing a passed object's property by accessing the parameter also changes the value of that 
                     property in the passed argument. 
                 
@@ -323,17 +348,14 @@
                 2. Functions are just another type of object. 
 
             * Higher order function 
-                Functions that receives or ( / and) returns a function are called higher order function. 
+                Functions that receives or ( and ) returns a function are called higher order function. 
                 This is possible because JavaScript treats functions as first-class citizens (values).
 
             * Function property 
                 functions can even have properties such as 'name' property of a function returns it's name 
                 
             * Example of Higher order functions 
-                
-                    document.element.addEventListener('event', function callMeBack ( ev ){
-
-                    });
+                    document.element.addEventListener('event', function callMeBack ( ev ){ });
                 
                 here 'addEventListener' is a Higher Order function as it takes 'callMeBack' callback function as a 
                 parameter. 
@@ -341,7 +363,7 @@
                 function. 
 
             * what are the benefits of callback function ?
-                1. Callback function allow us to create abstraction
+                1. Callback functions allow us to create abstraction
                 2. Makes it easy to split up our code into more reusable and interconnected parts. 
                 
                 * What is 'Abstraction' ? 
@@ -376,11 +398,11 @@
                         const printGreetName = obj.printGreetName; 
                         printGreetName.call(obj2, 'Hello');
 
-                    * immediately invokes the function that has been set to a new this value with call() method. 
+                    * immediately invokes the function that has been set to a new 'this' value with call() method. 
 
 
             * apply()
-                1. calls a function with a given this value, and arguments provided as an array 
+                1. calls a function with a given 'this' value, and arguments provided as an array 
                     (or an array-like object).
                 2. allows for a function/method belonging to one object to be assigned and called for 
                     a different object.
@@ -407,7 +429,8 @@
                     func.bind(null, arg1); 
                     func();
 
-            * For call(), apply() and bind() the first parameter has to be an object's reference
+            * For call(), apply() and bind() the first parameter has to be an object's reference or null
+
 
             * IIFE - pattern 
                 Immediately Invoked Function Expression - is a pattern invented by some devoloper which is used to 
@@ -430,7 +453,7 @@
                 call stack.
 
                     1. VE attached to the funciton, exactly as it was at the time and place the function was created
-                    2. Inner function closes over it's parent's scope even if the execution context is destroyed, the 
+                    2. Inner function closes over it's parent's scope. Even if the execution context is destroyed, the 
                         VE attached to that EC survived including the parent's parameters and accessible within the 
                         child / inner function. 
 
@@ -439,8 +462,9 @@
                     * variable lookup first starts with the closure of a function if there is a global variable with 
                         the same name it will be replaced by closure's variables. 
 
-                    * console.dir(function); 
+                    * console.dir(function); // logs closures and scope chain
                         => [[internal property we can not access]]
+            
         </p>
 
 
@@ -451,22 +475,25 @@
             
             * numbers.length -> 10
             * we can access and mutate array values by index as, 
-                numbers[0] -> 1
+                numbers[0] == 1
                 numbers[4] = 100;
 
             * Array can contain elements of different data types and also other arrays, objects. 
 
             * Array methods
-                1. numbers.push(11, 12, 13, 14); // adds element (11 in this case) at the end of the array ( numbers in this case)
-                                                // returns new length of the array 
-                2. numbers.unshift(-4, -3, -2, -1, 0); // adds element in the beginning and returns new length
-                3. array.pop();         // returns last element that is popped from the array 
+                1. numbers.push(11, 12, 13, 14); // adds elements (11, 12, 13, 14) at the end of the array 
+                                                 // ( 'numbers' in this case)
+                                                 // returns new length of the array 
+                2. numbers.unshift(0);  // adds elements in the beginning and returns new length
+                3. array.pop();         // returns last element that is popped of the array 
                 4. array.shift();       // removes and return first element from the array 
                 5. numbers.indexOf(10)  // returns index of the element or -1 if not found
                 6. numbers.includes(7)  // return true if element exists or false if not
                 7. arr.entries()        // returns a iterator, where each iteration has an array like [index, value];
-                                        // if it returned an array it would be like this, 
+                                        // if it has returned an array it would be like this, 
                                         // [ [index1, value1], [index2, value2] ... [indexN, valueN] ] 
+
+
             * Destructuring
                 unpacking array elements to seperate variables. 
 
@@ -478,7 +505,7 @@
 
                 2. destructuring and default values 
                     const [var1, var2, var3, var4 = 100] = arr;
-                    // val4 == 100
+                    // var4 == 100
                     
                 3. nested destructuring 
                     const [var1, var2, [ var3, var4]] = [ 1, 2, [10, 20]];
@@ -493,23 +520,23 @@
                 * There can be only one rest element in one destructuring statement
 
             * Spread Operator 
-                1. const numbersArr = [ ...arr ]; // spreads the 'arr' array to 10, 20, 30
-                2. const newArr = [ 100, 200, ...arr ]; //
+                1. const numbersArr = [ ...arr ];       // spreads the 'arr' array to 10, 20, 30
+                2. const newArr = [ 100, 200, ...arr ]; // newArr == [ 100, 200, 10, 20, 30 ]
 
                 * if we need array elements seperated by comma we use spread operator.
-                * spread operator works on all iterables such as, arrays, strings, maps, sets
+                * spread operator works on all iterables such as, array, string, map, set
             
-
         </p>
 
 
-        <h2>Sets</h2>
+        <h2>Set</h2>
         <p>
             collection of unique elements with no duplicate elements in them 
 
                 const orderSet = new Set( ['pasta', 'pizza', 'risotto', 'pizza', 'pasta'] );
-                // orderset = { 'pasta', 'pizza', 'risotto' }
-                // typeof orderSet == object 
+                    // orderset = { 'pasta', 'pizza', 'risotto' }
+
+                    // typeof orderSet == object //tested
 
                 const nameChar = new Set('Protick');
 
@@ -520,19 +547,27 @@
             * Set methods
                 1. orderSet.size                // returns size/length/number of elements of the set
                 2. orderSet.has('pasta')        // returns true or false if element exists in the set or not 
-                3. orderSet.add('Garlic Bread') // adds new element to the set, but do not add duplicate entry: and returns updated Set object
+
+                3. orderSet.add('Garlic Bread') // adds new element to the set, but do not add duplicate entry: 
+                                                // and returns updated Set object
                                                 // only takes 1 argumnet per call
+
                 4. orderSet.delete('Pasta')     // deletes element 'Pasta' from set 'orderSet' 
-                                                // if it exists and returns true or false if the provided element to be deleted does not exist in Set. 
+                                                // if it exists and returns true or false 
+                                                // if the provided element to be deleted does not exist in the Set. 
 
                 5. orderSet.keys()              // return a new Set iterator, alias for orderSet.values();
                 6. orderSet.values()            // return values, a new Set iterator
-                7. orderSet.entries()           // returns a new Set iterator in this, { 'element' => 'element', 'elem' => 'elem' } format. 
+
+                7. orderSet.entries()           // returns a new Set iterator in this, 
+                                                // { 'element' => 'element', 'elem' => 'elem' } format. 
+
                 8. orderSet.clear()             // deletes all elements from set. 
 
             * you can not retrieve a specific value from set using an index, it is an iterable so loop over it or 
                 use has() to check if it contains a specific values, which is its main application other than maintai-
                 ning uniqueness of elements.  
+            
         </p>
 
 
@@ -559,11 +594,12 @@
 
                 * create a map from an object 
                     const newMap = new Map(Object.entries(obj));
-                    // beacause Object.entries(obj) === [ ['key1', 'value1'], ['key2', 'value2'] ]
+                        // beacause Object.entries(obj) === [ ['key1', 'value1'], ['key2', 'value2'] ]
 
                 * convert Map to an Array 
                     const keys = [ ...restMap.keys() ];         // array of Map keys 
                     const values = [ ...restMap.values() ];     // array of Map values
+                    const mapToArr = [ ...restmap ];            // convert entire map to an array
 
                     // you have to use the spread operator because 
                     // Map.keys() , Map.values() and Map.entries() returns an iterator not an array or elements
@@ -590,14 +626,19 @@
             * Map methods
                 1. restMap.size                 // returns size/length/number of elements in the Map
                 2. restMap.has('2')             // returns true or false if element exists in the Map whose key is '2'
+
                 3. restMap.set('1', 'pizza')    // adds new element to the Map, but do not add duplicate entry: 
                                                 // only takes 1 key value pair per call
                                                 // returns updated Map Object and 
-                                                // we can chanin multiple set().set() methods to insert multiple entries at once. 
-                4. restMap.get(1)               // get element from Map 'restMap' whose key is 1;  or undefined if not found
+                                                // we can chanin multiple set().set() methods to insert multiple 
+                                                // entries at once. 
+
+                4. restMap.get(1)               // get element from Map 'restMap' whose key is 1;  or undefined 
+                                                // if not found
+
                 4. restMap.delete('Pasta')      // deletes element from Map 'restMap' whose key is 'Pasta'
-                5. restMap.keys()               // return a new Map iterator with only keys in it. 
-                6. restMap.values()             // return a new Map iterator with only values in it. 
+                5. restMap.keys()               // returns a new Map iterator with only keys in it. 
+                6. restMap.values()             // returns a new Map iterator with only values in it. 
                 7. restMap.entries()            // returns a new Map iterator with { key => value } pairs
                 8. restMap.clear()              // deletes all key value pairs from restMap.
 
@@ -606,7 +647,9 @@
 
             * Map from generic object 
 
-
+            * Map is itarable
+                for ( const [key, value] of restMap ){ console.log(key, value); }
+        
         </p>
 
 
@@ -626,9 +669,9 @@
             * accessing object properties by . (dot) and [] (bracket) notation
                 obj.firstName => 'Protick'
                 obj['lastName'] => 'Roy' 
-                // notice the quoation mark around the property name, single and double quote both are permitted
+                // notice the quoation mark around the property name, single and double quotes both are permitted
 
-            * object property accessor . (dot), associativity left to right
+            * object property accessor . (dot) => associativity left to right
 
             * Adding new property to object by . and []
                 obj.country = 'Bangladesh';
@@ -639,7 +682,6 @@
                 property.
 
                 const obj: {
-
                     getAge: function returnAge(){ 
                         // function name returnAge is unnecessary here, we can omit it like the following function
                         return this.age;
@@ -657,7 +699,7 @@
                     }
                 };
             
-            * Object literal braces do not mark a block scope. 
+            * Object literal's braces do not mark a block scope. 
             * If a property is not available in an object it is simply undefined. 
             
             *** if an object method defines a ragular function or function expression within itself and invokes the 
@@ -666,17 +708,18 @@
                     1. You can use arrow function as arrow function's 'this' is set to 'parent's this'
                     2. or you can set a local variable to 'this' and use that local variable within the inner function.
                     
-            * Object.assign({}, srcObj); =>creates a shallow copy of srcObj and  returns a new object; 
-                merges srcObj with empty object;
-                To make a deep copy of an object we use third party libraries like lodash 
+            * Object.assign({}, srcObj); 
+                => creates a shallow copy of srcObj and  returns a new object; merges srcObj with empty object;
+                => To make a deep copy of an object we use third party libraries like lodash 
                         
             * Method borrowing
-                objNew.newProperty = oldObj.method;  // now objNew has oldObj.method in it. 
+                objNew.newProperty = oldObj.method;  
+                    // now objNew has oldObj.method in it. 
 
             * Primitives vs Objects 
                 * primitive type 
                     Number, String, Boolean, Undefined, Null, Symbol, BigInt 
-                    stored in EC and EC is placed on callstack 
+                    stored in Execution Context and EC is placed in the callstack 
 
                 * Object 
                     object literal, Arrays, Functions 
@@ -773,25 +816,18 @@
             * Looping Objects 
                 1. Object property names are also called keys
                     Object.keys(obj); 
-
-                    // returns array of properties of obj 
+                        // returns array of properties of obj 
                 
                 2. Object property values
                     Object.values(obj); 
-
-                    // return array of values of obj 
+                        // return array of values of obj 
 
                 3. Object keys and values 
                     Object.entries(obj); 
-
-                    // returns [ [key1, value1], [key2, value2] ... [keyN, valueN] ] ; 
-                    // an actual array unlike array.entries() which returns an iterator object;
-
-                
-                
-                
-                
-                    
+                        // objects are not iterable so we use this method to make it iterable
+                        // returns [ [key1, value1], [key2, value2] ... [keyN, valueN] ] ; 
+                        // an actual array unlike array.entries() which returns an iterator object;
+            
         </p>
 
 
@@ -893,14 +929,15 @@
                 15. Repeat a string n times. 
                     str.repeat(n);
                     // returns a new string repeating 'n' times;
-
+                
         </p>
 
 
         <h2>Dom and events </h2>
         <p>
             * DOM - Document Object Model : Structured representation of HTML documents. 
-                A tree structure that represents a family tree, where "document" is the first parent / root / entry point 
+                A tree structure that represents a family tree, where "document" is the 
+                first parent / root / entry point 
 
                     document --> html --> head --> title --> text
                                   |         
@@ -962,9 +999,7 @@
                     event as an argument to it. Inside the callback function the 'this' keyword always refers to 
                     the element itself by default but you can change that with 
                     callbackFunction.bind(obj);
-                
-                
-
+            
         </p>
 
 
@@ -983,7 +1018,9 @@
 
         <h2>How JS works behind the scene</h2>
         <p>
-            * Just in time compiled language so, each statement is parsed and compiled to machine code and executed immediately by JS Engine 
+            * Just in time compiled language so, each statement is parsed and compiled to machine code 
+                and executed immediately by JS Engine 
+
             * Execution steps
                 1. Parse and create AST (Abstract Syntax Tree)
                 2. Compile to binary 
@@ -1021,8 +1058,8 @@
                     *** EC for arrow function do not get "arguments" objet and "this" keyword.
 
             * Scoping 
-                JavaScript uses lexical scoping meaning scoping is controlled by placement of functions and blocks in the code. 
-                Scoping is how program's variables are organized and accessed. 
+                JavaScript uses lexical scoping meaning scoping is controlled by placement of functions and 
+                blocks in the code. Scoping is how program's variables are organized and accessed. 
 
                 * scope: 
                     space or environment in which certain variable is declared 
@@ -1040,8 +1077,8 @@
                     This rule also applies to function parameters. 
                 
                 * Variable look up: 
-                    If one scope need to access a variable and it is not present in the current scope then it will look
-                    up in the scope chain and see if it can find the variable in one of its parent's scope. 
+                    If one scope need to access a variable and it is not present in the current scope then it 
+                    will look up in the scope chain and see if it can find the variable in one of its parent's scope. 
 
                 * Parent scope does not access child scope. 
                 * Scope chain also applies to block scope. 
@@ -1051,10 +1088,11 @@
                 Before execution, code is scanned for variable declartions and for each variable a new property is 
                 created in the Variable Environment Object of the Execution Context.
 
-                * let, const variables and function expression or arrow functions that are stored in a variable that is 
-                    declared with let and const are placed in Temporal Dead Zone (TDZ).
-                    That is why we can not use them prior to declration. On the other hand, we can invoke function that 
-                    uses a function declration syntax and also variables that are declared with 'var' keyword. 
+                * let, const variables and function expression or arrow functions that are stored in a variable 
+                    that is declared with let and const are placed in Temporal Dead Zone (TDZ).
+                    That is why we can not use them prior to declration. On the other hand, we can invoke 
+                    function that uses a function declaration syntax and also variables that are 
+                    declared with 'var' keyword. 
 
                 * TDZ 
                     Temporal Dead Zone starts at the begining of the scope and end at the line it is defined. 
@@ -1083,14 +1121,14 @@
             * The 'this' keyword
                 special variable that is created for every execution context (EC).
 
-                1. In event listener / event callback => this === 'the element itself on which the listener is bind to'
+                1. In event listener / event callback => this === 'the element itself on which the listener 
+                    is bind to'
                 2. obj.method() => this === obj (on which the method is called) 
                 3. Function with declrative syntax in global scope => this === 'undefined'
                 4. Arrow function => this === 'this of the function's parent'
 
                 * without strict mode 'this == window'
-            
-                
+
         </p>
 
 
@@ -1151,7 +1189,6 @@
 
             * In EU , is used as decimal seperator. 
             * In US . is used as decimal seperator.
-            
 
         </p>
 
@@ -1187,13 +1224,12 @@
                     1. Identify bug -> automated tests 
                     2. Find bug -> finding the underlying reason => logical, structural etc
                     3. Fix bug 
-                    4. Prevent bug 
-
-                
-
+                    4. Prevent bug
+        
         </p>
 
         </pre>
     </main>
+    <script src="script.js"></script>
 </body>
 </html>
