@@ -484,11 +484,13 @@
                 1. numbers.push(11, 12, 13, 14); // adds elements (11, 12, 13, 14) at the end of the array 
                                                  // ( 'numbers' in this case)
                                                  // returns new length of the array 
+                                                 
                 2. numbers.unshift(0);  // adds elements in the beginning and returns new length
                 3. array.pop();         // returns last element that is popped of the array 
                 4. array.shift();       // removes and return first element from the array 
                 5. numbers.indexOf(10)  // returns index of the element or -1 if not found
                 6. numbers.includes(7)  // return true if element exists or false if not
+
                 7. arr.entries()        // returns a iterator, where each iteration has an array like [index, value];
                                         // if it has returned an array it would be like this, 
                                         // [ [index1, value1], [index2, value2] ... [indexN, valueN] ] 
@@ -525,6 +527,8 @@
 
                 * if we need array elements seperated by comma we use spread operator.
                 * spread operator works on all iterables such as, array, string, map, set
+
+
             
         </p>
 
@@ -856,7 +860,7 @@
                         let firstWord = str.slice( 0, str.indexOf(' ') );
                             // returns a new string => "This"
 
-                    * extract the first word 
+                    * extract the last word 
                         let lastWord = str.slice(str.lastIndexOf(' ') + 1 );
                             // returns a new string => "string"
 
@@ -890,9 +894,9 @@
                 7. str.replace('what to replace', 'with what');
                     // replaces the first occurance and returns a new string
 
-                    // to replace all you can use regex 
+                    // to replace all matching occurance you can use regex 
                         str.replace(/This/g, 'dis');
-                            // here 'g' denotes global flag
+                            // here 'g' denotes global flag for the regex expression enclosed by / /
 
                 8. str.replaceAll('This', 'Dis');
                     // replaces all the 'This' word with 'Dis' in the string 'str'
@@ -902,14 +906,14 @@
                     const plane = 'Air320neo';
                 9. plane.includes('Air320'); // returns true (or false)
                 10. plane.startsWith('Air'); // returns true (or false)
-                11. plane.endsWith('320');  // returns true (or false)
+                11. plane.endsWith('320');   // returns true (or false)
                 
                     const x = 'a+very+nice+string'; 
-                12. const words = x.split('+');         //split
+                12. const words = x.split('+');         // split
                         // returns an array of strings 
                         // words === [ 'a', 'very', 'nice', 'string' ];
                     
-                13. let joinedString = words.join(' '); //join
+                13. let joinedString = words.join(' '); // join
                     // returns new string by joining array elements by parameter passed to .join() method 
                     // joinedString === 'a very nice string' 
 
@@ -924,7 +928,7 @@
                     let emptyPadStrStart = str.padStart(30);
 
                         // returns new string after adding padding, 
-                        // total length of the new string including padding will be 30 characters 
+                        // total length of the new string including padding will be exactly 30 characters 
                 
                 15. Repeat a string n times. 
                     str.repeat(n);
@@ -935,7 +939,7 @@
 
         <h2>Dom and events </h2>
         <p>
-            * DOM - Document Object Model : Structured representation of HTML documents. 
+            * DOM - Document Object Model : Structured representation of HTML document. 
                 A tree structure that represents a family tree, where "document" is the 
                 first parent / root / entry point 
 
@@ -979,14 +983,14 @@
 
             * Selecting an element via getElementById is a little faster than querySelector. 
 
-            * The DOM and DOM methods are part of the WEB APIs they are not part of JavaScript. 
+            * The DOM and DOM methods are part of the WEB APIs, they are not part of JavaScript. 
             
             *** Not just rely on the DOM to hold our data, make data relevant to application 
                 always to be available in the code. 
 
             * Events 
                 * keyboard events: they are global events because they do not happen on one specific event 
-                    so we listen to the whole docment 
+                    so we listen to the whole document 
                     
                     document.addEventListener('keydown', function (ev) {
                         if ( ev.key === 'Escape') {
@@ -1024,7 +1028,7 @@
             * Execution steps
                 1. Parse and create AST (Abstract Syntax Tree)
                 2. Compile to binary 
-                3. Execution in call call stack 
+                3. Execution in call stack 
                 4. Optimize and return to step 2
 
             * JS Engine 
@@ -1038,8 +1042,8 @@
                 1. Exactly One global execution cotext is created (creation phase)
                 2. All top level code or code that are outside of any function are executed in the global 
                     Execution Context
-                3. One execution context per function call is created (creating phase) and placed in the call stack and 
-                    executed then pop out the execution context when the function returns ( or execution is 
+                3. One execution context per function call is created (creation phase) and placed in the call 
+                    stack and executed then pop out the execution context when the function returns ( or execution is 
                     finished for the Execution Context )
                 4. After all the function are done executing the engine will keep waiting for callback functions 
                     to arrive. 
@@ -1048,7 +1052,7 @@
                 Environment in which a piece of JavaScript is executed. Store all the necessary information for some
                 code to be executed. 
 
-                An EC is consists of, 
+                An EC consists of, 
                     1. Variable Environment (VE) => let, const, var, function, arguments, objects 
                     2. Scope Chain 
                     3. this => value of this keyword for the context 
@@ -1058,8 +1062,9 @@
                     *** EC for arrow function do not get "arguments" objet and "this" keyword.
 
             * Scoping 
-                JavaScript uses lexical scoping meaning scoping is controlled by placement of functions and 
-                blocks in the code. Scoping is how program's variables are organized and accessed. 
+                JavaScript uses lexical scoping, meaning scoping is controlled by placement of functions and 
+                blocks in the code. 
+                Scoping is how program's variables are organized and accessed. 
 
                 * scope: 
                     space or environment in which certain variable is declared 
@@ -1161,7 +1166,7 @@
                 * we should use array or sets to store a list of items and when we do not need to describe them. 
                 * Use array when we need to manipulate list items and there are tons of useful array methods. 
                 * Use Set when we need list of only unique elements
-                * Use Set when high performance in really important
+                * Use Set when high performance is really important
                 * Use Set to remove duplicate items from Array
             
             * Object V/S Map 
