@@ -235,7 +235,7 @@
         <p>
             * for
 
-                for ( let i = 0; i < arr.length(); i++ ) {
+                for ( let i = 0; i < arr.length; i++ ) {
                     statements;
                     continue; 
                     break;
@@ -491,8 +491,9 @@
                 5. numbers.indexOf(10)  // returns index of the element or -1 if not found
                 6. numbers.includes(7)  // return true if element exists or false if not
 
-                7. arr.entries()        // returns a iterator, where each iteration has an array like [index, value];
-                                        // if it has returned an array it would be like this, 
+                7. arr.entries()        // returns an iterator, where each iteration returns an array 
+                                        // like [index, value];
+                                        // if it returned an array instead of an iterator it would be like this, 
                                         // [ [index1, value1], [index2, value2] ... [indexN, valueN] ] 
 
 
@@ -529,7 +530,61 @@
                 * spread operator works on all iterables such as, array, string, map, set
 
 
-            
+            * Array methods extended
+                let arr = ['a', 'b', 'c', 'd', 'e'];
+     
+                SLICE
+                    console.log(arr.slice(2));
+                    console.log(arr.slice(1, -2));
+                    
+                    // create a shallow copy of arr 
+                    console.log(arr.slice());
+                    console.log([...arr]);
+                    
+                
+                SPLICE 
+                    // almost same as slice() but with one exception that splice() mutates the original array
+                    
+                    console.log(arr.splice(2));
+                    console.log(arr);
+                    
+                    // generally what is returned by the splice() method does not interest us rather we use splice often to delete
+                    // element from an array 
+                    // one most common use case is to delete the last element of an array 
+
+                    console.log(arr.splice(-1));
+                    console.log(arr);
+
+                
+                REVERSE
+                    const arr2 = ['j', 'i', 'h', 'g', 'f'];
+                    console.log(arr2.reverse());
+                    // console.log(arr2);
+                
+                CONCAT
+                    let letters = arr.concat(arr2);
+                    console.log(letters);
+                    console.log([...arr, ...arr2]);
+                
+                JOIN                
+                    console.log(letters.join('-'));
+                    // returns a string and does not mutate the original array 
+
+                The new at() method (ES2022)
+                    arr.at(0)   // returns the first element
+                    arr[0]      // also returns the first element
+
+                    1. to get the last element
+                        arr.slice(-1)[0];
+                        arr[arr.length -1];
+                        
+                        or simply, 
+                        arr.at(-1); 
+
+                    2. another use case of at() method is 
+                        method chaining 
+                    
+                    3. at() method also works on string                
         </p>
 
 
@@ -654,6 +709,42 @@
             * Map is itarable
                 for ( const [key, value] of restMap ){ console.log(key, value); }
         
+        </p>
+
+
+        <h2>Built In Higher Order functions for Iterables</h2>
+        <p>
+            * forEach()
+
+                // Array 
+                let arr = [ 10, 20, 30 ];
+                arr.forEach( function (item, index, wholeCollection) {
+                    console.log(index, item);
+                } );
+                
+                // Map 
+                const currencies = new Map([
+                    ['USD', 'United States dollar'],
+                    ['EUR', 'Euro'],
+                    ['GBP', 'Pound sterling'],
+                ]);
+
+                currencies.forEach(function (value, key, wholeCollection){
+                    console.log(key, value);
+                });
+
+                // Set 
+                const currencies = new Set(['USD', 'EUR', 'GBP', 'USD', 'EUR']);
+                currencies.forEach(function (value, _, wholeCollection){
+                    console.log(value);
+                });
+                    // because Set does not have key or index
+                    // as per standard convention throwaway variables are declared with only single underscore, _
+                
+                you can not 'break' out or 'continue' like 'for of' or other type of loops from forEach()
+]);
+            
+
         </p>
 
 
@@ -1016,6 +1107,8 @@
                 Math.trunc(Math.random() * 6) + 1; // Math.trunc() truncates the decimal part 
             
             * Math.trunc(1.8) => 1 
+
+            * Math.abs( -100 ) => 100
 
         </p>
 
