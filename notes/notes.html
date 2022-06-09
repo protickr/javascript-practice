@@ -717,34 +717,74 @@
             * forEach()
 
                 // Array 
-                let arr = [ 10, 20, 30 ];
-                arr.forEach( function (item, index, wholeCollection) {
-                    console.log(index, item);
-                } );
+                    let arr = [ 10, 20, 30 ];
+                    arr.forEach( function (item, index, wholeCollection) {
+                        console.log(index, item);
+                    } );
                 
                 // Map 
-                const currencies = new Map([
-                    ['USD', 'United States dollar'],
-                    ['EUR', 'Euro'],
-                    ['GBP', 'Pound sterling'],
-                ]);
+                    const currencies = new Map([
+                        ['USD', 'United States dollar'],
+                        ['EUR', 'Euro'],
+                        ['GBP', 'Pound sterling'],
+                    ]);
 
-                currencies.forEach(function (value, key, wholeCollection){
-                    console.log(key, value);
-                });
+                    currencies.forEach(function (value, key, wholeCollection){
+                        console.log(key, value);
+                    });
 
                 // Set 
-                const currencies = new Set(['USD', 'EUR', 'GBP', 'USD', 'EUR']);
-                currencies.forEach(function (value, _, wholeCollection){
-                    console.log(value);
-                });
-                    // because Set does not have key or index
-                    // as per standard convention throwaway variables are declared with only single underscore, _
-                
+                    const currencies = new Set(['USD', 'EUR', 'GBP', 'USD', 'EUR']);
+                    currencies.forEach(function (value, _, wholeCollection){
+                        console.log(value);
+                    });
+                        // because Set does not have key or index
+                        // as per standard convention throwaway variables are declared with only single underscore, _
+                    
                 you can not 'break' out or 'continue' like 'for of' or other type of loops from forEach()
-]);
-            
 
+
+            * map()
+                const movementsUsd = account1.movements.map((movement, i, arr)=> Math.trunc(Math.abs(movement * 1.1)));
+                console.log(movementsUsd);
+
+                * One really important distinction between forEach() and map() is if you want to create and return a 
+                    new array then use map() or if you want to perform a certain action while looping through an array
+                    use forEach()
+
+            
+            * filter() 
+                return a new array based on boolean value returned by the callback function, 
+                1. if the returned boolean value is true then the current element stays in the new array 
+                2. if the returned boolean value is false then the current element is not included in the new array 
+
+                    const deposits = account1.movements.filter(
+                        (movement, index, arr) => movement > 0
+                    );
+                    console.log(deposits);
+
+                    
+            * reduce() 
+                reduces or boils down the whole array into a single value, 
+
+                    const min = arr.reduce(function (accumulator, currentItem, index, wholeCollection){
+                        return accumulator <= currentItem ? accumulator: currentItem; 
+                    }, arr[0]);
+
+                    const sum = arr.reduce(function (sum, item, i, arr){
+                        return sum += item;
+                    }, 0);
+            
+            * chaining methods 
+                const interest = movements
+                    .filter(mov => mov > 0)
+                    .map(mov => (mov * 1.2) / 100)
+                    .filter(intrst => intrst >= 1)
+                    .reduce((acc, intrst) => acc + intrst, 0);
+
+                1. Do not over use it 
+                2. Do not use any methods in the chain that mutates the original array such as reverse() and splice()
+                
         </p>
 
 

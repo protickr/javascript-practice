@@ -25,3 +25,42 @@ const dataJulia = [3, 5, 2, 12, 7];
 const dataKate = [4, 1, 15, 8, 3];
 checkDogs(dataJulia, dataKate);
 */
+
+/*Coding challenge 2 
+
+const calcAverageHumanAge = function (ages) {
+  const humanAge = ages
+    .map(function (dogAge) {
+      return dogAge <= 2 ? 2 * dogAge : 16 + dogAge * 4;
+    })
+    .filter(function (hAge) {
+      return hAge >= 18;
+    }).reduce(function(acc, age){
+      return acc + age;
+    }, 0);
+};
+*/
+
+/*
+const calcAverageHumanAge = function (ages) {
+  const humanAge = ages
+    .map(dogAge => (dogAge <= 2 ? 2 * dogAge : 16 + dogAge * 4))
+    .filter(hAge => hAge >= 18);
+  console.log(humanAge.reduce((acc, age) => acc + age, 0) / humanAge.length);
+};
+*/
+
+/*Coding challenge 3
+const calcAverageHumanAge = function (ages) {
+  const humanAgeAvg = ages
+    .map(dogAge => (dogAge <= 2 ? 2 * dogAge : 16 + dogAge * 4))
+    .filter(hAge => hAge >= 18)
+    .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+    console.log(humanAgeAvg);
+    // (2 + 3) / 2 => 2.5 === 2/2 + 3/2 => 2.5
+};
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+*/
+
