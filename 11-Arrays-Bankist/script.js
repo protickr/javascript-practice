@@ -70,7 +70,7 @@ const displayMovements = function (movements) {
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${i + 1} ${type} </div>
-        <div class="movements__value">${mov} €</div>
+        <div class="movements__value">${mov}€</div>
       </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -88,33 +88,53 @@ const createUsernames = function (accs) {
 };
 
 const calcDisplayBalance = function (movements){
-  const balance = movements.reduce((acc, item)=> acc += item);
-  labelBalance.textContent = `${balance} €`;
+  const balance = movements.reduce((acc, item)=> acc += item, 0);
+  labelBalance.textContent = `${balance}€`;
 };
 
-const calcDisplaySummary = function (movements) {
+const calcDisplaySummary = function (currAcc) {
   // IN
-  const income = movements
+  const income = currAcc.movements
     .filter(mov => mov > 0)
-    .reduce((acc, mov) => acc + mov);
+    .reduce((acc, mov) => acc + mov, 0);
 
   // OUT
-  const out = movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov);
+  const out = currAcc.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
 
   // INTEREST
-  const interest = movements
+  const interest = currAcc.movements
     .filter(mov => mov > 0)
-    .map(mov => (mov * 1.2) / 100)
+    .map(mov => (mov * currAcc.interestRate) / 100)
     .filter(intrst => intrst >= 1)
     .reduce((acc, intrst) => acc + intrst, 0);
 
-  labelSumIn.textContent = `${income} €`;
-  labelSumOut.textContent = `${Math.abs(out)} €`;
-  labelSumInterest.textContent = `${interest} €`;
+  labelSumIn.textContent = `${income}€`;
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+  labelSumInterest.textContent = `${interest}€`;
 };
 
-displayMovements(account1.movements);
+//LOGIN
 createUsernames(accounts);
-calcDisplayBalance(account1.movements);
-calcDisplaySummary(account1.movements);
+let currentAccount;
+
+//login btn event listener
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+    containerApp.style.opacity = 1;
+    labelWelcome.textContent = `Welcome Back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+
+    displayMovements(currentAccount.movements);
+    calcDisplayBalance(currentAccount.movements);
+    calcDisplaySummary(currentAccount);
+  }
+});
 
