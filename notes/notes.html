@@ -773,7 +773,7 @@
 
                     const sum = arr.reduce(function (sum, item, i, arr){
                         return sum += item;
-                    }, 0);
+                    }, arr[0]);
             
             * chaining methods 
                 const interest = movements
@@ -785,7 +785,7 @@
                 1. Do not over use it 
                 2. Do not use any methods in the chain that mutates the original array such as reverse() and splice()
 
-                
+
             * find() 
                 const account = accounts.find(ac => ac.owner === 'Jessica Davis');
                 console.log(account);
