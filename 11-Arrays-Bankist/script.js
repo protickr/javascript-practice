@@ -61,11 +61,11 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-
-const displayMovements = function (movements) {
+// DISPLAY MOVEMENTS
+const displayMovements = function (currAcc) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
+  currAcc.movements.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
       <div class="movements__row">
@@ -77,21 +77,7 @@ const displayMovements = function (movements) {
   });
 };
 
-const createUsernames = function (accs) {
-  accs.forEach(function (acc) {
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(' ')
-      .map(word => word[0])
-      .join('');
-  });
-};
-
-const calcDisplayBalance = function (movements){
-  const balance = movements.reduce((acc, item)=> acc += item, 0);
-  labelBalance.textContent = `${balance}€`;
-};
-
+// CALC and DISPLAY SUMMARY
 const calcDisplaySummary = function (currAcc) {
   // IN
   const income = currAcc.movements
@@ -113,6 +99,30 @@ const calcDisplaySummary = function (currAcc) {
   labelSumInterest.textContent = `${interest}€`;
 };
 
+// DISPLAY BALANCE
+const calcDisplayBalance = function (currAcc){
+  const balance = currAcc.movements.reduce((acc, item)=> acc += item, 0);
+  labelBalance.textContent = `${balance}€`;
+};
+
+// CREATE USERNAMES from full name
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
+  });
+};
+
+// UPDATE UI
+const updateUI = function(acc){
+  displayMovements(acc);
+  calcDisplayBalance(acc);
+  calcDisplaySummary(acc);
+};
+
 //LOGIN
 createUsernames(accounts);
 let currentAccount;
@@ -131,10 +141,7 @@ btnLogin.addEventListener('click', function (e) {
     labelWelcome.textContent = `Welcome Back, ${
       currentAccount.owner.split(' ')[0]
     }`;
-
-    displayMovements(currentAccount.movements);
-    calcDisplayBalance(currentAccount.movements);
-    calcDisplaySummary(currentAccount);
+    updateUI(currentAccount);
   }
 });
 
