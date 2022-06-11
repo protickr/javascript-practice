@@ -62,10 +62,11 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 // DISPLAY MOVEMENTS
-const displayMovements = function (currAcc) {
+const displayMovements = function (currAcc, sort=false) {
   containerMovements.innerHTML = '';
+  let movs = sort ? currAcc.movements.slice().sort( (a, b) => a - b) : currAcc.movements;
 
-  currAcc.movements.forEach(function (mov, i) {
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
       <div class="movements__row">
@@ -138,8 +139,6 @@ const updateUI = function(acc){
 
 //LOGIN
 let currentAccount;
-
-//LOGIN BUTTON
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -155,7 +154,7 @@ btnLogin.addEventListener('click', function (e) {
   }
 });
 
-// TRANSFER BUTTON
+// TRANSFER AMOUNT
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -179,6 +178,7 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+// DELETE ACCOUNT
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
   let userName = inputCloseUsername.value;
@@ -196,6 +196,7 @@ btnClose.addEventListener('click', function (e) {
   inputClosePin.value = '';
 });
 
+// LOAN
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Number(inputLoanAmount.value);
@@ -206,3 +207,20 @@ btnLoan.addEventListener('click', function (e) {
   }
   inputLoanAmount.value = '';
 });
+
+// SORT MOVEMENTS
+let sorted = false;
+btnSort.addEventListener('click', function(e){
+  e.preventDefault();
+  displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
+});
+
+
+// 100 random dice rolls 
+let randomDiceRolls = Array.from(
+  { length: 100 },
+  (elem, i, arr) => Math.trunc(Math.random() * 6) + 1
+);
+
+console.log(...randomDiceRolls);

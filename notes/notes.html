@@ -834,7 +834,7 @@
                 flat() method anyway. 
 
             * Built in JavaScript sort methods 
-                * sor()
+                * sort()
                     let arr = ['Protick', 'Sajib', 'Apu', 'Mahbub', 'Ahnaf'];
                     arr.sort(); 
                     arr === ['Ahnaf', 'Apu', 'Mahbub', 'Protick', 'Sajib']
@@ -845,29 +845,63 @@
                     arr === [-1, -2, 0, 1, 2, 3, 4]
                         // sort() method works based on string so 
                         // numbers are converted to string then sorts 
-                        // that is why first element is -1 not -1 
+                        // that is why first element is -1 not -2 
                         // we can fix this by passing a callback function
 
-                    arr.sort(function (next, curr){
-                        // return >= 0 does not swap 
-                        // return < 0 swaps , next curr => curr next 
+                    arr.sort(function (curr, next){ 
+                        // parameter order does not matters curr and next parameters can hold either first or second element 
+                        // interchangably based on array data 
+
+                        // return == 0 does not swap //tested in V8 
+                        // return < 0 swaps , curr next => next curr
                         return next < curr ? -1 : 1;
                     });
 
                     lets optimize, 
-
-                    arr.sort((next, curr) =>  next - curr); // if next > curr then next - curr = -n => swap => curr next
+                    arr.sort((curr, next) =>  curr - next); // if next > curr then next - curr = -n => swap => curr next
                                                             // array sorted in ascending order
-                    
+                    arr.sort((curr, next) => next - curr); // array sorted in descending order 
+
+                    thats all for now, sort() is messed up if you think about how it works
                     Explain me this example, 
-                        let arr = [-4, -1, -2, -3].sort((next, curr) => curr - next);
+                        let arr = [-4, -1, -2, -3].sort((curr, next) => next - curr); // descending order -1 -(-4) => 3
                             // arr === [-1, -2, -3, -4]
-                            
-                    arr.sort((next, curr) => curr - next); // array sorted in descending order 
 
-                    thats all for now, sort() is messed up if you think about how it works 
+                    let arr = [-4, -1, -2, -3];
+                    arr.sort((curr, next) => { 
+                            console.log(`Current: ${curr}, Next: ${next} `); 
+                            console.log(`res: ${next - curr}`); 
+                            return next-curr 
+                        });
+
+                    console.log(arr);
+                    
+                    [Confusion 4]
                 
+                * Generate Arrays programmatically 
+                    * Array of empty elements 
+                        let x = new Array(7);  ==== [ empty x 7 ] // array of 7 empty elements 
+                        * no methods can be called on array of empty elements other than the 'fill()' method.
+                        
+                        * x.fill(value, startIndex, endIndex);                 
+                            // mutates the original array 
 
+                    * from()
+                        Array.from({length: 7}, callbackThatActsLikeMap(item, i, arr){ return i + 1; });
+                        // returns a new array === [ 1, 2, 3, 4, 5, 6, 7 ]; 
+
+                        * was intially introduced to create array from array like structures, such as, strings, 
+                            maps, sets and iterables
+
+                        * use case 
+                            let valuesFromDom = Array.from( document.querySelectorAll('.movements__value'), 
+                                                            (elem) => elem.textContent.replace('€', '') );
+
+                            1. gather data from dom and put in an array 
+                            2. covert node list to an array of values 
+
+                            you can also covert DOM node list to an array by, 
+                                [ ...document.querySelector('.query') ];
         </p>        
 
 
