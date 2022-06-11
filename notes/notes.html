@@ -786,14 +786,89 @@
                 2. Do not use any methods in the chain that mutates the original array such as reverse() and splice()
 
 
+            const arr = [1,2,3,4,-1,-2,-3];
             * find() 
-                const account = accounts.find(ac => ac.owner === 'Jessica Davis');
+                const account = accounts.find((ac, i, wholeCollection) => ac.owner === 'Jessica Davis');
                 console.log(account);
                     // returns the 'first matched' 'element' from an array
+                    // often returns object from an array of objects based on condition
                     // unlike filter it does not return an array of elements 
 
+                    let res = arr.find((item, index, arr) => item >=3 );            
+                    console.log(res) === 3               
+
+            * findIndex( (item, i , wholeCollection) => return item > 100);
+                // return index of an item from an array based ono codition in the callBack function
+                res = arr.findIndex((item, i, arr) => item >= 3);
+                console.log(res) === 2
+    
+            * some() 
+                    similer to arr.include(1); // but check is based on equality if any array elements === 1
+
+                    // returns true or false based on codition in callback function
+                    // based on any type condition
+                    let res = arr.some((item, i, arr) => item < 0);
+                    console.log(res) === true
             
-        </p>
+            * every() 
+                // check if all elements satisfies condition and returns true or false
+                    let res = arr.every((item, i, arr) => typeof item === 'number');
+                    console.log(res) === true
+
+            * you can write the callback function seperately and pass the function as callback to any methods that 
+                expects a callback
+
+            * flat() 
+                flattens a nested array to array of single elements 
+                    let arr = [ [1, 2], 3, 4, 5, [6, 7, 8] ];
+                    arr = arr.flat(); // default depth level is 1 
+
+                you can flatten arrays nested more than 1 level by
+                    arr.flat(2);
+
+            * flatMap(mapping condition)
+                map() and then flat() the resultant array is fairly common acction you can simpley this process of 
+                calling map and then flat() by flatMap() method 
+                
+                NOTE: flatMap() can go only 1 level deep so if you need to go more than 1 level deep you need to use 
+                flat() method anyway. 
+
+            * Built in JavaScript sort methods 
+                * sor()
+                    let arr = ['Protick', 'Sajib', 'Apu', 'Mahbub', 'Ahnaf'];
+                    arr.sort(); 
+                    arr === ['Ahnaf', 'Apu', 'Mahbub', 'Protick', 'Sajib']
+                        // mutates the original array   
+
+                    let arr = [1,2,3,4,-1,0,-2];
+                    arr.sor();
+                    arr === [-1, -2, 0, 1, 2, 3, 4]
+                        // sort() method works based on string so 
+                        // numbers are converted to string then sorts 
+                        // that is why first element is -1 not -1 
+                        // we can fix this by passing a callback function
+
+                    arr.sort(function (next, curr){
+                        // return >= 0 does not swap 
+                        // return < 0 swaps , next curr => curr next 
+                        return next < curr ? -1 : 1;
+                    });
+
+                    lets optimize, 
+
+                    arr.sort((next, curr) =>  next - curr); // if next > curr then next - curr = -n => swap => curr next
+                                                            // array sorted in ascending order
+                    
+                    Explain me this example, 
+                        let arr = [-4, -1, -2, -3].sort((next, curr) => curr - next);
+                            // arr === [-1, -2, -3, -4]
+                            
+                    arr.sort((next, curr) => curr - next); // array sorted in descending order 
+
+                    thats all for now, sort() is messed up if you think about how it works 
+                
+
+        </p>        
 
 
         <h2>Object</h2>
