@@ -216,11 +216,3 @@ btnSort.addEventListener('click', function(e){
   sorted = !sorted;
 });
 
-
-// 100 random dice rolls 
-let randomDiceRolls = Array.from(
-  { length: 100 },
-  (elem, i, arr) => Math.trunc(Math.random() * 6) + 1
-);
-
-console.log(...randomDiceRolls);
