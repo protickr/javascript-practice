@@ -1193,6 +1193,79 @@
                 
         </p>
 
+        <h2>Numbers Dates Timers and Internationalizations</h2>
+        <p>
+            * Number 
+                1. All numbers are represented as floating point numbers or decimals no matter 
+                    if we write them as integers
+                    console.log(10 === 10.0) // true
+
+                2. Numbers are 64 bit base 2
+                3. Certain numbers are very difficult to represent in binary such as 0.1
+                    console.log(0.1 + 0.2) // 0.30000000000000004 [Confusion 5]
+                    console.log( 0.1 + 0.2 ==== 0.3 ) // false [Confusion 6]
+
+                * JavaScript can not really do precise sceientific calculation even if it also tires to round off number
+                    behind the scene. 
+                
+                * String to Number conversion 
+                    1. Number('23') // 23
+                    2. +'23'        // 23 , by coercion 
+                
+                
+                * Parsing 
+                    works with string that starts with numeric characters
+                        Number.parseFunction('25String', radix or base); 
+                        radix 
+                            An integer between 2 and 36 that represents the radix (the base in mathematical 
+                            numeral systems) of the string. Be careful—this does not default to 10.
+
+                    Integer
+                        * Number.parseInt('30px', 10)       // 30
+                        * Number.parseInt('30.5rem', 10)    // 30
+                        * Number.parseInt('e23', 10)        // NaN 
+
+                    Float 
+                        * Number.parseFloat('250.50rem') // 250.50
+                        * parseFloat('250.50rem') // also works but Number.parseFloat() is encouraged. 
+
+                * Check if Not A Number (NaN)
+                    both NaN == NaN and NaN === NaN evaluate to false. [Confusion 7]
+                    The isNaN() function provides a convenient equality check against NaN.
+                    * Number.isNaN('2')             // false
+                    * Number.isNaN(Number('str'))   // true
+                    * Number.isNaN( 23 / 0 )        // true
+
+                Rather check for if the number is finite, that returns expected value if a value is a number or not
+                * Check if a value is a Number
+                    * Number.isFinite(10)       // true
+                    * Number.isFinite('10')     // false    it is a string 
+                    * Number.isFinite(+'20X')   // false    it is NaN 
+                    * Number.isFinite(10 / 0)   // false    it is Infinity
+                    
+                * Check if a value is an Integer 
+                    * Number.isInteger(10)      // true
+                    * Number.isInteger(10.0)    // true
+                    * Number.isInteger('20')    // false    it is string 
+                    * Number.isInteger(10.5)    // false    it is double and has decimal point values 
+                    * Number.isInteger(10 / 0)  // false    it is infinity
+
+                    *** Important 
+                        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
+                        [Confusion 8]
+
+
+                * JavaScript has singular concept of number values which is called 'number', 
+                    let x = Number.parseFloat(10.1);
+                    let y = Number.parseInt(10.1);
+                    typeof x === typeof y
+                    >> true [Confusion 9]
+
+                * Infinity value 
+                    there is a special mathematical value in JavaScript which is 'Infinity'
+                * Note: typeof NaN === 'number' // true
+        </p>
+
 
         <h2>Dom and events </h2>
         <p>
@@ -1266,15 +1339,38 @@
 
         <h2>Libraries and methods</h2>
         <p>
-            * Math 
-                Math.random() => 0.0000 to 0.9999
-            
-            * generate a random number between 1 to 6, 
-                Math.trunc(Math.random() * 6) + 1; // Math.trunc() truncates the decimal part 
-            
-            * Math.trunc(1.8) => 1 
+            Math
+                * Math.random() => 0.0000 to 0.9999
+                
+                * generate a random number between 1 to 6, 
+                    Math.trunc(Math.random() * 6) + 1; // Math.trunc() truncates the decimal part 
+                
+                * Math.trunc(1.8) => 1 
 
-            * Math.abs( -100 ) => 100
+                * Math.abs( -100 ) => 100
+
+                * square root 
+                    Math.sqrt(25)   // 5
+
+                    the same can also be done by, 
+                    25 ** (1/2)     // 5
+
+                * Cubic root 
+                    8 ** (1/3)      // 2
+
+                * Maximum value 
+                    Math.max(5, 8, 23, 11, 2)   // 23
+                    * also type coerce the values from strings to numbers
+                    * does not do parsing such as, from string to numbers 
+                
+                * Minimum value 
+                    Math.min(5, 8, 23, 11, 2)   // 2
+
+                * Math library also has some constants such as, 
+                    Math.PI === 3.141592653589793
+                    
+                
+                
 
         </p>
 
