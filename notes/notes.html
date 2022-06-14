@@ -1344,8 +1344,6 @@
                 
                 * generate a random number between 1 to 6, 
                     Math.trunc(Math.random() * 6) + 1; // Math.trunc() truncates the decimal part 
-                
-                * Math.trunc(1.8) => 1 
 
                 * Math.abs( -100 ) => 100
 
@@ -1368,9 +1366,36 @@
 
                 * Math library also has some constants such as, 
                     Math.PI === 3.141592653589793
-                    
+
+                * Generalized random integer generator function
+                    const randomInt = (min, max) => Math.floor( Math.random() * (max - min) + min);            
                 
-                
+                * Rounding Integers
+                    * All of these methods do type coercion such as string to number
+
+                    Round to nearest integer
+                        Math.round(23.3)    // 23
+                        Math.round(23.9)    // 24
+
+                    Ceilling to Integer 
+                        Math.ceil(23.3)     // 24
+                        Math.ceil(23.9)     // 24
+
+                    Flooring to Integer 
+                        Math.floor(23.3)    // 23
+                        Math.floor(23.9)    // 23
+                        Math.floor(-23.3)   // -24  for negative values floor rounds down 
+
+                    Truncate the decimal part 
+                        Math.trunc(23.3)    // 23
+                        Math.trunc(23.9)    // 23
+                        Math.trunc(-23.3)   // -23
+
+                * Rounding decimals 
+                    (2.7).toFixed(0)    // '3'      always returns a string not a number 
+                    (2.7).toFixed(3)    // '2.700'  pads remaining decimal points with '0'
+                    (2.345).toFixed(2)  // '2.35'   same as flooring and ceilling in mathematics
+                    +(2.345).toFixed(2) // 2.35     convert the result to a number 
 
         </p>
 
