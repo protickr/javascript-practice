@@ -99,6 +99,11 @@
             * Math Operators 
                 ** , * , / , %  => right to left 
                 + , -           => left to right
+
+                NOTE: 
+                    1. / (division) operator performs a floating point division and return decimals i.e., 5/2 === 2.5
+                    2. % (remainder) operator performs an division like other programming languages, 
+                        and returns the remainder i.e., 5 % 2 === 1 
             
             * comparison operators
                 > , < ,  == , >= , <= 
@@ -115,8 +120,8 @@
             
             * assingment and compound assignment operator, 
                 =               (assignment operator, right to left)
-                *= , /=, +=, -= (compound assignment)     
-                       
+                *= , /=, +=, -= (compound assignment)
+
         </p>
 
 
@@ -1264,6 +1269,53 @@
                 * Infinity value 
                     there is a special mathematical value in JavaScript which is 'Infinity'
                 * Note: typeof NaN === 'number' // true
+
+                * Numeric Seperator (ES 2021)
+                    _ (underscore) to seperate numeric characters in a number to enhance readablity 
+                    
+                    conditions: 
+                        1. always between two digits 
+                        2. not start or not at the end and not before or after the decimal point 
+                        3. not two or more consecutive underscores
+                    
+                    * Number('230_000')     // NaN  only works with numbers not strings 
+                    * parseInt('230_000')   // 230  ignores the rest after the numeric seperator after 
+                                            // the underscore as it is a string
+
+                * BigInt (ES 2020) (primitive)
+                    Numbers are 64 bits of which 53 bits are used to store the number and the rest are used to 
+                    store the position of the decimal point.
+
+                    * Biggest Number JavaScript can represent, (safely)
+                        console.log( 2 ** 53 - 1) // -1 because 0 is also a number // 9007199254740991
+                        the max number is also stored in Number.MAX_SAFE_INTEGER in Number namespace 
+
+                    * To represent and work with big numbers which are more than 53 bits long we can use 'n' with it
+                        let bigIntNumber = 90071992547409919007199254740991n;
+
+                        we can also create a bigInt by, 
+                        let bigIntNumber = BigInt(90071992547409919007199254740991n)
+
+                    * Operations
+                        we can perform all the operations same as regular numbers but we can not mix them 
+                            1. console.log(90071992547409919007199254740991n * 2n); // okay
+                            
+                            2. console.log(90071992547409919007199254740991n * 2); // Exception
+                                solution 
+                                console.log(90071992547409919007199254740991n * BigInt(2));
+
+                        Exceptions: 
+                            1. console.log(20n > 15);       // true     because it type coerce the 20n to 20
+                            2. console.log(20n === 20);     // false    because strict equality does not type coerce 
+                               console.log(20n == 20);      // true     because it type coerce 
+                               
+                            3. console.log( 20n + 'is really huge') // 20 is really huge 
+                            
+                            4. Math library functions do not work with bigint 
+
+                            5. console.log( 10n / 3n )      // 3n               cuts the decimal part off 
+                               console.log( 10 / 3 )        // 3.3333333333333
+
         </p>
 
 

@@ -251,3 +251,11 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+const changeRowColor = () =>
+document
+  .querySelectorAll('.movements__row')
+  .forEach(
+    (item, i, arr) => (item.style.backgroundColor = (i % 2 === 0) ? 'orangered': null)
+  );
+
+  labelBalance.addEventListener('click', changeRowColor);
