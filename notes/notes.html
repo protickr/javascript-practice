@@ -1315,8 +1315,46 @@
 
                             5. console.log( 10n / 3n )      // 3n               cuts the decimal part off 
                                console.log( 10 / 3 )        // 3.3333333333333
+            
+            * Dates
+                * Creating dates - 4 Ways 
+                    1. Current date and time 
+                        new Date();                         // current date time timezone 
 
-        </p>
+                    2. parse date from a date string 
+                        new Date('June 10, 2021');          // not so reliable 
+
+                    3. new Date by providing - year, month, date, hour, minute, seconds 
+                        new Date(2021, 5, 10, 16, 45, 30);  // Month is 0 based, 0 - 11 
+
+                    4. timestamp 
+                        Milliseconds passed after initial UNIX time - 1st January 1970
+                        new Date(0);                        // Thu Jan 01 1970 06:00:00 GMT+0600 
+                                                            // (Bangladesh Standard Time)
+
+                    * Date auto corrects itself meaning, if you provide 31 days for the month of November to 
+                        the Date() constructor it will automatically corrects itself by adjusting the month and day
+                        to December 1.
+
+                * Date is also an object so we get methods 
+                    let today = new Date();
+                    let now = Date.now();
+
+                    1. today.getFullYear();     // .getYear() is also available but not recommended to use. 
+                    2. today.getMonth();        // 0 - 11, because Month is 0 based in JavaScript [Confusion 9]
+                    3. today.getDate();         // day of the month [Confusion 10]
+                    4. today.getDay();          // day of the week  [Confusion 11]
+                    5. today.getHours();
+                    6. today.getMinutes();
+                    7. today.getSeconds();
+                    8. today.toISOString();     // 2022-06-14T11:59:00.389Z
+                    9. today.getTime();         // 1655207940389 // timestamp from a date
+                    10. Date.now();             // 1655208063477 // timestamp of the moment
+
+                    * Set methods are also available to set year month date hours minutes seconds 
+                    * Set methods also auto corrects 
+                    
+        </p>        
 
 
         <h2>Dom and events </h2>
