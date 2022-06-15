@@ -21,9 +21,9 @@ const account1 = {
     '2020-01-28T09:15:04.904Z',
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
-    '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2022-06-10T17:01:17.194Z',
+    '2022-06-11T23:36:17.929Z',
+    '2022-06-13T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -81,17 +81,42 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
+const calcDaysPassed = (date1, date2) => Math.floor(Math.abs(date1- date2) / (24 * 60 * 60 * 1000)); 
+
+const formatMovementDate = date => {
+  const daysPassed = calcDaysPassed(new Date(), date);
+  
+  switch(true){
+    case daysPassed === 0: 
+      return 'Today';
+      break;
+
+    case daysPassed === 1: 
+      return 'Yesterday';
+      break;
+
+    case daysPassed <= 7:
+      return `${daysPassed} days ago`;
+      break;
+      
+    default: 
+      const day = `${date.getDate()}`.padStart(2, '0');
+      const month = `${date.getMonth() + 1}`.padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+  }
+
+}
+
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
   const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
+
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, '0');
-    const month = `${date.getMonth()}`.padStart(2, '0');
-    const year = date.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatMovementDate(date);
 
     const html = `
       <div class="movements__row">
@@ -111,6 +136,8 @@ const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 };
+
+
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
@@ -172,7 +199,6 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
-  console.log(currentAccount);
 
   if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
@@ -184,7 +210,7 @@ btnLogin.addEventListener('click', function (e) {
     // CREATE CURRENT DATE AND TIME
     const now = new Date();
     const day = `${now.getDate()}`.padStart(2, '0');
-    const month = `${now.getMonth()}`.padStart(2, '0');
+    const month = `${now.getMonth() + 1}`.padStart(2, '0');
     const year = now.getFullYear();
     const hour = `${now.getHours()}`.padStart(2, '0');
     const min = `${now.getMinutes()}`.padStart(2, '0'); 

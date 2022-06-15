@@ -1353,7 +1353,28 @@
 
                     * Set methods are also available to set year month date hours minutes seconds 
                     * Set methods also auto corrects 
-                    
+
+                *** 'Month' to and 'Month' from 'Date()' constructor returns 0 - 11 
+                    On the other hand, ISOString from the date and ISOString to the Date() constructor is always 1 - 12 
+                    [CONFUSION 12] 
+                        let date1 = new Date('2020-07-26T12:01:20.894Z');
+                        let date2 = new Date(2020, 06, 26)
+                            // check for the month, it is the same in the output - July
+
+                *** Internationalizing dates using locale 
+                    let locale = navigator.language;
+                    let options = {
+                        hour: numeric, 
+                        minute: numeric, 
+                        day: 'numeric', 
+                        month: 'long', 
+                        year: 'numeric', 
+                        weekday: 'long'
+                    };
+
+                    let localDate = new Intl.DateTimeFormat(locale, options).format(date);
+
+
         </p>        
 
 
