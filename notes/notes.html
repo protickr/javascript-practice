@@ -1315,6 +1315,9 @@
 
                             5. console.log( 10n / 3n )      // 3n               cuts the decimal part off 
                                console.log( 10 / 3 )        // 3.3333333333333
+
+                *** Internationalization of Numbers 
+                    
             
             * Dates
                 * Creating dates - 4 Ways 
@@ -1362,7 +1365,8 @@
                             // check for the month, it is the same in the output - July
 
                 *** Internationalizing dates using locale 
-                    let locale = navigator.language;
+                    let locale = navigator.language;    //  to get locale from user's browser, 
+                                                        //  you can also specify it directly like 'bn_BD'
                     let options = {
                         hour: numeric, 
                         minute: numeric, 
@@ -1374,7 +1378,13 @@
 
                     let localDate = new Intl.DateTimeFormat(locale, options).format(date);
 
+                        1. new Intl.DateTimeFormat(locale, options) this part creates a formatter 
+                        2. on the formatter we call format() method with a date that needs to be formatted. 
 
+                    * You can omit 'options' argument if you do not want hour and minutes
+
+
+                
         </p>        
 
 

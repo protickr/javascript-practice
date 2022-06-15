@@ -83,7 +83,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 const calcDaysPassed = (date1, date2) => Math.floor(Math.abs(date1- date2) / (24 * 60 * 60 * 1000)); 
 
-const formatMovementDate = date => {
+const formatMovementDate = (date, locale) => {
   const daysPassed = calcDaysPassed(new Date(), date);
   
   switch(true){
@@ -100,10 +100,13 @@ const formatMovementDate = date => {
       break;
       
     default: 
+      return new Intl.DateTimeFormat(locale).format(date);
+    /*
       const day = `${date.getDate()}`.padStart(2, '0');
       const month = `${date.getMonth() + 1}`.padStart(2, '0');
       const year = date.getFullYear();
       return `${day}/${month}/${year}`;
+    */
   }
 
 }
@@ -116,7 +119,7 @@ const displayMovements = function (acc, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(acc.movementsDates[i]);
-    const displayDate = formatMovementDate(date);
+    const displayDate = formatMovementDate(date, acc.locale);
 
     const html = `
       <div class="movements__row">
@@ -192,6 +195,22 @@ currentAccount = accounts[0];
 updateUI(currentAccount);
 containerApp.style.opacity = 1; 
 
+// experimenting with internationalization api 
+/*
+const now = new Date();
+const locale = navigator.language;
+const options = {
+  minute: 'numeric', 
+  hour: 'numeric', 
+  day: 'numeric', 
+  month: 'long', 
+  year: 'numeric',
+  weekday: 'long' 
+};
+const locaLizedDate = new Intl.DateTimeFormat('bn-IN', options).format(now);
+labelDate.textContent = locaLizedDate;
+*/
+
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
   e.preventDefault();
@@ -209,12 +228,26 @@ btnLogin.addEventListener('click', function (e) {
 
     // CREATE CURRENT DATE AND TIME
     const now = new Date();
+
+    /*
     const day = `${now.getDate()}`.padStart(2, '0');
     const month = `${now.getMonth() + 1}`.padStart(2, '0');
     const year = now.getFullYear();
     const hour = `${now.getHours()}`.padStart(2, '0');
     const min = `${now.getMinutes()}`.padStart(2, '0'); 
     labelDate.textContent = `${day}/${month}/${year} ${hour}:${min}`;
+    */
+
+    // lets localize the date 
+    const options = {
+      minute: 'numeric',
+      hour: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    };
+    const locaLizedDate = new Intl.DateTimeFormat(currentAccount.locale, options).format(now);
+    labelDate.textContent = locaLizedDate;
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
