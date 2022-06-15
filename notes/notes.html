@@ -1317,8 +1317,21 @@
                                console.log( 10 / 3 )        // 3.3333333333333
 
                 *** Internationalization of Numbers 
-                    
-            
+                    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+
+                    let num = 123456.789;
+                    let options = {
+                        style: 'unit',      // 1. 'unit'    
+                                            // 2. 'currency',      
+                                            // 3. 'percent' (when used 'unit' is ignored)
+                        unit: 'celsius', 
+                        currency: 'BDT',    // when style: 'currency'
+                        useGrouping: false, // default is 'true'
+                        maximumSignificantDigits: 3 // for people who counts in lacs and crores not millions
+                    };
+                    let localizedNumber = new Intl.NumberFormat(locale, options).format(num);
+
+
             * Dates
                 * Creating dates - 4 Ways 
                     1. Current date and time 
