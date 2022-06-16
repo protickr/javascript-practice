@@ -186,14 +186,33 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const logOutTimer = function () {
+  // interval time
+  let time = 120;
+
+  const tick = function () {
+    let min = String(Math.trunc(time / 60)).padStart(2, 0);
+    let sec = String(time % 60).padStart(2, 0);
+    labelTimer.textContent = `${min}:${sec}`;
+
+    if(time === 0){
+      containerApp.style.opacity = 0; 
+      labelWelcome.textContent = 'Log in to get started';
+      clearInterval(timer);
+    }
+    time--;
+  };
+  
+  // call this function first time manually to eliminate 
+  //  the delay that occurs when being called by the callback
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
-
-// FAKE ALWAYS LOGGED IN 
-currentAccount = accounts[0];
-updateUI(currentAccount);
-containerApp.style.opacity = 1; 
+let currentAccount, timer;
 
 // experimenting with internationalization api 
 /*
@@ -212,7 +231,6 @@ labelDate.textContent = locaLizedDate;
 */
 
 btnLogin.addEventListener('click', function (e) {
-  // Prevent form from submitting
   e.preventDefault();
 
   currentAccount = accounts.find(
@@ -220,7 +238,6 @@ btnLogin.addEventListener('click', function (e) {
   );
 
   if (currentAccount?.pin === +inputLoginPin.value) {
-    // Display UI and message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
@@ -252,6 +269,12 @@ btnLogin.addEventListener('click', function (e) {
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+    
+    //  remove timer from previous login
+    if(timer) clearInterval(timer);
+
+    // store current login timer
+    timer = logOutTimer();
 
     // Update UI
     updateUI(currentAccount);
@@ -282,6 +305,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+
+    // reset timer 
+    clearInterval(timer);
+    timer = logOutTimer();
   }
 });
 
@@ -295,11 +322,15 @@ btnLoan.addEventListener('click', function (e) {
       // Add movement
       currentAccount.movements.push(amount);
       currentAccount.movementsDates.push(new Date().toISOString());
+
       // Update UI
       updateUI(currentAccount);
-      
     }, 2500);
   }
+
+  // reset timer 
+  clearInterval(timer);
+  timer = logOutTimer();
   inputLoanAmount.value = '';
 });
 
@@ -332,15 +363,3 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
-
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-const changeRowColor = () =>
-document
-  .querySelectorAll('.movements__row')
-  .forEach(
-    (item, i, arr) => (item.style.backgroundColor = (i % 2 === 0) ? 'orangered': null)
-  );
-
-  labelBalance.addEventListener('click', changeRowColor);
