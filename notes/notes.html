@@ -1427,7 +1427,9 @@
         <h2>Dom and events </h2>
         <p>
             * DOM - Document Object Model : Structured representation of HTML document. 
-                A tree structure that represents a family tree, where "document" is the 
+                    It is a very complex API with a lot of methods and properties to interact with the DOM Tree.
+
+            * DOM Tree - A tree structure that represents a family tree, where "document" is the 
                 first parent / root / entry point 
 
                     document --> html --> head --> title --> text
@@ -1440,6 +1442,17 @@
                                   
                 whatever is in the html also has to be in the DOM. 
                 DOM also includes CSS styles. 
+
+            * Every DOM elements or nodes are objects that has properties such as, innerHTML, textContent, style etc.
+            * Every single node of the DOM tree of type Node and each Node is represented by an Object. These Nodes 
+                get access to special Node methods and properties such as, .childNodes, .parentNode, .cloneNode(), 
+                .textContent
+            * Node also has types such as Element, Text, Comment, Document
+                                          <p></p>  text  <!---->  
+            * Each Element has a child type of HTMLElement which consists of HTMLButtonElement ... HTMLDivElement. 
+            * HTMLElement is a child of Element and also Node so it inherits all properties and methods from both 
+
+
 
             * Adding callback on events 
                 * document.querySelector('query').addEventListener('event', callbackFunction () {});
@@ -1490,7 +1503,157 @@
                     event as an argument to it. Inside the callback function the 'this' keyword always refers to 
                     the element itself by default but you can change that with 
                     callbackFunction.bind(obj);
-            
+
+
+            * In DOM 
+                1. 'document' is the supreme parent Node which is not of element type. 
+                2. we can select the whole document element (whole HTML) by 'document.documentElement' to 
+                    operate on the whole documentElement such as applying styles and such.
+
+                        * document                  === <!DOCTYPE html> <html> ... </html>
+                        * document.documentElement  === <html> ... </html>
+                        * document.head             === <head> ... </head>
+                        * document.body             === <body> ... </body>
+
+                        for these special elements we dont need to write any selectors. 
+
+                Selecting Element 
+
+                1. document.querySelector('.selector')      === single element
+                    document.querySelectorAll('.selector')  === Node list of elements 
+
+                2. document.getElementById('id-name')       === return single html element object that has id = 'id-name'
+                
+                3. document.getElementsByTagName('button') === returns a HTMLCollection of elements 
+                    HTMLCollection is different from Node List because HTMLCollection is also called Live Collection 
+                    meaning it changes when element in the DOM changes. The collection gets updated automatically 
+                    as DOM changes
+
+                4. document.getElementsByClassName('class-name') === returns HTMLCollection of elements
+
+                Creating Element 
+
+                1.  Creating and adding live element
+                    const message = document.createElement('div');
+                    message.classList.add('cookie-message');
+                    message.innerHTML = `we use cookies for improved functionality and analytics 
+                                        <button class="btn btn--close-cookie"> Accept all</button>`;
+
+                    i)  header.prepend(message);    // add element as first child of the parent element 
+                    ii) header.append(message);     // add element as last child of the parent element. 
+
+                    * we can not simultaniously add single live element multiple times.  
+                        in this case we are prepending it first and then appending it later which results in 
+                        removing first prepended element and then appending it later. Basically moves the live element
+                        from start to the end. 
+                    
+                        * Any single DOM element is unique 
+
+                    * we can however create a single element and add it multiple times by copying it 
+                        header.append(message.cloneNode(true)); 
+                        // argument 'true' denotes that also copy the child elements of the element that is being cloned 
+
+                    * we can also add sibling elements to selected element by 
+                        iii) header.before(message);
+                        iv) header.before(message);
+
+                2. create the markup and insert in the DOM by,
+                    v) parent.insertAdjacentHTML('element-markup');
+                
+
+                * Delete Elements 
+                    // recent feature
+                    1. selectedElement.remove();
+                    2. this.parentNode.remove();
+                    
+                    // old feature                     
+                    3. selectedElement.parentElement.removeChild(selectedElement);
+
+                * Style element 
+                    selectedElement.style.propertyInCamelCase = 'value-in-string';
+                    let msg = document.querySelector('.cookie-message');
+                    
+                    // set style
+                    msg.style.backgroundColor = '#37383d';
+                    msg.style.width = '120%';
+
+                    * these styles are added as inline styles 
+
+                    // get styles 
+                        1. inline styles 
+                            msg.style.backgroundColor 
+
+                        2. external stylesheet styles or internal styles 
+                            let obj = getComputedStyle(selectedElement); 
+                            // returns CSSStyleDeclaration (JavaScript) object
+
+                            then we can get style property and value by 
+                            obj['property']; 
+                            
+                            or,
+                            getComputedStyle(selectedElement).color
+
+                    // manipulate styles 
+                        let element = document.querySelector('.element-class');
+                        element.style.height = Number.parseFloat(getComputedStyle(element).height, 10) + 30 + 'px';
+                
+                        // why 10 is not type coerced to string as we are adding 'px' to it ?
+                        // because + operators associativity is from left-to-right. [check MDN]
+                        // so first 10 is added to the calculated height and then 'px' is added to that value 
+                        // and then finally set to the element's height property
+
+                * Changing CSS custom properties 
+                    document.documentElement.style.setProperty('--name-of-our-custom-property', 'desired-value');
+                    * setProperty() method can also be used to set/change any styles on the webpage 
+                
+                * Attributes 
+                    let logo = document.querySelector('.nav__logo');
+                    logo.attribute 
+                    // e.g.,                     
+                        logo.alt 
+                        logo.src
+                
+                    * element.className; // not element.class for historical reasons
+
+                    * standard attributes for an element will be automatically created based on Node type but 
+                        JavaScript will not create attributes that are not standard for the element type. 
+                        for example suppose we have an img element like this, 
+                            <img src="./image.png" alt="some alternate text" class="some-img" 
+                                data-version-number = '1.0.1' designer="Protick">
+
+                        // get attribute
+                        now if we try to access/get 'designer' attribute which is not standard for img element 
+                            let imgEl = document.querySelector('.some-img');
+                            imgEl.designer // returns undefined 
+
+                        however we can access a non-standard attribute by, 
+                            imgEl.getAttribute('designer'); // returns Protick
+                        
+                        * img.src                   // returns absolute URL 
+                        * img.getAttribute('src')   // returns relative URL
+                        * same is true for href attribute for anchor 'a' element
+
+                        // set attribute
+                        logo.alt = 'Beautiful Minimalist logo';
+                        logo.setAttribute('alt', 'Beautiful Minimalist logo');
+
+
+                * Data attributes 
+                    data attributes are special kind of attribute that starts with 'data' prefix such as, 
+                    data-version-number = '1.0.1'
+                    1. data attributes are stored in 'dataset' object 
+                    2. to access data attribute we need to convert following words to camelCase like, 
+                        console.log(img.dataset.versionNumber);
+                    
+                * Classes 
+                    selectedElement.classList.add('', '');
+                    selectedElement.classList.remove('');
+                    selectedElement.classList.toggle('');
+                    selectedElement.classList.contains('');
+
+                    *** Do not use this, because it overwrites all class name with provided one
+                        selectedElement.className = 'class-name';
+
         </p>
 
 
