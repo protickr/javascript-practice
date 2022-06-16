@@ -1396,8 +1396,31 @@
 
                     * You can omit 'options' argument if you do not want hour and minutes
 
+            * Timers 
+                Timeout 
+                * setTimeout(() => console.log('I am called later'), 1000);
+                    1. JavaScript will simply call setTimeout function as it is encountered in source code and the 
+                        setTimeout function will register the callBack to be executed after specified time.
+                    2. and the execution simply continues without waiting for the specified time and executes the 
+                        following statements. This mechanism is called Asynchronous JavaScript
 
-                
+                    * passing arguments to callback function 
+                        setTimeout(function(arg1, arg2), 4000, argToPass1, argToPass2);
+
+                    * Cancel the timer - before time has elapsed
+                        let someTimer = setTimeout((arg1, arg2) => console.log(arg1, arg2), 4000, ...[arg1, arg2]);
+                            clearTimeout(someTimer);
+
+                Interval
+                * let interval = setInterval(function(){
+                        let now = new Date();
+                        console.log(`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+                    }, 1000);
+
+                * clear interval timer
+                    clearInterval(interval);
+
+
         </p>        
 
 
