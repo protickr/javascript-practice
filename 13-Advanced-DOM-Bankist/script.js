@@ -79,7 +79,27 @@ btnScrollTo.addEventListener('click', function (e) {
     behavior: 'smooth',
   });
   */
- 
+
   // new way 
   section1.scrollIntoView({behavior: 'smooth'});
 });
+
+// adding event listener 
+
+// 1. 
+// more modern than 'on event property' 
+// also its advantages over to the prior is that we can add multiple 
+// event handler to same event for an element whereas 
+// if we try to do the same with the 'on event property' then the later event handler
+// overwrites the previous event handler function 
+// also we can remove event listener from an element by removeEventListener('event', functionReference);
+// to remove a event handler from an element we need to attach a named function first
+let h1 = document.querySelector('h1');
+h1.addEventListener('mouseenter', function(){
+  console.log('You are reading heading');
+});
+
+// 2.
+h1.onmouseenter = function () { console.log('added event listener via on event property, onmouseenter')};
+
+// 3. 
