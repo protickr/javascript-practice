@@ -51,9 +51,35 @@ document.querySelector('.btn--close-cookie').addEventListener('click', function(
 // style the cookie message 
 message.style.backgroundColor = '#37383d';
 message.style.width = '98.8vw';
-console.log(getComputedStyle(message).height);
 message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
-console.log(message.style.height);
 
 let logo = document.querySelector('.nav__logo');
 logo.alt = 'Beautiful Minimalist Logo';
+let btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+const section1Coords = section1.getBoundingClientRect();
+
+// 'learn more' button's click event handler function
+btnScrollTo.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  /*
+  window.scrollTo(
+    Number.parseFloat(section1Coords.left + window.pageXOffset),
+    Number.parseFloat(section1Coords.top + window.pageYOffset)
+  );
+  */
+
+  // smooth scrolling
+  // old way
+  /*
+  window.scrollTo({
+    left: section1Coords.left + window.scrollX,
+    top:  section1Coords.top + window.scrollY,
+    behavior: 'smooth',
+  });
+  */
+ 
+  // new way 
+  section1.scrollIntoView({behavior: 'smooth'});
+});
