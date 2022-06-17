@@ -1536,7 +1536,7 @@
 
                     * we can also add sibling elements to selected element by 
                         iii) header.before(message);
-                        iv) header.before(message);
+                        iv) header.after(message);
 
                 2. create the markup and insert in the DOM by,
                     v) parent.insertAdjacentHTML('element-markup');
@@ -1755,7 +1755,7 @@
                     handled right at the target.
 
                 3. After reaching the target the event travels all the way up through all the parents to the root 
-                    again in the so called 'bubbling phase'
+                    again in the so called 'bubbling phase'. Bubbling phase is important for event delegation
                 
                 *** this whole process of event travelling through parents and target is called event propagation.
                 
@@ -1769,6 +1769,38 @@
 
                 7. As if the event happened in all the parent elements as event bubbles up from target element 
                 
+                8. in an event handler 'this' always points to the element to which the event handler is attached              
+                
+                9. this === event.target === event.currentTarget 
+                    // only for the element which actually generates the event and 
+                    // also if the event handler attached to it is being called, in that function the 
+                    // above statement should return true
+                
+                10. this === event.currentTarget  // true for parent elements's event handler 
+                
+                11. event.stopPropagation();      // stops event from propagating to parent elements
+                    // in practice, stopPropagation() is not a good idea. 
+                
+                12. you can also capture an event in capturing phase when event is travelling down from root to target 
+                    element through all the parent elements by setting the third parameter to true in the 
+                    addEventListener method call. 
+                        h1.addEventListener('event', callback, true)
+                    
+                    we generally do not capture an event in capturing phase but it exists for historical reasons. 
+
+            * Event Delegation 
+                In case you are repeatating the same callback function for multiple elements 
+                attach a event handler to the common parent of all child elements and handle the event from there
+                this process is called event delegation. 
+
+                    document.querySelector('.nav').addEventListener('click', function(e){
+                        e.preventDefault();
+                        const id = e.target.getAttribute('href');
+                        document.querySelector(id).scrollIntoView({behavior: 'smooth'});
+                    });
+
+                *** hardest part of using this technique is to come up with a matching strategy in case we dont 
+                    want to perform operation on the generated event from an child element that we do not want. 
         </p>
 
 
