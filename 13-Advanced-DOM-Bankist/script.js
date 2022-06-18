@@ -265,3 +265,86 @@ const imgTargets = document.querySelectorAll('img[data-src]');
 imgTargets.forEach(function (img) {
   imgObserver.observe(img);
 });
+
+
+// Making a slider with transform: translate CSS property and JavaScript
+const slider = function () {
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  let maxSlide = slides.length;
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+  const dotContainer = document.querySelector('.dots');
+
+  const goToSlide = function (slideNumber) {
+    slides.forEach(function (item, index, wholeCollection) {
+      item.style.transform = `translateX(${(index - slideNumber) * 100}%)`;
+    });
+  };
+
+  const nextSlide = function () {
+    if (currentSlide === maxSlide - 1) {
+      currentSlide = 0;
+    } else {
+      currentSlide++;
+    }
+    goToSlide(currentSlide);
+    activateDot(currentSlide);
+  };
+
+  const prevSlide = function () {
+    if (!currentSlide) {
+      currentSlide = maxSlide - 1;
+    } else {
+      currentSlide--;
+    }
+    goToSlide(currentSlide);
+    activateDot(currentSlide);
+  };
+
+  const createDots = function () {
+    slides.forEach((_, index) => {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class='dots__dot' data-slide='${index}'> </button>`
+      );
+    });
+  };
+
+  const activateDot = function (slide) {
+    document.querySelectorAll('.dots__dot').forEach(function (item, i) {
+      item.classList.remove('dots__dot--active');
+    });
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"]`)
+      ?.classList.add('dots__dot--active');
+  };
+
+  const init = function () {
+    createDots();
+    goToSlide(0);
+    activateDot(0);
+  };
+
+  init();
+
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevSlide);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') prevSlide();
+    e.key === 'ArrowRight' && nextSlide();
+  });
+
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      const { slide } = e.target.dataset;
+      goToSlide(slide);
+      activateDot(slide);
+    }
+  });
+};
+
+// it is a common practice to put everything of a component in a function and then call it 
+// you can also pass an object to it as an argument list to initialize the component 
+slider();

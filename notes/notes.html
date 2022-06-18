@@ -469,6 +469,9 @@
 
                     * console.dir(function); // logs closures and scope chain
                         => [[internal property we can not access]]
+
+            * it is a common practice to put everything of a component in a function and then call it 
+                you can also pass an object to it as an argument list to initialize the component 
             
         </p>
 
@@ -1756,6 +1759,52 @@
                     
 
                 9. Revealing Elements on scroll using IntersectionObserver API. 
+                    const reavealOnScroll = function (entries, observer) {
+                        const [entry] = entries;
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.remove('section--hidden');
+                        observer.unobserve(entry.target);
+                    };
+                    
+                    const sectionObserver = new IntersectionObserver(reavealOnScroll, {
+                        root: null,
+                        threshold: 0.15,
+                    });
+                    
+                    const allSections = document.querySelectorAll('.section');
+                    allSections.forEach(function (sec, i) {
+                        sectionObserver.observe(sec);
+                        sec.classList.add('section--hidden');
+                    });
+                
+
+                10. Lazy load image when user near to an image
+                    const loadImg = function (entries, observer) {
+                        const [entry] = entries;
+                    
+                        if(!entry.isIntersecting) return;
+                    
+                        const src = entry.target.getAttribute('data-src');
+                        entry.target.setAttribute('src', src);
+                        entry.target.addEventListener('load',function (e){
+                        entry.target.classList.remove('lazy-img');
+                        });
+                        observer.unobserve(entry.target);
+                    };
+                    
+                    const imgObserver = new IntersectionObserver(loadImg, {
+                        root: null, 
+                        threshold: 0,
+                        rootMargin: '200px'
+                    });
+                    
+                    const imgTargets = document.querySelectorAll('img[data-src]');
+                    imgTargets.forEach(function (img) {
+                        imgObserver.observe(img);
+                    });
+
+
+                11. 
                     
                     
 
