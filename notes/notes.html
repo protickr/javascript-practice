@@ -1635,7 +1635,7 @@
                     *** Do not use this, because it overwrites all class name with provided one
                         selectedElement.className = 'class-name';
 
-            * Scroll - scroll position, smooth scrolling
+            * Scroll - scroll position, smooth scrolling, sticky navigation
                 1. Position of current scroll 
                     console.log('current scroll (x/y): ', window.pageXOffset, window.pageYOffset);
                     x in px from left to right of the viewport
@@ -1685,6 +1685,79 @@
                     html {
                         scroll-behavior: smooth;
                       }
+                    
+                7. Sticky navigation based on 'scroll' event 
+
+                    window.addEventListener('scroll', function(e){
+                        const initialCoord = section1.getBoundingClientRect().top;
+                        if(window.scrollY > initialCoord)
+                        nav.classList.add('sticky');
+                        else
+                        nav.classList.remove('sticky');
+                    });
+
+                8. Sticky navigation using Intersection Observer API
+                
+                    // first parameter is intersection entries, second is the IntersectionObserver Object itself
+                    const obsCallBack = function (entries, observer) {
+                        entries.forEach(function (entry){
+                        console.log(entry);
+                        });
+                    };
+                    
+                    const obsOptions = {
+                        root: null,     // 'null' denotes the viewport itself, 
+                        threshold: 0.1  // also accepts array [0, 0.1, 0.2] each entry denotes a ratio, 
+                                        // 0.1 menas 10% of the viewport in this case. 
+                      };                // Ratio increases from top to bottom. 
+                                        // intersection happens when our target 'section1' element in 
+                                        // this case enters within 10% of the viewport 
+                    
+                    const observer = new IntersectionObserver(obsCallBack, obsOptions);
+                    observer.observe(section1);
+                  
+                    * sample IntersectionObserver API's Object looks like this, 
+                        IntersectionObserverEntry {
+                            boundingClientRect: DOMRectReadOnly {x: 0, y: 145, width: 1349, height: 1517.25, top: 145, …}
+                            intersectionRatio: 0.10479485988616943
+                            intersectionRect: DOMRectReadOnly {x: 0, y: 145, width: 1349, height: 159, top: 145, …}
+                            isIntersecting: true
+                            isVisible: false
+                            rootBounds: DOMRectReadOnly {x: 0, y: 0, width: 1349, height: 304, top: 0, …}
+                            target: section#section--1.section
+                            time: 14878.5
+                            [[Prototype]]: IntersectionObserverEntry
+                        }
+                    
+                    * the callBack function is called twice when target enters or exits the threshold of the root element
+
+                    * Sticky Navigation 
+
+                        const stickyNav = function (entries, obsObj) {
+                            const [entry] = entries;
+                            if( ! entry.isIntersecting )
+                                nav.classList.add('sticky');
+                            else 
+                                nav.classList.remove('sticky');
+                        };
+                        
+                        // header is being observed
+                        const headerObserver = new IntersectionObserver(stickyNav, {
+                            root: null,
+                            threshold: 0,       // when 0 percent of the header is visible here, 
+                                                // then we want something to happen 
+                            rootMargin: '-90px' // root is shortened by 90px; from all the sides, 
+                                                // top, right, bottom, left. 
+                        });
+                        headerObserver.observe(header);
+
+                        * incase you want to get height of an element, 
+                            const navHeight = nav.getBoundingClientRect().height;
+                    
+
+                9. Revealing Elements on scroll using IntersectionObserver API. 
+                    
+                    
 
             * DOM traversing 
                 travelling through the DOM tree by selecting elements relative to other element. 

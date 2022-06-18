@@ -175,7 +175,47 @@ const handleHover = function (e) {
 nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
-// we can not really pass arguments to handler functions but we can use bind() method on it to 
-// set this keyword to desired argument value or we can also bind 'this' to an object. 
-// and the first parameter that a event handler gets is the event itself which is passed to it 
-// by JavaScript itself. 
+
+// sticky navigation
+/*
+window.addEventListener('scroll', function(e){
+  const initialCoord = section1.getBoundingClientRect().top;
+  if(window.scrollY > initialCoord)
+    nav.classList.add('sticky');
+  else
+    nav.classList.remove('sticky');
+});
+*/
+
+/* Better way */
+/*
+const obsCallBack = function (entries, observer) {
+  entries.forEach(function (entry){
+    console.log(entry);
+  });
+};
+
+const obsOptions = {
+  root: null,     
+  threshold: 0.1
+};                
+
+const observer = new IntersectionObserver(obsCallBack, obsOptions);
+observer.observe(section1);
+*/
+const navHeight = nav.getBoundingClientRect().height;
+const stickyNav = function (entries, obsObj) {
+  const [entry] = entries;
+  if( ! entry.isIntersecting )
+    nav.classList.add('sticky');
+  else 
+    nav.classList.remove('sticky');
+};
+
+// header is being observed
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,       // when 0 percent of the header is visible here, then we want something to happen 
+  rootMargin: `-${navHeight}px` // root is shortened by 90px; from all the sides 
+});
+headerObserver.observe(header);
