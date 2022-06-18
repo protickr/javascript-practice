@@ -1803,9 +1803,12 @@
                         imgObserver.observe(img);
                     });
 
-
-                11. 
-                    
+            * Events fired at page load 
+                1. 'DOMContentLoaded' event on the document fired when all HTML CSS and JS is loaded and DOM tree 
+                    is generated 
+                2. 'load' event on the 'window' after all the resources are loaded for the page. 
+                3. 'beforeunload' on the 'window' when the page is about to be exited and in the event handler for 
+                    this event must return event.returnValue = ''; for historical reasons  
                     
 
             * DOM traversing 
@@ -2218,6 +2221,18 @@
             * In EU , is used as decimal seperator. 
             * In US . is used as decimal seperator.
 
+            * Different ways to load script into a webpage 
+                1. 'async' attribute in script opeing tag 
+                    loads script asynchronously but does not gurantted to be executed in order 
+                    'DOMContentLoaded' event is fired irrespective of async script is finised loading 
+
+                2. 'defer' 
+                    gurantted execution of scripts in order and DOMContentLoaded fired after 'defer' 
+                    scripts are loaded
+
+            * Load libraries first then your own script 
+            * Load script in the head with defer attribute so it provides best load time and DOM generation 
+             
         </p>
 
 
