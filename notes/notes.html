@@ -924,6 +924,9 @@
 
         <h2>Object</h2>
         <p>
+            * Objects are self-contained pieces/blocks of code that are considered as building block of an application 
+                and objects interact with each other through public interfaces called API methods. 
+
             * object declaration
                 const obj = {
                     firstName: 'Protick', 
@@ -1099,6 +1102,146 @@
             
         </p>
 
+
+        <h2>Object Oriented Programming in JavaScript</h2>
+        <p>
+            * OOP principles
+                1. Abstraction 
+
+                    input ---------------> black box -------------> output.
+                                        (abstraction)             
+
+                    * hiding implementation details 
+                        e.g., we do not need to know about how engine works to ride a motorcycle.
+
+                2. Encapsulation 
+                    encapsulating properties and behaviors that are not needed to interact with the class and confine
+                    those private properties and behavior's access within the class itself.
+                        e.g., 
+                        we do not need to interact with the engine's piston and sylinder itself to ride a 
+                        motorcycle but we are given access to its intake (Public Interface API) capacity
+                        through the accelerator and we receive the resultant output as roation of wheels which 
+                        translates to movement of the vehicle
+                        On the other hand the crank shaft might interact with the piston itself via the connecting rod. 
+                        Consider the whole engine as a 'Class' and accelerator, clutch as 'Public Interface API' to 
+                        that 'Engine Class'
+                    
+                3. Inheritance 
+                    Children inherits their parent's properties and behaviors 
+                        e.g., 
+                        You inherited your parent's properties such as house, cattles, skin color, height 
+                        You inherited your parent's behaviors such as both your parent and you are lactose intolerant. 
+                        
+                4. Polymorphism 
+
+                    If you think about the Greek roots of the term, it should become obvious.
+                        Poly = many: polygon = many-sided, polystyrene = many styrenes (a), polyglot = many languages
+                        Morph = change or form: morphology = study of biological form, 
+                        Morpheus = the Greek god of dreams able to take any form.
+
+                    Polymorphism describes a pattern in object oriented programming in which classes have different
+                    functionality while sharing a common interface.
+                    
+                    Children overrides their parent's behaviors
+                        e.g., 
+                        Your parent's behavior such as your parents profession were 'farmers' and you inherited that 
+                        but overwrote it with 'programmer'
+
+                        Note: function overloading is also considered polymorphic behavior. 
+
+                    
+                    code example C#,                     
+                        public abstract class Vehicle{
+                            public abstract int Wheels;
+                        }
+
+                        public class Bicycle : Vehicle{
+                            public override int Wheels(){
+                                return 2;
+                            }
+                        }
+
+                        public class Car : Vehicle{
+                            public override int Wheels(){
+                                return 4;
+                            }
+                        }
+
+                        public class Truck : Vehicle{
+                            public override int Wheels(){
+                                return 18;
+                            }
+                        }
+
+                        public void Main(){
+                            List<Vehicle> vehicles = new List<Vehicle>();
+
+                            vehicles.Add(new Bicycle());
+                            vehicles.Add(new Car());
+                            vehicles.Add(new Truck());
+
+                            foreach (Vehicle v in vehicles)
+                            {
+                                Console.WriteLine(
+                                    string.Format("A {0} has {1} wheels.",
+                                        v.GetType().Name, v.Wheels));
+                            }
+                        }
+
+            * Purpose Of OOP 
+                OOP was developed to make application programming more flexible and easier to maintian
+            
+            * How JavaScript implements OOP ?
+                In OOP supported standard languages such as Java, C++ OOP is implemented as, 
+
+                    Class   ------------------------->  Instance
+                Blueprint   ----( Instantiation )---->  Object
+
+                In JavaScript, 
+                    Objects are linked to a prototype object or we say each object has a prototype. 
+                    Prototypes has methods and properties and all the object that are linked to a prototype 
+                    can access properties and methods of the prototype object. 
+
+                Prototypal Inheritance: 
+                    This model of inheriting methods from prototype is called prototypal inheritance.
+
+                    It is different than 'class inheritance' 
+                    As oppose to inheriting parent's methods/behaviors in the child class 
+                    In prototypal inheritance object just delegates behaviors to linked prototype object.
+                    This model of OOP implementation is also called 'delegation'
+                    
+                    Example, 
+                        Array.prototype.map() 
+                        when we create an array in JavaScript the array object has a prototype of type 
+                        'Array.prototype'. 
+                        In other words, the newly created array object is linked to prototype 
+                        object 'Array.prototype' which in practice allows the new array object to access its 
+                        prototype objects's methods which are defined in that "Array.prototype" object. 
+                        
+                        In practice that action/mechanism translates to, 
+                        1. Our array object inherits the map() method from 'Array.prototype'
+                        2. Our array object delegates the behavior of map() to its linked object 'Array.prototype'.
+
+
+                * 3 ways to implement Prototypal Inheritance, 
+                    1. Constructor function: 
+                        are way of creating objects programmatically using a function which will also set new object's 
+                        prototype. This is how built-in object like Array, Map, Set are implemented. Also this is how 
+                        OOP has been done in JavaScript since the beginning. 
+
+                    2. ES6 Class: 
+                        Modern way of doing OOP in JavaScript. These are not the kind of classes that are standard 
+                        or how we do Classes in other languages. Instead they are syntatic sugar over constructor 
+                        functions. Behind the scene ES6 classes are implemented with constructor function and so 
+                        they also use prototypal inheritance. 
+
+                    3. Object.create(): 
+                        The easiest and most straight forward way of linking an object to a prototype. It is not as 
+                        used as other two methods. 
+                    
+                    *** 4 Principles of OOP are still valid for 'Protypal Inheritance'
+
+        </p>
 
         <h2>String</h2>
         <p>
@@ -2232,7 +2375,7 @@
 
             * Load libraries first then your own script 
             * Load script in the head with defer attribute so it provides best load time and DOM generation 
-             
+
         </p>
 
 
