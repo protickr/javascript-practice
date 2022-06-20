@@ -17,6 +17,13 @@ Person.prototype.calcAge = function (currYear){
     return currYear - this.birthYear;
 };
 
+Person.hey = function () {
+    console.log(`Static method / helper function`);
+    // this === constructor function
+};
+
+Person.hey();
+
 // prototypes
 const protick = new Person('Protick', 1994);
 // console.log(Person.prototype);
@@ -52,6 +59,11 @@ class Person {
   get fullName() {
     return this._fullName;
   }
+
+  static hey(){
+    console.log(`Static method / helper function`);
+    // this === Class on which it is called
+  }
 }
 
 const protick = new Person('Protick Roy', 1994);
@@ -59,3 +71,4 @@ const protick = new Person('Protick Roy', 1994);
 console.log(protick.calcAge(2022));
 console.log(protick.age);
 console.log(protick.fullName);
+Person.hey();
