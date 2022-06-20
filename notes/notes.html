@@ -1331,6 +1331,125 @@
                     All object (and prototype) has a property called 'constructor' which point to the constructor 
                     of that object. 
 
+            * Implementing OOP with ES6 Class 
+                There are two types of syntax available for declaring a ES6 Class 
+
+                1. Declarative Syntax // preferred 
+
+                    class Person {
+                        constructor(firstName, birthYear) {
+                            this.firstName = firstName;
+                            this.birthYear = birthYear;
+                        }
+
+                        calcAge(currYear) {
+                            return currYear - this.birthYear;
+                        }
+
+                        // or this syntax is better to extend a prototype of an object 
+                        greet() {
+                            console.log(`Hello ${this.firstName}`);
+                        }
+                    }
+
+                    const protick = new Person('Protick', 1994); 
+                    protick.greet();
+                    console.log(protick.calcAge(2022)); 
+
+                    // you can also add methods and properties to a object's prototype
+                    /*
+                        Person.prototype.greet = function () {
+                            console.log(`Hello ${this.firstName}`); 
+                        };
+                    */
+                    
+
+                * anything outside the constructor function will be defined on the Class's prototype 
+                    property's referenced object, or in other words, on the prototype object which 
+                    newly created object's __proto__ property links to.
+
+                * inside a class body we do not need to use function keyword to declare a method because
+                    methods will be defined on the prototype of the object and not on the object itself
+                    so function's scope is not determined at class defintion. 
+                    
+
+                2. Class Expression
+                    const Person = class {
+                        
+                    };
+
+                Note
+                    1. Classes are special kind of functions.
+                    2. Constructor function of a class must have the name 'constructor'
+                    3. Classes are NOT Hoisted, even if they are class declaration. 
+                    4. Classes are also First Class Citizen
+                    5. Body of a class is always executed in strict mode. 
+
+                * Setters and Getters
+                    We call them 'Accessor properties' and all other normal properties are called data properties. 
+
+                    1. In Object Literals 
+
+                        const obj = {
+                            owner: 'Protick', 
+                            movements: [10, 15, 19, 300],
+
+                            // getter 
+                            get last(){
+                                return this.movements.slice(-1).pop();
+                            },
+
+                            // setter // needs to have exactly 1 parameter 
+                            set last(newMov){
+                                this.movements.push(newMov);
+                            }
+                        };
+                        
+                        console.log(obj.last);
+                        // though last() is a method we can access it as a property and the method returns the value
+
+                        obj.last = 400;
+                        console.log(obj.movements); 
+                    
+                    2. In ES6 Classes 
+
+                        class Person {
+                            constructor(fullName, birthYear) {
+                                this.fullName = fullName;
+                                this.birthYear = birthYear;
+                            }
+                        
+                            calcAge(currYear) {
+                                return currYear - this.birthYear;
+                            }
+                        
+                            get age() {
+                                return new Date().getFullYear() - this.birthYear;
+                            }
+                        
+                            // setters often used as data validator while creating an object
+                            set fullName(name) {
+
+                                // this is a standard practice to use _propertyName to set validated 
+                                // data to property when a
+                                // property with the same name 'propertyName' exists already
+
+                                if (name.includes(' ')) this._fullName = name;
+                                else console.log('Provide your Full name');
+                            }
+                            
+                            get fullName() {
+                                return this._fullName;
+                            }
+                        }
+                        
+                        const protick = new Person('Protick Roy', 1994); 
+                        
+                        console.log(protick.calcAge(2022)); 
+                        console.log(protick.age);
+                        console.log(protick.fullName);
+                    
+                
         </p>
 
         <h2>String</h2>

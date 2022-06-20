@@ -1,5 +1,5 @@
 'use strict';
-/* Coding challenge 1 */
+/* Coding challenge 1 
 
 const Car = function (make, speed) {
   this.make = make; 
@@ -27,3 +27,5 @@ car1.brake();
 car1.brake();
 car2.accelerate();
 car2.accelerate();
+*/
+
