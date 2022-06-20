@@ -37,7 +37,7 @@ function someFunction(){
 };
 */
 // console.dir(someFunction);
-
+/*
 class Person {
   constructor(fullName, birthYear) {
     this.fullName = fullName;
@@ -72,3 +72,27 @@ console.log(protick.calcAge(2022));
 console.log(protick.age);
 console.log(protick.fullName);
 Person.hey();
+*/
+
+// prototypal inheritance using Object.crete(); 
+// we can set the prototype manually for an object 
+
+// object literal that will be prototype for Person 
+const PersonProto = {
+  // calcAge: function () {}, is similar to, but more simpler like,
+  calcAge() {
+    return new Date().getFullYear() - this.birthYear;
+  },
+
+  init(firstName, birthYear){
+    this.firstName = firstName; 
+    this.birthYear = birthYear;
+  }
+};
+
+// creates a new object and sets it __proto__ property to specified prototype and returns that empty object
+const protick = Object.create(PersonProto);
+
+// initializing 
+protick.init('Protick', 1994);
+console.log(protick.calcAge());

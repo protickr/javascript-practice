@@ -1473,7 +1473,30 @@
                     Defined in a class's namespace or attached to a constructor function 
                     Related helper function to that class or constructor function which will not be inherited 
                     or accessible to child object via object reference as we access instance methods. 
+            
+            * Implementing Prototypal Inheritance using 'Object.create()'
+            
+                we can set the prototype manually of an object. 
+                Object.create() - creates a new object and sets it __proto__ property to specified prototype 
+                and returns that empty object
+                
+                // object literal that will be prototype for Person 
+                const PersonProto = {
+                    calcAge() {
+                        return new Date().getFullYear() - this.birthYear;
+                    },
+                    
+                    init(firstName, birthYear){
+                        this.firstName = firstName; 
+                        this.birthYear = birthYear;
+                    }
+                };
 
+                const protick = Object.create(PersonProto);
+                // initializing 
+                protick.init('Protick', 1994);
+                console.log(protick.calcAge()); 
+            
                 
         </p>
 
