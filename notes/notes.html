@@ -1109,19 +1109,21 @@
                 1. Abstraction 
 
                     input ---------------> black box -------------> output.
-                                        (abstraction)             
+                                         (abstraction)             
 
                     * hiding implementation details 
                         e.g., we do not need to know about how engine works to ride a motorcycle.
 
                 2. Encapsulation 
-                    encapsulating properties and behaviors that are not needed to interact with the class and confine
+                    encapsulating properties and behaviors that need not to be accessed to use the class and confine
                     those private properties and behavior's access within the class itself.
+
                         e.g., 
                         we do not need to interact with the engine's piston and sylinder itself to ride a 
                         motorcycle but we are given access to its intake (Public Interface API) capacity
                         through the accelerator and we receive the resultant output as roation of wheels which 
                         translates to movement of the vehicle
+
                         On the other hand the crank shaft might interact with the piston itself via the connecting rod. 
                         Consider the whole engine as a 'Class' and accelerator, clutch as 'Public Interface API' to 
                         that 'Engine Class'
@@ -1144,7 +1146,7 @@
                     
                     Children overrides their parent's behaviors
                         e.g., 
-                        Your parent's behavior such as your parents profession were 'farmers' and you inherited that 
+                        Your parent's behavior such as your parents were 'farmer' and you inherited that 
                         but overwrote it with 'programmer'
 
                         Note: function overloading is also considered polymorphic behavior. 
@@ -1200,10 +1202,10 @@
                 In JavaScript, 
                     Objects are linked to a prototype object or we say each object has a prototype. 
                     Prototypes has methods and properties and all the object that are linked to a prototype 
-                    can access properties and methods of the prototype object. 
+                    can access properties and methods of that prototype object. 
 
                 Prototypal Inheritance: 
-                    This model of inheriting methods from prototype is called prototypal inheritance.
+                    This model of inheriting property and methods from prototype is called prototypal inheritance.
 
                     It is different than 'class inheritance' 
                     As oppose to inheriting parent's methods/behaviors in the child class 
@@ -1211,12 +1213,13 @@
                     This model of OOP implementation is also called 'delegation'
                     
                     Example, 
+
                         Array.prototype.map() 
-                        when we create an array in JavaScript the array object has a prototype of type 
-                        'Array.prototype'. 
-                        In other words, the newly created array object is linked to prototype 
-                        object 'Array.prototype' which in practice allows the new array object to access its 
-                        prototype objects's methods which are defined in that "Array.prototype" object. 
+                        when we create an array in JavaScript the array object has a prototype called 'Array.prototype'. 
+                        In other words, the newly created array object is linked to a prototype object 'Array.prototype'
+                        
+                        which in practice allows the new array object to access its prototype objects's methods 
+                        which are defined in that prototype object - "Array.prototype" . 
                         
                         In practice that action/mechanism translates to, 
                         1. Our array object inherits the map() method from 'Array.prototype'
@@ -1230,8 +1233,8 @@
                         OOP has been done in JavaScript since the beginning. 
 
                     2. ES6 Class: 
-                        Modern way of doing OOP in JavaScript. These are not the kind of classes that are standard 
-                        or how we do Classes in other languages. Instead they are syntatic sugar over constructor 
+                        Modern way of doing OOP in JavaScript. These are not the kind of classes that are traditional 
+                        or how we use Classes in other languages. Instead they are syntatic sugar over constructor 
                         functions. Behind the scene ES6 classes are implemented with constructor function and so 
                         they also use prototypal inheritance. 
 
@@ -1240,6 +1243,93 @@
                         used as other two methods. 
                     
                     *** 4 Principles of OOP are still valid for 'Protypal Inheritance'
+
+            * Implementing OOP with Constructor Function 
+
+                * 'new'
+                    const Person = function (firstName, birthYear) {
+                        this.firstName = firstName; 
+                        this.birthYear = birthYear;
+                    };
+                    
+                    const protick = new Person('Protick', 1994);
+                    console.log(protick instanceOf Person); === true; 
+
+                    *  It is a convention that constructor function name should start with Capital letter 
+
+                    1. When a function is called with the 'new' keyword: 
+                        i)   New empty object '{}' is created 
+                        ii)  Then the function is called with its 'this' property set to newly created 'empty object {}'
+                        iii) The new 'empty object {}' linked to a prototype. Actually, to constructor function's 
+                            'prototype' property which references an empty object
+                        iv)  the constructor function automatically returns the newly created object
+
+                    2. function declration inside a constructor function is not a good practice as all objects that 
+                        are created using the constructor function will make a copy of that method for its own 
+                        instance which will lead to unnecessary duplication of the same code. Instead we should 
+                        use 'prototype' in this case.
+
+                * Prototype 
+                    1. Each and every function including constructor function in JavaScript has a property 
+                        called 'prototype' which generally references an empty object.  
+
+                    2. Object that is created using a constructor function will be linked to that constructor 
+                        function's prototype property.
+
+                    3. Linked object will get access to to all the methods and properties that are defined on that 
+                        object's prototype 
+
+                    4. Everything in JavaScript is an object and all object have a property called '__proto__' that 
+                        links that object to its prototype.
+
+                    So what is a prototype ? 
+                        it is a higher level object that gets linked to its child object by the child object's 
+                        constructor() function. 
+
+                        'prototype object' can have properties and methods defined on it which will be available to 
+                        its linked child object through the prototype chain
+
+                        Methods and properties that are defined on an object's prototype are not the object's own 
+                        property or methods, they are just accessible to the linked object. 
+                            obj.hasOwnProperty('propertyName') returns true or false. 
+
+                        'prototype' of an object is linked to that object via '__proto__' property
+
+                        for example for the source code above, the newly created 'protick' object's 
+                        prototype is 'Person.prototype'
+                            protick.__proto__ === 'Person.prototype'
+
+                        so prototype of an object is 'prototype property' of that object's constructor function.
+                            Person.prototype.isPrototypeOf(protick) === true
+
+
+                        * functions are also objects so they also have a prototype that they inherit / links to.
+                            prototype of a function is 'Function.prototype'
+                                Function.prototype === someFunction.__proto__   // true
+
+                        *   Buy 1       get         1 Extra                        
+                            (obj)                   (prototype) 
+
+                        * Extending a prototype of a built-in object with custom properties and 
+                            method is not a good idea.
+
+                * Prototype chain 
+                    same as scope chain but with prototypes. Prototype of an object is also an object itself so 
+                    prototype object also has its own prototype 
+
+                    At top of the prototype chain is always a prototype which is 'Object.prototype' that is 
+                    created by the 'Object()' constructor function. 
+
+                    Top prototype object's __proto__ property is set to null.
+
+                    The Object() constructor function is called when we create a new object by object literals, 
+                    constructor functions or by ES6 class.
+
+                    Whenever JavaScript can not find a property in certain object its gona lookup into the next 
+                    prototype in the prototype chain.
+
+                    All object (and prototype) has a property called 'constructor' which point to the constructor 
+                    of that object. 
 
         </p>
 
