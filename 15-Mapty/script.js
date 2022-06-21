@@ -24,10 +24,22 @@ if (navigator.geolocation) {
         attribution: '© OpenStreetMap',
       }).addTo(map);
 
-      var marker = L.marker(coords)
-        .addTo(map)
-        .bindPopup('CSS3 Popup <br> Easily Customizable')
-        .openPopup();
+      map.on('click', function (mapEvent) {
+        const { lat, lng } = mapEvent.latlng;
+        var marker = L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup(
+            L.popup({
+              maxWidth: 250,
+              minWidth: 100,
+              autoClose: false,
+              closeOnClick: false,
+              className: 'running-popup',
+            })
+          )
+          .setPopupContent('Workout')
+          .openPopup();
+      });
     },
 
     function () {
