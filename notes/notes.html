@@ -1474,8 +1474,10 @@
                     Related helper function to that class or constructor function which will not be inherited 
                     or accessible to child object via object reference as we access instance methods. 
             
+
+                    
             * Implementing Prototypal Inheritance using 'Object.create()'
-            
+
                 we can set the prototype manually of an object. 
                 Object.create() - creates a new object and sets it __proto__ property to specified prototype 
                 and returns that empty object
@@ -1497,7 +1499,229 @@
                 protick.init('Protick', 1994);
                 console.log(protick.calcAge()); 
             
+
+
+
+            * Inheritance between Classes: 
+                1. Using Constructor Function
+
+                const Person = function (firstName, birthYear) {
+                    this.firstName = firstName; 
+                    this.birthYear = birthYear;
+                };
                 
+                Person.prototype.calcAge = function (){
+                    return new Date().getFullYear() - this.birthYear;
+                };
+                
+                const Student = function (firstName, birthYear, course) {
+                    Person.call(this, firstName, birthYear);
+                    this.course = course;
+                };
+                
+                /* 
+                    to make student inherit person we need to manually setup the prototype chain using Object.create();
+                    1. basically replacing the empty prototype object of Student() constructor function 
+                        with a custom Object which __proto__ is set to Person.prototype
+
+                    2. Or in other words, setting the Student.prototype's prototype to ( Student.prototype.__proto__) 
+                        'Person.prototype'
+                */
+
+                /* First set prototype chain */
+                Student.prototype = Object.create(Person.prototype);
+                Student.prototype.constructor = Student; 
+
+                // or this ? instead of above two lines 
+                // Student.prototype.__proto__ = Person.prototype; 
+
+                
+                /* then add methods */
+                Student.prototype.introduce = function () {
+                  console.log(` I'm ${this.firstName}, studying ${this.course}`);
+                };
+                
+                const trevor = new Student('Trevor Noah', 1991, 'Computer Science'); 
+                console.log(trevor.calcAge());
+                trevor.introduce();
+                
+            *** JavaScript only supports single inheritance
+
+
+
+                2. Using ES6 Classes 
+                // ------------------ Person -------------------
+                class Person {
+                    constructor(fullName, birthYear) {
+                        this.fullName = fullName;
+                        this.birthYear = birthYear;
+                    }
+
+                    calcAge(currYear) {
+                        return currYear - this.birthYear;
+                    }
+
+                    get age() {
+                        return new Date().getFullYear() - this.birthYear;
+                    }
+
+                    set fullName(name) {
+                        if (name.includes(' ')) this._fullName = name;
+                        else console.log('Provide your Full name');
+                    }
+
+                    get fullName() {
+                        return this._fullName;
+                    }
+
+                    static hey() {
+                        console.log(`Static method / helper function`);
+                    }
+                }
+
+                // ------------------ Student -------------------
+                class Student extends Person {
+                    constructor(fullName, birthYear, course) {
+                        super(fullName, birthYear);
+                        this.course = course;
+                    }
+
+                    introduce() {
+                        console.log(` I'm ${this.fullName}, studying ${this.course}`);
+                    }
+                }
+
+                const protick = new Student('Protick Roy', 1994, 'Computer Science');
+                console.log(protick.calcAge(2022));
+                console.log(protick.age);
+                console.log(protick.fullName);
+                protick.introduce();
+                
+                Note: 
+                    1. super() - call in the child class's constructor function always needs to happen first because
+                        super() is responsible for creating 'this' keyword of the child class. 
+                    2. super() is called implicitly if we do not call it explicitely
+                    3. we can skip writing a new constructor function for the child class if we do not intend to use 
+                        any different initialization parameter other than those defined by the parent class. 
+                    4. Overriding/Shadowing parent methods 
+
+
+
+                3. Using Object.create()
+
+                const PersonProto = {
+                    calcAge() {
+                      return new Date().getFullYear() - this.birthYear;
+                    },
+                  
+                    init(firstName, birthYear) {
+                      this.firstName = firstName;
+                      this.birthYear = birthYear;
+                    },
+                  };
+                  
+                  // create a prototype of which prototype is set to PersonProto
+                  const StudentProto = Object.create(PersonProto);
+
+                  // now StudentProto prototype inherits PersonProto prototype
+                  
+                  StudentProto.init = function(firstName, birthYear, course){
+                      PersonProto.init.call(this, firstName, birthYear);
+                      this.course = course;
+                  };
+                  
+                  StudentProto.introduce = function () {
+                      console.log(` I'm ${this.firstName}, studying ${this.course}`);
+                  }; 
+                  
+                  // initializing
+                  // create an object which prototype is set to StudentProto
+                  const jay = Object.create(StudentProto); 
+                  
+                  jay.init('Jay Williams', 1994, 'Computer Science');
+                  jay.calcAge();
+                  jay.introduce();
+            
+            * another class example 
+                * 1. Public field
+                * 2. Private field
+                * 3. Public method
+                * 4. Private method 
+                * 5. - 8. (There are also 'static' version of this four types as well)
+
+
+            class Account {
+
+                // public fields (instance properties not prototype's)
+                // 1. Public fields
+                locale = navigator.language;
+
+                // private fields (instance properties not prototype's)
+                // 2. Private fields 
+                #pin;
+                #movements = [];
+
+                constructor(owner, currency, pin) {
+                    this.owner = owner;
+                    this.currency = currency;
+                    this.#pin = pin;
+                    this.#movements = [];   
+
+                    // Protected property
+                    // this._pin = pin;
+                    // this._movements = [];
+                    // this.locale = navigator.language;
+                    
+                    console.log(`Thanks for opening an account ${owner}`);
+                }
+
+                // APIs / accessor functions
+                // Public Interface of our objects
+                // 3. Public method
+                getMovements() {
+                    return this.#movements;
+                }
+
+                deposit(value) {
+                    this.#movements.push(value);
+                    return this;
+                }
+
+                // abstraction : that withdraw is a negative movement
+                withdraw(value) {
+                    this.deposit(value * -1);
+                    return this;
+                }
+
+                // encapsulatation of protected method: that should not be accessed from
+                // outside of the class as per convention
+                //
+                // _approveLoan(val) {
+                //   return true;
+                // }
+
+                // 4. Private method 
+                // private method defined on the object itself not on the object's prototype's
+                //
+                #approveLoan(val) {
+                    return true;
+                }
+
+                requestLoan(val) {
+                    if (this.#approveLoan(val)) {
+                        this.deposit(val);
+                    }
+                    return this;
+                }
+            }
+
+            const accProtick = new Account('Protick Roy', 'BDT', 1234);
+
+            * Method chaining: to be able to do this with our own object we just have to return the object 
+            * It make sense to return the current object from a method which sets/changes some 
+                property values of the object
+
+
         </p>
 
         <h2>String</h2>
