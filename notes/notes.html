@@ -90,6 +90,9 @@
                 use template literal `${ variable }` instead. 
             * template literals always expects value or expression that will generte value not statements.  
             * template literals also retains line breaks as formatted in source code.
+
+            * Global variables from other scripts are accessible in our script provided that other scripts are loaded 
+                in the browser prior to ours. 
         
         </p>
 
@@ -2666,7 +2669,30 @@
                     (2.7).toFixed(3)    // '2.700'  pads remaining decimal points with '0'
                     (2.345).toFixed(2)  // '2.35'   same as flooring and ceilling in mathematics
                     +(2.345).toFixed(2) // 2.35     convert the result to a number 
+            
+            Geolocation Browser API 
+                navigatior.geolocation.getCurrentPosition(successCallback, failureCallBack);
+                
+            Leaflet Libray for map and coorordinates 
 
+            Local Storage Browser API
+                to store data into browser
+                * localStorage.setItem('key', string value);
+                * localStorage.getItem('key');
+                * localStorage.removeItem('key');
+            
+            Location 
+                location.reload();
+
+            Navigator 
+                navigator.locale
+
+            JSON 
+                JSON.stringify(obj);                    // to JSON string 
+                    // does not reatains the prototype chain of the original object and only stringyfies properties. 
+
+                JSON.parse('JSON sting of an object')   // to generic JavaScript Object 
+            
         </p>
 
 
@@ -2856,6 +2882,9 @@
 
             * Load libraries first then your own script 
             * Load script in the head with defer attribute so it provides best load time and DOM generation 
+            
+            * // prettier-ignore 
+                ignores the following statement while formatting.
 
         </p>
 
@@ -2892,7 +2921,65 @@
                     2. Find bug -> finding the underlying reason => logical, structural etc
                     3. Fix bug 
                     4. Prevent bug
-        
+
+            * How to plan a web project ? 
+                1. User stories: 
+                    Description of the application's functionality from the user's perspective . All the user stories
+                    put together describes the entire application. 
+
+                    User story format: 
+                        * As a [type of user], I want [an action] so that [a benefit]. 
+                            who - what - why 
+
+                        example,
+                            1. As a 'user' I want 'to log my running workout with location, distance, time, pace and 
+                                steps/minute' So I 'can keep a log of all my running'
+                            2. As a 'user' I want to 'log my cycling workouts with location, distance, time, speed and 
+                                elevation gain' So I can 'keep a log of all my cycling'.
+
+                2. Features 
+                    Required fetures that user of an application need and also internal features that need to be 
+                        implemented to make the application work based on events / interaction with the application.
+                        example, 
+                            Map, Geolocation, Workout Form, store workout data in storage.  
+
+                3. Flowchart 
+                    What we will build 
+
+                    Draw a flowchart based on events and what operations each event meant to trigger and also the 
+                    expected results. 
+
+                4. Architecture
+                    How we will build it. 
+
+                    i) Structuring the Data 
+                        One of the most important aspect of an architecture is to decide where and how to store the data
+                        based on the decision how data will be stored we design the application architecture.
+                        if we want to implement the whole application architecture using OOP we can use 
+                        Class Architecture - Draw Class Diagram 
+
+                        
+                    ii) Structuring the Code 
+                        separate 'data class' and 'application class' and their inheritance chain 
+                        so that our concerns are seprated.
+
+                        Application Class should create and use Data Class object to operate but 
+                        their inheritance chain should be seperated. Also application class should handle 
+                        user interaction and respective UI rendering. 
+
+                        For simple to medium sized application this architecture should be enough.
+
+
+                    iii) For complex application, we can further divide the 'Application class' from presious step ii) 
+                        into two classes of which 1 will be responsible for holding application data and 
+                        related behaviors (Business Logic)
+                        and other 1 will be responsible for rendering the UI and related behaviors
+
+                5. Development 
+
+                *** Step 3 and 4 need not to be perfect at the first go before we start development. It can be perfected
+                    over time as we build the application.
+
         </p>
 
         </pre>
