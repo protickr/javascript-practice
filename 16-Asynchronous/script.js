@@ -70,8 +70,8 @@ const getCountryDetails = function (country){
 };
 */
 
-// simplified to arrow function 
-
+// simplified to arrow function  and Error Handling
+/*
 const getJSON = function (url, errorMsg = 'Something went wrong !!!') {
   return fetch(url).then(
     response => {
@@ -81,7 +81,7 @@ const getJSON = function (url, errorMsg = 'Something went wrong !!!') {
         );
 
       return response.json();
-    } /* , failCallback() */
+    } // , failCallback() 
   );
 };
 
@@ -118,5 +118,6 @@ const getCountryDetails = function (country) {
 };
 
 btn.addEventListener('click', function (e) {
-  getCountryDetails('australia');
+  getCountryDetails('bangladesh');
 });
+*/
