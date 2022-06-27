@@ -118,7 +118,7 @@ const whereAmI = function () {
 btn.addEventListener('click', whereAmI);
 */
 
-/* Coding challenge 1 */
+/* Coding challenge 2 
 btn.style.display = 'none';
 const imgContainer = document.querySelector('.images');
 let currentImg;
@@ -146,7 +146,7 @@ const createImage = function (imgPath) {
 
 // part 2
 // logical but do not work
-/*
+
 createImage('img-1.jpg')
   .then(imgEl => {
     wait(2).then(() => {
@@ -163,6 +163,7 @@ createImage('img-1.jpg')
 */
 
 // this works
+/*
 createImage('img-1.jpg')
   .then(imageEl => {
     currentImg = imageEl;
@@ -180,3 +181,5 @@ createImage('img-1.jpg')
     currentImg.style.display = 'none';
   })
   .catch(err => console.error(err));
+  */
+ 
