@@ -65,8 +65,55 @@ const whereAmI = function () {
 };
  */
 
+// const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+// exercise on complete promise chain for getting current country information of the user
+/*
+const renderError = function (err) {
+  console.log(err.message);
+  countriesContainer.insertAdjacentText('beforeend', `${err.message}`);
+};
+
+const getLocation = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = function () {
+  const auth = '374814015862821267415x118332';
+
+  getLocation()
+    .then(position => {
+      const { latitude: lat, longitude: lng } = position.coords;
+      const url = `https://geocode.xyz/${lat},${lng}?geoit=json&auth=${auth}`;
+      return fetch(url);
+    })
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`${response.status}: ${response.statusText}`);
+      return response.json();
+    })
+    .then(data => {
+      const country = data?.country;
+      const city = data?.city;
+      console.log(data);
+      console.log(`You are in ${city}, ${country}`);
+      return fetch(`https://restcountries.com/v2/name/${country}`);
+    })
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`${response.status}: ${response.statusText}`);
+      return response.json();
+    })
+    .then(countryData => renderCountry(countryData[0]))
+    .catch(err => {
+      renderError(err);
+    })
+    .finally(function () {
+      countriesContainer.style.opacity = 1;
+    });
+};
 
 
-btn.addEventListener('click', function(){
-  const data = whereAmI();
-});
+btn.addEventListener('click', whereAmI);
+*/
