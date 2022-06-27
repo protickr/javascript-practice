@@ -117,3 +117,66 @@ const whereAmI = function () {
 
 btn.addEventListener('click', whereAmI);
 */
+
+/* Coding challenge 1 */
+btn.style.display = 'none';
+const imgContainer = document.querySelector('.images');
+let currentImg;
+
+// wait promise 
+const wait = seconds =>
+  new Promise(resolve => setTimeout(resolve, seconds * 1000));
+
+// part 1
+const createImage = function (imgPath) {
+  const image = document.createElement('img');
+  return new Promise(function (resolve, reject) {
+    image.src = `img/${imgPath}`;
+    image.addEventListener('load', function (e) {
+      imgContainer.append(image);
+      image.classList.add('images');
+      resolve(image);
+    });
+
+    image.addEventListener('error', function (e) {
+      reject(new Error('Image could not be loaded !!!'));
+    });
+  });
+};
+
+// part 2
+// logical but do not work
+/*
+createImage('img-1.jpg')
+  .then(imgEl => {
+    wait(2).then(() => {
+      imgEl.style.display = 'none';
+    });
+    return createImage('img-2.jpg');
+  })
+  .then(imgEl => {
+    wait(2).then(() => {
+      imgEl.style.display = 'none';
+    });
+  })
+  .catch(err => console.log(err));
+*/
+
+// this works
+createImage('img-1.jpg')
+  .then(imageEl => {
+    currentImg = imageEl;
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+    return createImage('img-2.jpg');
+  })
+  .then(imageEl => {
+    currentImg = imageEl;
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+  })
+  .catch(err => console.error(err));
