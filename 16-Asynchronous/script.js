@@ -121,3 +121,106 @@ btn.addEventListener('click', function (e) {
   getCountryDetails('bangladesh');
 });
 */
+
+/* Microtask queue has higher priority over callback queue. top-level-code > microtask queue > callback queue
+console.log('Test start');
+setTimeout(() => {
+    console.log('0 sec timer');
+}, 0);
+Promise.resolve('Promise Resolved in 0 second 1').then((res)=>{ console.log(res);});
+Promise.resolve('Promise Resolved in 0 second 2').then((res)=>{ 
+    for(let i = 0; i < 1000000000; i++) {} 
+    console.log(res);
+});
+console.log('Test end');
+*/
+
+/* Creating new promise
+const lotteryDraw = new Promise(function(resolve, reject){
+    console.log('Lottery draw is happening... 🔮');
+    setTimeout(function(){
+        if(Math.random() >= 0.5)
+            resolve('You won !!! 🎉');
+        else 
+            reject(new Error('You lost !!! 😒'));
+            // reject('You lost !!! 😞');
+    }, 2000);
+});
+
+lotteryDraw
+  .then(res => console.log(res))
+  .catch(function (err) {
+    console.error(err.message);
+  });
+*/
+
+
+/* Promisifying setTimeout timer function */
+// timer should never fail so no reject state 
+
+/* 1. 
+const wait = function (seconds) {
+    return new Promise(function(resolve){
+        setTimeout(resolve, seconds * 1000);
+    });
+};
+
+
+// 2. short version
+const wait = (seconds) => new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+
+wait(2).then(() => {
+  console.log('Wait 2 seconds before execution');
+  return wait(1); 
+}).then(function(){ console.log('Wait 1 seconds before execution'); });
+
+wait(1)
+  .then(() => {
+    console.log('1 second passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('2 seconds passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('3 seconds passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('4 seconds passed');
+    return wait(1);
+  });
+  */
+
+// promisifying geolocation API 
+/*
+const getLocation = function (){
+    return new Promise(function(resolve, reject){
+        navigator.geolocation.getCurrentPosition(function(pos){
+            resolve(pos);
+        }, function(err){
+            reject(err);
+        });
+    });
+};
+
+getLocation()
+  .then(function (location) {
+    console.log(location);
+  })
+  .catch(function (err) {
+    console.log(err.message);
+  });
+*/
+
+// simplifying previous solution
+/*
+const getLocation = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+getLocation().then(position => console.log(position)).catch(err => console.log(err.message));
+*/

@@ -1,5 +1,5 @@
 'use strict';
-/* Coding challenge 1 */
+/* Coding challenge 1
 
 const getJSON = function(url, errorMsg = ''){
   return fetch(url).then(response => {
@@ -63,6 +63,7 @@ const whereAmI = function () {
 
   });
 };
+ */
 
 
 
