@@ -224,3 +224,37 @@ const getLocation = () => {
 
 getLocation().then(position => console.log(position)).catch(err => console.log(err.message));
 */
+
+// async await for promise consumption
+const getPosition = () => {
+    countriesContainer.style.opacity = 1;
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  };
+
+const whereAmI = async function () {
+  try {
+    const auth = '374814015862821267415x118332';
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=${auth}`);
+    
+    if(!resGeo.ok)
+        throw new Error(`Problem with reverse geocoding API ${resGeo.status}: ${resGeo.statusText}`);
+    const dataGeo = await resGeo.json();
+
+
+    const res = await fetch(`https://restcountries.com/v2/name/${dataGeo.country}`);
+    if(!res.ok)
+        throw new Error(`Problem with countries API ${dataGeo.status}: ${dataGeo.statusText}`);
+
+    const data = await res.json();
+    renderCountry(data[0]);
+  } catch (err) {
+      console.error(`${err} 💥`);
+  }
+};
+
+whereAmI();
+console.log('First');
