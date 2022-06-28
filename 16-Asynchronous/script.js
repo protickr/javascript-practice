@@ -274,7 +274,7 @@ whereAmI()
 // console.log('Third');
 */
 
-/* Resolve promise returned by an async function with await */
+/* Resolve promise returned by an async function with await 
 (async function(){
     try {
         const country = await whereAmI();
@@ -283,7 +283,8 @@ whereAmI()
         console.error(`Second ${err.message} 💥`)
     }
     console.log('Third'); // so that first second third order is maintained
-    
+
     // there is actually no way to halt execution of synchronous code so that it waits for asynchronous code
     // unless you do things like use IIFE, then() or call functions from callBack functions
 })();
+*/
