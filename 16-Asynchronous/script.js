@@ -243,7 +243,7 @@ const whereAmI = async function () {
     if(!resGeo.ok)
         throw new Error(`Problem with reverse geocoding API ${resGeo.status}: ${resGeo.statusText}`);
     const dataGeo = await resGeo.json();
-
+    return dataGeo.country; // this will be the fulfilled value of the promise returned by this async function
 
     const res = await fetch(`https://restcountries.com/v2/name/${dataGeo.country}`);
     if(!res.ok)
@@ -253,8 +253,37 @@ const whereAmI = async function () {
     renderCountry(data[0]);
   } catch (err) {
       console.error(`${err} 💥`);
+      throw err; // so that we can handle thrown error by try catch in .catch() method later.
   }
 };
 
-whereAmI();
 console.log('First');
+
+// return values from async function
+
+/* returns a promise not the data we want 
+const response = whereAmI();
+console.log(response);
+*/
+
+/* Resolve promise with then() 
+whereAmI()
+  .then(country => console.log(`Second: ${country}`))
+  .catch(err => console.error(`Second: ${err.message} 💥`))
+  .finally(() => console.log('Third: ')); // so order is maintained
+// console.log('Third');
+*/
+
+/* Resolve promise returned by an async function with await */
+(async function(){
+    try {
+        const country = await whereAmI();
+        console.log(`Second ${country}`)
+    } catch (err) {
+        console.error(`Second ${err.message} 💥`)
+    }
+    console.log('Third'); // so that first second third order is maintained
+    
+    // there is actually no way to halt execution of synchronous code so that it waits for asynchronous code
+    // unless you do things like use IIFE, then() or call functions from callBack functions
+})();
