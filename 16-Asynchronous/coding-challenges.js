@@ -182,4 +182,123 @@ createImage('img-1.jpg')
   })
   .catch(err => console.error(err));
   */
- 
+
+
+/* Coding challenge 3 my solution 
+
+const imgContainer = document.querySelector('.images');
+
+const wait = seconds => new Promise(resolve => setTimeout(resolve, seconds * 1000));
+
+const createImage = function (imgPath) {
+  const image = document.createElement('img');
+  return new Promise(function (resolve, reject) {
+    image.src = `${imgPath}`;
+    image.addEventListener('load', function (e) {
+      imgContainer.append(image);
+      image.classList.add('images');
+      resolve(image);
+    });
+
+    image.addEventListener('error', function (e) {
+      reject(new Error('Image could not be loaded !!!'));
+    });
+  });
+};
+
+const loadNPause = async function () {
+  try {
+    const image1 = await createImage('img/img-1.jpg');
+    await wait(2);
+    image1.style.display = 'none';
+    const image2 = await createImage('img/img-2.jpg');
+    await wait(2);
+    image2.style.display = 'none';
+
+  } catch (err) {
+    err => console.error(err)
+  }
+};
+
+const loadAll = async function(images){
+  try{
+    const imgs = images.map(item => {
+      let img = createImage(item);
+      return img;
+    });
+    return imgs;
+
+  }catch(err){
+      console.error(err);
+      throw err;
+  } 
+};
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'])
+  .then(imgs => {
+    const allImageElements = Promise.all(imgs);
+    allImageElements.then((items)=>{
+      items.forEach((item)=>{
+        item.classList.add('parallel');
+      });
+    });
+  })
+  .catch(err => console.error(err));
+  */
+
+/* Coding challenge 3 Jonas S. solution 
+
+const imgContainer = document.querySelector('.images');
+
+const wait = seconds =>
+  new Promise(resolve => setTimeout(resolve, seconds * 1000));
+
+const createImage = function (imgPath) {
+  const image = document.createElement('img');
+  return new Promise(function (resolve, reject) {
+    image.src = `${imgPath}`;
+    image.addEventListener('load', function (e) {
+      imgContainer.append(image);
+      image.classList.add('images');
+      resolve(image);
+    });
+
+    image.addEventListener('error', function (e) {
+      reject(new Error('Image could not be loaded !!!'));
+    });
+  });
+};
+
+const loadNPause = async function () {
+  try {
+    let img = await createImage('img/img-1.jpg');
+    await wait(2);
+    img.style.display = 'none';
+    img = await createImage('img/img-2.jpg');
+    await wait(2);
+    img.style.display = 'none';
+
+  } catch (err) {
+    err => console.error(err);
+  }
+};
+
+const loadAll = async function (images) {
+  try {
+    const imgs = images.map(async function(item){
+      return await createImage(item);
+    });
+    console.log(imgs);
+
+    const data = await Promise.all(imgs);
+    data.forEach(element => {
+      element.classList.add('parallel');
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
+*/

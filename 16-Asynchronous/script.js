@@ -257,7 +257,7 @@ const whereAmI = async function () {
   }
 };
 
-console.log('First');
+// console.log('First');
 
 // return values from async function
 
