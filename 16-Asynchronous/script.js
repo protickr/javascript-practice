@@ -288,3 +288,117 @@ whereAmI()
     // unless you do things like use IIFE, then() or call functions from callBack functions
 })();
 */
+
+// fetch data form api and return json
+/*
+const getJSON = function (url) {
+    return fetch(url).then(
+      response => {
+        if (!response.ok)
+          throw new Error(`${response.status}: ${response.statusText}`); 
+        return response.json();
+      }
+    );
+  };
+*/
+
+// promise combinators
+// Promise.all(); // running promise in parallel
+// const get3Countries = async function () {
+//   try {
+//     // synchronous: each statement waits for previous one to finish
+//     /*
+//     const data1 = await getJSON(`https://restcountries.com/v2/name/bangladesh`);
+//     const data2 = await getJSON(`https://restcountries.com/v2/name/portugal`);
+//     const data3 = await getJSON(`https://restcountries.com/v2/name/germany`);
+
+//     const countries = [data1[0], data2[0], data3[0]];
+//     console.log(countries);
+//     */
+
+//     // to run these 3 promises parallel to each other, i.e.,
+//     // one promise will not wait for other to finish rather each promise will be executed simultaniously
+//     const res = await Promise.all([
+//       getJSON(`https://restcountries.com/v2/name/bangladesh`),
+//       getJSON(`https://restcountries.com/v2/name/portugal`),
+//       getJSON(`https://restcountries.com/v2/name/germany`),
+//     ]);
+    
+//     const data = res.map(function(item){
+//         return item[0].capital;
+//     });
+//     console.log(data);
+
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
+// get3Countries();
+
+// 
+
+/* Promise.race([promises]) */
+/*
+(async function () {
+  const data = await Promise.race([
+    getJSON(`https://restcountries.com/v2/name/bangladesh`),
+    getJSON(`https://restcountries.com/v2/name/portugal`),
+    getJSON(`https://restcountries.com/v2/name/germany`),
+  ]);
+
+  console.log(data[0]);
+})();
+
+// race against timer 
+const timeout = function (sec) {
+    return new Promise(function(_, reject){
+        setTimeout(()=>{
+            reject(new Error('Request took too long!'));
+        }, sec * 1000);
+    });
+};
+
+Promise.race([
+  getJSON(`https://restcountries.com/v2/name/tanzania`),
+  timeout(1),
+])
+  .then(data => {
+    console.log(data[0]);
+  })
+  .catch(err => {
+    console.error(err.message);
+  });
+*/
+
+
+// returns an array that contains all settled promises no matter rejected or resolved 
+// does not short circuit like all()
+/* Promise.allSettled() 
+Promise.allSettled([
+  Promise.resolve('resolved promise'),
+  Promise.reject('rejected promise'),
+  Promise.resolve('resolved promise'),
+])
+  .then(data => {
+    console.log(data);
+  })
+  .catch(err => {
+    console.error(err);
+  });
+*/
+
+
+/* Promise.any() 
+Promise.any([
+    Promise.resolve('resolved promise'),
+    Promise.reject('rejected promise'),
+    Promise.resolve('resolved promise'),
+  ])
+    .then(data => {
+      console.log( 'Promise Any ' + data);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+  */
