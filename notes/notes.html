@@ -235,6 +235,17 @@
 
                 ternary operator can also be used with template literals or where a experssion or value is expected.
                 In template literals you can not use if else condition because they are statements
+
+            * Error handling 
+                try{
+                    // code where an exception might happen.
+
+                }catch(err){
+                    console.log(err.message);
+
+                } finally {
+                    // always executes after try or catch block. 
+                }
             
         </p>    
 
@@ -2169,7 +2180,8 @@
                         iv) header.after(message);
 
                 2. create the markup and insert in the DOM by,
-                    v) parent.insertAdjacentHTML('element-markup');
+                    v) parent.insertAdjacentHTML('beforeend', element-markup');
+                    vi) parent.insertAdjacentText('beforeend', text);
                 
 
                 * Delete Elements 
@@ -2711,7 +2723,7 @@
                 1. HEAP 
                 2. Call Stack 
 
-            * JS Runtime
+            * JS Runtime (See below)
                 JS Engine + WEB APIs + Callback Queue
 
             * Steps 
@@ -2809,13 +2821,355 @@
                 4. Arrow function => this === 'this of the function's parent'
 
                 * without strict mode 'this == window'
+            
+            * Everything related to DOM is not actually a part of JavaScript but they are are part of the WEB API 
+                So it is in the WEB API's environment, task related to DOM will execute. Asynchronous task such as, 
+                timers, ajax calls, dynamic image load are offloaded to the WEB API's environment. 
+
+            * JavaScript is single threaded meaning, only one task can be executed at once so how JavaScript 
+                executes code asynchronously ?
+                JavaScript implements Non-Blocking concurrency model using the web api's environment and event loop.
+
+            
+            * JavaScript (browser) Runtime
+                1. HEAP - an area of memory where objects are stored
+                2. Call Stack - where codes are executed; works like a stack of execution context which are executed
+                    from top to bottom of the stack and after an execution context finishes execution it is popped off
+                    the stack. 
+
+                    1 + 2 => JavaScript Engine. 
+
+                3. WEB APIs and its environment 
+                    WEB API such as DOM, Timers, Fetch API etc, these APIs are made available to the JS engine so 
+                    that we can use them to interact with the DOM, make ajax calls, set timers and so on. 
+                    JavaScript itself has no sense of time instead web api's environment manges such functionality 
+                    and makes them available for use to the JS engine.
+
+                4. Callback queue
+                    all the callback functions that were attached to an event or to an asynchronous task are placed 
+                    at the last of this queue as soon as the event gets triggered or an asynchronous task is finised. 
+
+                5. Microtask queue 
+                    same as Callback queue but this queue only holds callback functions for promises and has 
+                    priority over the Callback queue. 
+
+                6. Event loop 
+                    An internal manager that loads the callback functions from callback queue and multitask queue into 
+                    the callstack.
+                    When a callback function is loaded from the queue into the callstack we say that operation as 
+                    a 'Event Loop Tick'.
+
+                *** 1 + 6 => JavaScript Runtime for Browser. A container that includes all the neccessary components 
+                    to run the JavaScript codes. 
+
+
+            * How the 'JavaScript concurrency model' works ?
+                1. Everything related to DOM is not really part of the JavaScript but of the WEB API's.
+                    It is in he WEB API's environment asynchronous task related to the DOM will run and same 
+                    is true for all asynchronous tasks.
+
+                2. Register the 'callback-to-the-event/asynchronous-task' that is to be executed when the event is 
+                    triggered or the asynchronous task is finised. 
+
+                3. Offload the asynchronous task of fetching an api to the WEB API's environment and register the 
+                    associated callback-to-the-promise in the same environment. 
+
+                4. when an asynchronous task is finished and related event is fired then the callback function will be
+                    put in the Callback queue or in the Microtask queue in case of promises. 
+
+                5. Callback/Microtask queue is an ordered list of all the callback functions that are in line to be 
+                    executed. 
+
+                6. Callback functions are placed at the last of the queue and wait for its turn to be executed. 
+                    e.g., callback of a setTimeout(function(){ console.log('More than 5 seconds passed')}, 5000);
+                            will be put on the callback queue after 5 seconds. 
+
+                    * Timer's duration is not a guarantee that your callback will be executed the moment it 
+                        passes 5 seconds mark but it is guaranteed that the callback will not be executed 
+                        before 5 seconds. 
+
+                7. Callback Queue also contains callback for other DOM events such as, click, key presses 
+                    which are not really asynchronous behavior but they still use callback queue to run their 
+                    attached callbacks.
+
+                8. How and What Event Loop does ?
+                    a) It looks into the callstack and determines wheather it is empty or not except ofcourse for 
+                        the global execution context. 
+
+                    b) If the stack is indeed empty which means that there is no code being executed then it will 
+                        take the first callback from the microtask queue if there is none then it will take the 
+                        first callback from the callback queue and put that into the callstack to be executed and 
+                        this is called a tick.
+                        
+                        Event loop does the orchestration of this entire JS runtime.
+
+                    c) JavaScript language itself has no sense of time that becase everything that is asynchronous
+                        does not happen in the JavaScript Engine but in the runtime which manages all the asynchronous 
+                        behavior and it is the event loop who decides which code will be executed next. 
+                        The engine itself executes whatever code is given. 
+
+                    * callbacks / asynchronous codes are deferred into future which we only want to be executed once 
+                        the 'asynchronous task' is finished. 
+                        
+                9. callbacks related to promises are called micro tasks are moved from web api's environment to the 
+                    micro task queue which has priority over the callback queue. 
 
         </p>
 
         
         <h2>Asynchronous JavaScript: Promises, Async, Await, fetch and AJAX</h2>
         <p>
+            * Synchronous execution: 
+                Line by line top to bottom statements are executed in 'Execution thread', which is part of the 
+                Execution context. Each line of code waits for the previous line to finish execution. 
+
+            * Asynchronous execution: 
+                Asynchronous code (often written inside callback) is executed after a asynchronous task that 
+                runs in the background finishes.
+
+                Asynchronous code is non-blocking.
+
+            * Execution does not wait for an asynchronous task to finish its work. 
+
+            * Example, 
+                1. setTimeout(function(){console.log('hello')}, 4000);
+                    the setTimeout() register an asynchronous task of waiting 4 seconds before 
+                    asynchronous code written in the callback executes. 
+
+                2. imageElement.src = 'path/to/image.jpg' 
+                    image loaded asynchronously in the background and when it finishes the 'load' event is triggered. 
+                    if you bind a callback to that event then that callback contains asynchronous code with respect 
+                    to the normal flow of single threaded execution 
+
+            * AJAX - Asynchronous JavaScript And XML
+                * Request
+                    GET, POST, PUT, PATCH, DELETE - HTTP requests made from a client to a server that contains 
+                    
+                    1. A start-line describing the requests to be implemented, or its status of whether successful or 
+                        a failure. This start-line is always a single line.
+                   
+                    2. An optional set of HTTP headers specifying the request, or describing the body included in 
+                        the message. A blank line indicating all meta-information for the request has been sent.
+                   
+                    3. An optional body containing data associated with the request (like content of an HTML form), 
+                        or the document associated with a response. The presence of the body and its size is specified 
+                        by the start-line and HTTP headers.
+                    
+                    The start-line and HTTP headers of the HTTP message are collectively known as the head of the 
+                        requests, whereas its payload is known as the body.
+
+                * Response 
+                    Made from server to a client that contains, 
+                    1. Status line
+                        The start line of an HTTP response, called the status line, contains the following information:
+                            a) The protocol version, usually HTTP/1.1.
+
+                            b) A status code, indicating success or failure of the request. 
+                                Common status codes are 200, 404, or 302
+
+                            c) A status text. A brief, purely informational, textual description of the status 
+                                code to help a human understand the HTTP message.
+
+                            e.g,  HTTP/1.1 404 Not Found.
+
+                    2. Header
+                        HTTP headers for responses follow the same structure as any other header: 
+                        a case-insensitive string followed by a colon (':') and a value whose structure 
+                        depends upon the type of the header. The whole header, including its value, presents 
+                        as a single line.
+
+                    3. Body
+                        The last part of a response is the body. Not all responses have one: responses with a 
+                        status code that sufficiently answers the request without the need for corresponding 
+                        payload (like 201 Created or 204 No Content) usually don't.
+
+                        Bodies can be broadly divided into three categories:
+                    
+                        a) Single-resource bodies, 
+                            consisting of a single file of known length, defined by the two headers: 
+                            Content-Type and Content-Length.
+
+                        b) Single-resource bodies, 
+                            consisting of a single file of unknown length, encoded by chunks with 
+                            Transfer-Encoding set to chunked.
+
+                        c) Multiple-resource bodies, 
+                            consisting of a multipart body, each containing a different section of information. 
+                            These are relatively rare.
+
+                * How request response packets are transmitted in client to server model
+                    1. First TCP/IP socket connection is established between client and server.
+                    2. Then client makes a request to the server with neccessary payload. 
+                    3. Then HTTP message are divided into packet and each packet contains the destination IP 
+                        via different routes they reach the destination and assembled to the HTTP message 
+                        as per protocol
+
+                
+            * API 
+                Application Programming Interface. Piece of software that can be used by another piece of software
+                in order to allow application to talk to each other. 
+
+            * API data formats 
+                XML, JSON
+
+            * WEB API
+                Generally API that are hosted on a live server is called WEB APIs 
+
+            * How to make an AJAX call 
+                1. old way 
+                    let request = new XMLHTTPRequest();
+                    request.open('GET', apiUrl);
+                    request.send();
+
+                    request.addEventListener('load', function(e){
+                        const [data] = JSON.parse(request.responseText);
+                        console.log(data);
+                    });
+                
+                2. fetch API 
+                    fetch('url').then((response) => response.json()).then((data) => console.log(data));
+
+            * fetch API and Promises
+                * Promise states 
+                    1. Pending: Before any value resulting from the asynchronous task is available.
+                    2. Settled: Asynchronous task is finised 
+                        it can have either of the following two values: 
+                            1. Fulfilled: no error thrown while executing the asynchronous task and 
+                                the promise returned a value other than an error 
+                            2. Rejected: an error occurred while executing the asynchronous task. 
+
+                    * A promise is only settled once and from there its state is unchanged. 
+                
+                * fetch() - builds and returns a promise 
+
+            * consuming a promise 
+                1. chain then() method to the promise 
+                    fetch('url').then((response) => return response.json()).then((data) => console.log(data));
+                    
+                    * then() always returns a promise, no matter if we actually return anything or not from 
+                        that method. 
+
+                    * if we do return a value from a 'then' method then that value become the 'fulfillment value'
+
+            * Handling rejected promise
+                1. via rejectCallBack 
+                    promise.then(successCallBack(result){}, rejectCallBack(error){});
+                
+                2. with catch() method 
+                    promise.then().catch((err) => console.log(err))
+                    catch() method also returns a promise 
+
+                * Any error within a promise will result into the promise being rejected. 
+
+            * Creating a promise
+                Promises are a special kind of object that is used as a placeholder for the future result of an 
+                asynchronous task.  
+
+                const promise = new Promise(executorFunctionCallBack(resolve, reject){
+                    if(yourCondition)
+                        resolve('fulfillment value');
+                    else 
+                        reject('rejected value or new Error("Error message")');
+                });
+
+            * Promisifying 
+                wrap old callback based functions in promises. Callback based asynchronous behavior into promise based
+                asynchronous behavior. 
             
+            * with promises you can create a chain of asynchronous behavior in sequence. 
+
+            * Create a resolved or rejected promise immediately 
+                Promise.resolve('fulfillment value');
+                Promise.reject('rejected value');
+                
+            * Promisify geolocation api 
+                const getLocation = () => {
+                    return new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject);
+                    });
+                };
+                getLocation().then(position => console.log(position)).catch(err => console.log(err.message));
+
+            * Consuming promises with async and await (ES2017)
+                * async function: a funciton that will keep running in the background while performing the code inside
+                    of it. Then when the function is done it automatically returns a promise. The asynchronous task 
+                    is loaded off to the background. 
+
+                * await: inside async function that halts execution of the following statment until the current 
+                    statement that is marked with the await keyword finishes execution. 
+
+                * async await: just syntatic sugar over consuming promises. they are also used with more 
+                    traditional then() method. 
+                
+                * to use await inside a callback function we have to declare the callback as async function
+
+            * Notes on async await: 
+                1. async function always returns a promise 
+                2. top level await is not permitted, it is only permitted within an async function.
+                3. use async IIFE and await promise within the function body
+                4. re-throw error from async function's try catch to handle that in other scope with async await.
+
+            * settled promise: means a value if available, it does not matter if the promise is rejected or fulfilled. 
+                
+            * Promise combinators: all, allSettled, race, any 
+
+                1. Promise.all([]) 
+                    * Running promises in parallel 
+                        which will run all the promises in the array at the same time and saves valuable load time. 
+                        const promiseResponses = Promise.all(['array of promises']);
+
+                    * Promise.all([]) - short circuits when any promise of that input promise array rejects. 
+                    
+                    * returns a new promise, if one of the promises rejects then the whole promise that is returned by 
+                        Promise.all() method, get rejected. 
+
+                2. Promise.race([])
+                    * returns a promise which is settled as soon as one of the input promises is settled, does not care
+                        about if the race winner promise is actually fulfilled or rejected. 
+                        
+                    * If the winning promise is a fulfilled promise then the fulfillment value of the promise returned 
+                        by the race() method will be the fulfillment value of the winning promise. 
+
+                    * Promise.race([]) short circuits whenever one of the promises is settled, no matter it is 
+                        fulfilled or rejected. 
+
+                    * In real world, Promise.race() is very useful against promises that takes too long or never 
+                        ending promises. 
+                        race against a timer,
+
+                            const timeout = function (sec) {
+                                return new Promise(function(_, reject){
+                                    setTimeout(()=>{
+                                        reject(new Error('Request took too long!'));
+                                    }, sec * 1000);
+                                });
+                            };
+                            
+                            Promise.race([
+                            getJSON(`https://restcountries.com/v2/name/tanzania`),
+                            timeout(1),
+                            ])
+                            .then(data => {
+                                console.log(data[0]);
+                            })
+                            .catch(err => {
+                                console.error(err.message);
+                            });
+
+                3. Promise.allSettled([])
+                    * returns a promise that resolves after all of the given promises have either fulfilled 
+                        or rejected, with an array of objects that each describes the outcome of each promise.
+
+                    * never short circuits 
+
+                4. Promise.any([])
+                    * returns 'first fulfilled promise' as the fulfillment value of the returned promise by any()
+                    * Ignores rejected promises 
+                    * Always returns a fulfilled promise unless ofcourse all of them are rejected. 
+
+                
+        
+                    
         </p>
 
         <h2>Important general information</h2>
@@ -2890,6 +3244,16 @@
             
             * // prettier-ignore 
                 ignores the following statement while formatting.
+
+            * CORS - cross origin resource sharing 
+            * API Endpoints - api urls
+            * github-public-apis
+            * Callback hell: 
+                Nested callback functions that are set to execute one inside/after another which leads to poor readablity 
+                understanding and maintainability. To solve this proble JavaScript introduced 'promise'.
+
+            * object property accessor '.' always resolve from left to right.
+            * console.error(err.message);
 
         </p>
 
