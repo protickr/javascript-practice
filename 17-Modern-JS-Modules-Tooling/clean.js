@@ -14,7 +14,7 @@ const spendingLimits = {
   matilda: 100,
 };
 
-const getLimit = user => spendingLimits?.[entry.user] ?? 0;
+const getLimit = user => spendingLimits?.[user] ?? 0;
 
 const addExpense = function (value, description, user='jonas') {
   user = user.toLowerCase();
@@ -38,7 +38,7 @@ const checkExpenses = function () {
 checkExpenses();
 
 const logBigExpenses = function (bigLimit) {
-  const output = '';
+  let output = '';
   for (const entry of budget) 
     output += entry.value <= -bigLimit ? `${entry.description.slice(-2)}  / ` : ''; // emojis are 2 characters
 
