@@ -6,3 +6,4 @@ css/style.prefix.css
 css/style.comp.css.map
 css/style.css.map
 .vscode/
+.parcel-cache/
