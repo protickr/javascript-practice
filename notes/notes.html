@@ -3467,6 +3467,45 @@
                     map(), filter(), reduce()
                 *** Any program needs to have side effects otherwise what is the use of a program. 
                     
+                * Modern JS clean code guidelines: 
+                    Readablity 
+                    1. write code so that others can understand it.
+                    2. write code so that you can understand it in 1 year. 
+                    3. avoid too 'clever' and overcomplicated solutions. 
+                    4. use descriptive variable names: 'what they contain'
+                    5. use descriptive function names: 'what they do'
+
+                    General 
+                    6. Use DRY principle(refactor your code).
+                    7. Do not pollute global namespace, encapsulate instead. 
+                    8. Do not use 'var'
+                    9. use strong type checks (=== and !===)
+
+                    Functions
+                    10. Generally function should do only one thing. 
+                    11. Do not use more than 3 function parameters. 
+                    12. use default parameters whenever possible. 
+                    13. generally return same data type as received. 
+                    14. use arror functions when they make code more readable.
+
+                    OOP
+                    15. use ES6 classes. 
+                    16. Encapsulate data and do not mutate it from outside the class. 
+                    17. implement methods chaining, return object from methods. 
+                    18. do not use arrow function as methods (in regular objects)
+
+                    Avoid nested code 
+                    19. use early return (guard clause)
+                    20. use ternary(conditional) or logical operators instead of 'if else'
+                    21. use multiple 'if' instead of 'if else-if'
+                    22. avoid for loop use array methods instead. 
+                    23. avoid callback-based asynchronous API 
+
+                    Asynchronous code 
+                    24. consume promises with async/await for best readability. 
+                    25. whenever possible, run promises in parllel (Promise.all) 
+                    26. Handle errors and promise rejection
+                    
         </p>
 
         <h2>Important general information</h2>
