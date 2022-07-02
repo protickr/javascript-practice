@@ -3174,7 +3174,87 @@
 
         <h2>Modern JavaScript Development: Modules, Tooling and Functional Programming</h2>
         <p>
+            * 3rd party modules aka packages. 
+            * node package manager (npm)
+            *   development -> 
+                building (webpack or parcel) -> 
+                transpiling and polyfilling (babel) -> 
+                production (JavaScript bundle)
+
+            * Module
+                Module is a reusable peiece of code that encapsulates implementation details of a certain part 
+                of our project. 
+
+            * Module is usually a standalone file but it does not have to be. 
+            * Module has imports and exports 
+                1. with export we can export values out of a module, whatever we export from a module is called 
+                    public api. 
+                2. with import we can imort modules into other modules. Modules being imported are called dependency.
+
+            * Benefits of modules: 
+                1. Makes it easy to compose software. Module can be considered as small building blocks that we 
+                    put together to build complex application. 
+                2. isolate components: modules can be developed in isolation without thinking about the
+                    entire codebase. 
+                3. abstract code: implement low level code in modules and import these abstractions into other modules. 
+                    You can import and use what you need or want without thinking or caring about why or how it 
+                    works behind the scene. 
+                4. Organized code: naturally lead to more organized code bases. 
+                5. Reusability: allow us to easily reuse the source code even across multiple projects. 
             
+            * ES6 Modules: 
+                1. Modules are stored in files, exactly one module per file. 
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th><th>ES6 Module</th> <th>Script</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Top Level variable</td>
+                            <td>
+                                Scoped to module. Variables are private to 
+                                the module, only exported values can be used
+                            </td>
+                            <td>
+                                all top level variables are always global which leads to global namespace pollution 
+                                and varibable name collision
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Default mode</td>
+                            <td>
+                                strict
+                            </td>
+                            <td>
+                                sloppy
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td> Top level 'this'</td>
+                            <td>undefined</td>
+                            <td>'window' object</td>
+                        </tr>
+                        <tr>
+                            <td>imports and exports</td>
+                            <td>Yes, all imports are hoisted automatically</td>
+                            <td>No support for import and export</td>
+                        </tr>
+                        <tr>
+                            <td>HTML linking</td>
+                            <td> type='module' attribute with script tag</td>
+                            <td> type='text/javascript' attribute with script tag</td>
+                        </tr>
+                        <tr>
+                            <td>Downloading module file</td>
+                            <td>Asynchronous by HTML</td>
+                            <td>Synchronous unless 'defer' or 'async' is used</td>
+                        </tr>
+                    </tbody>
+                </table>
         </p>
 
         <h2>Important general information</h2>
