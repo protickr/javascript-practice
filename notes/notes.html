@@ -3204,57 +3204,269 @@
             
             * ES6 Modules: 
                 1. Modules are stored in files, exactly one module per file. 
+                2. ES6 Module v/s script 
+                    Top Level variable:
+                        Scoped to module. Variables are private to the module, only exported values can be used
+                        -/-
+                        all top level variables are always global which leads to global namespace pollution 
+                        and varibable name collision
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th><th>ES6 Module</th> <th>Script</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Top Level variable</td>
-                            <td>
-                                Scoped to module. Variables are private to 
-                                the module, only exported values can be used
-                            </td>
-                            <td>
-                                all top level variables are always global which leads to global namespace pollution 
-                                and varibable name collision
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Default mode</td>
-                            <td>
-                                strict
-                            </td>
-                            <td>
-                                sloppy
-                            </td>
+                    Default mode:
+                        strict -/- sloppy
 
-                        </tr>
-                        <tr>
-                            <td> Top level 'this'</td>
-                            <td>undefined</td>
-                            <td>'window' object</td>
-                        </tr>
-                        <tr>
-                            <td>imports and exports</td>
-                            <td>Yes, all imports are hoisted automatically</td>
-                            <td>No support for import and export</td>
-                        </tr>
-                        <tr>
-                            <td>HTML linking</td>
-                            <td> type='module' attribute with script tag</td>
-                            <td> type='text/javascript' attribute with script tag</td>
-                        </tr>
-                        <tr>
-                            <td>Downloading module file</td>
-                            <td>Asynchronous by HTML</td>
-                            <td>Synchronous unless 'defer' or 'async' is used</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    Top level 'this': 
+                        undefined -/- 'window' object
+
+                    imports and exports: 
+                        Yes, all imports are hoisted automatically -/- No support for import and export
+                    
+                    HTML linking
+                        type='module' attribute with script tag
+                        -/-
+                        type='text/javascript' attribute with script tag
+                    
+                    Downloading module file
+                        Asynchronous by HTML 
+                        -/-
+                        Synchronous unless 'defer' or 'async' is used
+            
+            * How importing actually work 
+                1. Parsing - read the code without executing it, at this stage imports are hoisted. The whole process
+                    of importing modules happen before the code in main module is executed. 
+
+                2. index.js - module imports the math.js and dom.js module in a synchronous way, what that means is, 
+                    only after the imported module have been downloaded and executed the main index.js module will 
+                    finally be executed as well. This is only possible because top level imports and exports. 
+
+                3. Top level imports and exports makes building and dead code elimination possible. 
+
+                4. Downloading of modules happens asynchronously and importing happens synchronously. Then after 
+                    the module arrives it is also parsed then the module's exports are linked to the 
+                    imports in index.js. 
+                    link between imort and export is a live link, so exported values are not copied to imports instead
+                    the import is just a pointer. So when the value changes in the exporting module then the same value
+                    also changes in the importing module. This feature is unique to ES6 modules. 
+                    
+            * File that contains modules should be named in camelCase notaion as per convention. 
+
+            * If you import a module inside a script then you have to implement that script inside html using script 
+                tag with type attribute set to 'module', or else it will not work. 
+
+            * How to export from a module 
+                1. named export 
+                    const aVariable = 10;
+
+                    a) export const addToCart = function () {
+
+                        };
+                    
+                    b) export { aVariable as avar };
+                    * if you do not want to rename the export as you are exporting it just omit the
+                        'as avar' part. 
+
+                2. default export 
+                    export default function () {
+                        console.log('I am a default export');
+                    }
+                    * Usually we use default exports when we only want to export one thing per module. 
+
+            * How to import a module or part of it 
+                1. import 'named export' 
+                    import { namedExport as chosenName } from 'path/to/module.js';
+                    * if you do not want to rename the export as you importing it just omit the 'as chosenName' part. 
+
+                2. import 'defautl export'
+                    import anyChosenName from 'path/to/module.js';
+
+                3. import all 
+                    import { * as anyChosenName } from 'path/to/module.js';
+                    and then to use exports you have to,
+                    anyChosenName.exportName 
+                
+                * in case you are using a module bundler like webpack or parcel you can omit the full path and 
+                    just write the module name such as, 
+                    import { namedExport } from 'module';
+
+                
+                4. import 'named export' and 'default export' at once, 
+                    import defaultName , { namedExport } from 'path/to/module.js';
+
+            * Export always need to happen in top level code
+
+            * However we do not import multiple time from a single module and also do not import default and named 
+                export in a single statement. 
+
+            * Top level await (ES2022)
+                'await' outside of an async function 
+                1. Only works in modules.
+                2. await halts code execution of following statements 
+                3. if a module imports another module that has top level await inside it then the code execution 
+                    halts at that point in that module and also in the module that is imorting it. 
+
+            * The module pattern 
+                before ES6 modules were available 
+
+                1. we start by writing a function IIFE 
+                2. return an object that holds the public api to that IIFE closure. 
+                3. store the result of the IIFE in a variable 
+                4. save all of the above in a script file and load that via HTML and use the functionality 
+                    via the container variable from step 3.
+
+                    const someModule = (function (){
+                        const cart = [];
+                        const someFunction = function (value) {
+                            cart.push(value);
+                        };
+                        return { someFunction };
+                    })();
+
+            * CommonJS module: 
+                node.js uses CommonJS module until recently
+
+                /* Commonjs module */
+                module system used in node.js, this syntax is not supported by JavaScript in the browser. 
+
+                // export
+                
+                    export.addToCart = function (product, quantity) {
+                        cart.push({ product, quantity });
+                        console.log(`${quantity} ${product} added to cart`);
+                    };
+                
+                // import
+                   const { addToCart } =  require('./shoppingCart.js');
+
+            * Introduction to NPM 
+                1. npm -v
+                2. npm init (at project root)
+                3. fill out information or skip with 'enter' key
+                4. npm install package-name
+                5. npm install (to install all project dependencies)
+                6. npm install package-name --save-dev (install development dependencies)
+                7. npm install package-name -g (install a package globally)
+                8. npm install package-name@1.12.4 (install exact version)
+
+            * Building with parcel 
+                1. install parcel 
+                    npm install parcel --save-dev
+                
+                2. build from terminal 
+                    npx parcel index.html (or entry point to your application)
+                
+                3. build from terminal using a npm script 
+
+                    package.json > scripts section 
+                    "build": "parcel build index.html"
+
+                    in terminal run, 
+                    npm run build
+
+                
+            * Install parcel in windows 10
+                1. stop live-server 
+                2. npm cache clean --force
+                3. npm install parcel --save-dev 
+                4. always read the error message
+
+            * Most of the module at npm repository are CommonJS module, we can not use them without a module bundler
+                because export and import syntax used in CommonJS module is different and it is not supported 
+                by browser runtime but it is supported by node.js 
+            
+            * To use a module/package without a module bundler the module must be implemented with ES6 module syntax
+                so that we can import them in our project. 
+                e.g., 
+                import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+
+            * Parcel and hot module replacement 
+                Parcel is a zero configuration module bundler.
+                
+                Hot module replacement: 
+                    update module changes in the browser without reloading the whole page and retaining application 
+                    state. 
+                    Only parcel understands the following code and removes it while bundling and serving the bundle 
+                    to the webpage. 
+
+                    if(module.hot){
+                        module.hot.accept();
+                    }
+ 
+            
+            * Including / importing module syntax with build tools such as parcel
+                no need to specify the entire path to any module. 
+                import cloneDeep from 'lodash-es';
+
+                * this even works with all kind of assets such as HTML, CSS, image, sass files and also all kind of 
+                    modules. 
+
+                * you can use all CommonJS modules in a similer way you use ES6 module with parcel. 
+
+            * Transpiling and polyfilling 
+                Transpiling: convert modern syntax to old javascript version 
+                    such as arrow function are converted to function expression
+                    npm package - 'babel' does transpiling and parcel automatically uses it while 
+                    building the application
+
+                Polyfilling: Modern javascript features such as promise, async function and such which can not be 
+                    transformed to older javascript syntax
+                    in root script of your application, 
+                    import 'core-js/stable';                // for find(), promise
+                    import 'regenerator-runtime/runtime';   // for async functions
+
+            * Imperative v/s declarative programming paradigms. 
+                Imperative: 
+                    How to do things. 
+                    we explain the computer every single step it has to follow to achieve a 
+                    result. e.g., step by step recipe of a cake. 
+
+                    const arr = [1, 2, 3];
+                    for (let i = 0; i < arr.length; i++){
+                        arr[i] = arr[i] * 2;
+                    }
+                    // how to double every element of the array
+
+                Declarative: 
+                    what to do.
+                    we simply describe the way the computer should achieve the result, the how (step by step 
+                    instructions) gets abstracted away. 
+                    e.g., description of a cake. 
+                    
+                    const doubledArr = arr.map(entry => entry * 2);
+
+                    * 'functional programming' is a sub-paradigm of declrative programming. 
+                    
+            * Functional programming 
+                1. Declarative programming paradigm. 
+
+                2. Based on the idea of writing software by combining namey pure functions avoiding side effects and 
+                    mutating data. 
+
+                3. Side-effect: modification of any data outside of the function (mutating external variables, 
+                    logging to console, writing to DOM etc.)
+                
+                4. Pure-function: function without any side effects and does not depend on external variables.
+                    Given the same input always returns the same output. 
+
+                5. Immutability: state (data) is never modified instead, state is copied and the copy is 
+                    mutated and returned. 
+                    The big upside of immutability is it makes it so much easier to keep track of how the data flows
+                    through our entire application and so ultimately that will allow us to write better code with 
+                    less bugs and more readable code which is the goal of using functional programming. 
+                    Library that uses functional programming, react, redux. 
+
+                * we are allowed to mix imperative and declarative programming in our own code. 
+                * Make data structure immutable 
+                    Object.freeze(arr);
+                    freezes first level of the object. Does not freeze object inside the object. Not a deep-freeze. 
+
+                * Composing / currying: 
+                    Create the chain of operation
+
+                * Pass all the data to a function that it needs so that, if does not rely on any outside data. 
+                * Data transformation function in javascript that are most used in functional programming which 
+                    do not have side effects. 
+                    map(), filter(), reduce()
+                *** Any program needs to have side effects otherwise what is the use of a program. 
+                    
         </p>
 
         <h2>Important general information</h2>
